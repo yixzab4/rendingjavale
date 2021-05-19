@@ -1,0 +1,540 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bayside.app.opinion.war.mynews.dao.PersonmanagemarticleMapper" >
+  <resultMap id="BaseResultMap" type="com.bayside.app.opinion.war.mynews.model.Personmanagemarticle" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="persionid" property="persionid" jdbcType="VARCHAR" />
+    <result column="articleid" property="articleid" jdbcType="VARCHAR" />
+    <result column="userid" property="userid" jdbcType="VARCHAR" />
+    <result column="keyword_rule" property="keywordRule" jdbcType="VARCHAR" />
+    <result column="reportinfo" property="reportinfo" jdbcType="BIT" />
+    <result column="attention" property="attention" jdbcType="BIT" />
+    <result column="warning" property="warning" jdbcType="BIT" />
+    <result column="readsign" property="readsign" jdbcType="BIT" />
+    <result column="briefing" property="briefing" jdbcType="BIT" />
+    <result column="emotion" property="emotion" jdbcType="VARCHAR" />
+    <result column="formats" property="formats" jdbcType="VARCHAR" />
+    <result column="updatetime" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="source" property="source" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="author" property="author" jdbcType="VARCHAR" />
+    <result column="pubdate" property="pubdate" jdbcType="TIMESTAMP" />
+    <result column="attentiontime" property="attentiontime" jdbcType="TIMESTAMP" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+  </resultMap>
+   <resultMap id="ResultMap" type="com.bayside.app.opinion.war.mynews.bo.PersonmanagemarticleBo" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="persionid" property="persionid" jdbcType="VARCHAR" />
+    <result column="articleid" property="articleid" jdbcType="VARCHAR" />
+    <result column="userid" property="userid" jdbcType="VARCHAR" />
+    <result column="keyword_rule" property="keywordRule" jdbcType="VARCHAR" />
+    <result column="positive_word" property="positiveWord" jdbcType="VARCHAR" />
+    <result column="negative_word" property="negativeWord" jdbcType="VARCHAR" />
+    <result column="data_source" property="dataSource" jdbcType="VARCHAR" />
+    <result column="reportinfo" property="reportinfo" jdbcType="BIT" />
+    <result column="attention" property="attention" jdbcType="BIT" />
+    <result column="warning" property="warning" jdbcType="BIT" />
+    <result column="readsign" property="readsign" jdbcType="BIT" />
+    <result column="briefing" property="briefing" jdbcType="BIT" />
+    <result column="emotion" property="emotion" jdbcType="VARCHAR" />
+    <result column="formats" property="formats" jdbcType="VARCHAR" />
+    <result column="updatetime" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="source" property="source" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="author" property="author" jdbcType="VARCHAR" />
+    <result column="pubdate" property="pubdate" jdbcType="TIMESTAMP" />
+    <result column="attentiontime" property="attentiontime" jdbcType="TIMESTAMP" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="repeatcount" property="repeatcount" jdbcType="INTEGER" />
+    <result column="commtcount" property="commtcount" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, persionid, articleid, userid, keyword_rule, reportinfo, attention, warning, readsign, 
+    briefing, emotion, formats, updatetime, source, title, url, author, pubdate, attentiontime, content, repeatcount, commtcount
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List"/>
+    from bs_personmanage_m_article
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAllById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List"/>
+    from bs_personmanage_m_article
+    where ID in
+    <foreach collection="list" index="index" item="id" open="(" separator="," close=")">  
+       #{id} 
+    </foreach>  
+  </select>
+  <select id="selectPaperInfo" resultMap="ResultMap" parameterType="com.bayside.app.opinion.war.mynews.bo.PersonmanagemarticleBo" >
+    select 
+    <include refid="Base_Column_List"/>
+    from bs_personmanage_m_article
+    where 1=1
+      <if test="persionid != null and persionid !=''">
+        and persionid = #{persionid,jdbcType=VARCHAR}
+     </if>
+      <if test="userid != null and userid !=''">
+       and userid = #{userid,jdbcType=VARCHAR}
+      </if>
+      <if test="atime !=null and atime !=''">
+         order by updatetime desc
+      </if>
+      <if test="time !=null and time !=''"> 
+          order by pubdate desc
+      </if>
+      <if test="atime == null and time == null">
+          order by updatetime desc
+      </if>
+        <if test="atime == '' and time == ''">
+          order by updatetime desc
+      </if>
+  </select>
+   <select id="selectPersonPageDetail" resultMap="ResultMap" parameterType="java.lang.String" >
+        select p.articleid,p.emotion,p.id mid,
+	    p.userid,
+		p.attention,
+		p.warning,
+	 	s.ID,
+		s.tittle,
+		s.pubdate,
+		s.data_source,
+		s.author,
+		s.formats,
+		s.updatetime,
+	    s.content,
+		s.url,
+		s.repeatcount,
+		s.negative_word,
+		s.positive_word,
+		s.commtcount,
+		s.readcount,
+		s.html
+       from (
+        select articleid,emotion,id,
+	    userid,
+		attention,
+		warning,
+		readsign
+		from bs_personmanage_m_article
+		where
+         id = #{id,jdbcType=VARCHAR}
+		
+       )as p inner JOIN bs_subject_article as s on p.articleid =s.id
+       
+       
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bs_personmanage_m_article
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByObject" parameterType="com.bayside.app.opinion.war.mynews.model.Personmanagemarticle" >
+    delete from bs_personmanage_m_article
+    where  1=1
+    <if test="persionid !=null and persionid !=''">
+       and persionid = #{persionid,jdbcType=VARCHAR}
+    </if>
+    <if test="userid !=null and userid !=''">
+       and userid = #{userid,jdbcType=VARCHAR}
+    </if>
+   <if test="articleid !=null and articleid !=''">
+       and articleid = #{articleid,jdbcType=VARCHAR}
+    </if>
+  </delete>
+  <delete id="deleteByPersionid" parameterType="java.lang.String" >
+    delete from bs_personmanage_m_article
+    where persionid = #{persionid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.bayside.app.opinion.war.mynews.model.Personmanagemarticle" >
+    insert into bs_personmanage_m_article (ID, persionid, articleid, 
+      userid, keyword_rule, reportinfo, 
+      attention, warning, readsign, briefing, 
+      emotion, formats, updatetime, 
+      source, title, url, 
+      author, pubdate, attentiontime, content)
+    values (#{id,jdbcType=VARCHAR}, #{persionid,jdbcType=VARCHAR}, #{articleid,jdbcType=VARCHAR}, 
+      #{userid,jdbcType=VARCHAR}, #{keywordRule,jdbcType=VARCHAR}, #{reportinfo,jdbcType=BIT}, 
+      #{attention,jdbcType=BIT}, #{warning,jdbcType=BIT}, #{readsign,jdbcType=BIT}, #{briefing,jdbcType=BIT}, 
+      #{emotion,jdbcType=VARCHAR}, #{formats,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, 
+      #{source,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
+      #{author,jdbcType=VARCHAR}, #{pubdate,jdbcType=TIMESTAMP}, #{attentiontime,jdbcType=TIMESTAMP}, #{content,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bayside.app.opinion.war.mynews.model.Personmanagemarticle" >
+    insert into bs_personmanage_m_article
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="persionid != null" >
+        persionid,
+      </if>
+      <if test="articleid != null" >
+        articleid,
+      </if>
+      <if test="userid != null" >
+        userid,
+      </if>
+      <if test="keywordRule != null" >
+        keyword_rule,
+      </if>
+      <if test="reportinfo != null" >
+        reportinfo,
+      </if>
+      <if test="attention != null" >
+        attention,
+      </if>
+      <if test="warning != null" >
+        warning,
+      </if>
+      <if test="readsign != null" >
+        readsign,
+      </if>
+      <if test="briefing != null" >
+        briefing,
+      </if>
+      <if test="emotion != null" >
+        emotion,
+      </if>
+      <if test="formats != null" >
+        formats,
+      </if>
+      <if test="updatetime != null" >
+        updatetime,
+      </if>
+      <if test="source != null" >
+        source,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="url != null" >
+        url,
+      </if>
+      <if test="author != null" >
+        author,
+      </if>
+      <if test="pubdate != null" >
+        pubdate,
+      </if>
+      <if test="attentiontime != null" >
+        attentiontime,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="persionid != null" >
+        #{persionid,jdbcType=VARCHAR},
+      </if>
+      <if test="articleid != null" >
+        #{articleid,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="keywordRule != null" >
+        #{keywordRule,jdbcType=VARCHAR},
+      </if>
+      <if test="reportinfo != null" >
+        #{reportinfo,jdbcType=BIT},
+      </if>
+      <if test="attention != null" >
+        #{attention,jdbcType=BIT},
+      </if>
+      <if test="warning != null" >
+        #{warning,jdbcType=BIT},
+      </if>
+      <if test="readsign != null" >
+        #{readsign,jdbcType=BIT},
+      </if>
+      <if test="briefing != null" >
+        #{briefing,jdbcType=BIT},
+      </if>
+      <if test="emotion != null" >
+        #{emotion,jdbcType=VARCHAR},
+      </if>
+      <if test="formats != null" >
+        #{formats,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="source != null" >
+        #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null" >
+        #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="pubdate != null" >
+        #{pubdate,jdbcType=TIMESTAMP},
+      </if>
+       <if test="attentiontime != null" >
+        #{attentiontime,jdbcType=TIMESTAMP}
+      </if>
+       <if test="content != null" >
+        #{content,jdbcType=VARCHAR}
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bayside.app.opinion.war.mynews.model.Personmanagemarticle" >
+    update bs_personmanage_m_article
+    <set >
+      <if test="persionid != null" >
+        persionid = #{persionid,jdbcType=VARCHAR},
+      </if>
+      <if test="articleid != null" >
+        articleid = #{articleid,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null" >
+        userid = #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="keywordRule != null" >
+        keyword_rule = #{keywordRule,jdbcType=VARCHAR},
+      </if>
+      <if test="reportinfo != null" >
+        reportinfo = #{reportinfo,jdbcType=BIT},
+      </if>
+      <if test="attention != null" >
+        attention = #{attention,jdbcType=BIT},
+      </if>
+      <if test="warning != null" >
+        warning = #{warning,jdbcType=BIT},
+      </if>
+      <if test="readsign != null" >
+        readsign = #{readsign,jdbcType=BIT},
+      </if>
+      <if test="briefing != null" >
+        briefing = #{briefing,jdbcType=BIT},
+      </if>
+      <if test="emotion != null" >
+        emotion = #{emotion,jdbcType=VARCHAR},
+      </if>
+      <if test="formats != null" >
+        formats = #{formats,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="source != null" >
+        source = #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null" >
+        author = #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="pubdate != null" >
+        pubdate = #{pubdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="attentiontime != null" >
+        attentiontime = #{attentiontime,jdbcType=TIMESTAMP},
+      </if>
+       <if test="content != null" >
+         content = #{content,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where 1=1
+    <if test="persionid !=null and persionid !=''">
+       and persionid = #{persionid,jdbcType=VARCHAR}
+    </if>
+    <if test="userid !=null and userid !=''">
+       and userid = #{userid,jdbcType=VARCHAR}
+    </if>
+   <if test="articleid !=null and articleid !=''">
+       and articleid = #{articleid,jdbcType=VARCHAR}
+    </if>
+  </update>
+  <update id="updatePersonAttention" parameterType="com.bayside.app.opinion.war.mynews.bo.PersonmanagemarticleBo" >
+    update bs_personmanage_m_article
+    set
+        attention = #{attention,jdbcType=BIT}
+    where userid = #{userid,jdbcType=VARCHAR}
+      and articleid in 
+    <foreach collection="ids" index="index" item="item" open="(" separator="," close=")">  
+       #{ids[${index}]}
+    </foreach>
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bayside.app.opinion.war.mynews.model.Personmanagemarticle" >
+    update bs_personmanage_m_article
+    set persionid = #{persionid,jdbcType=VARCHAR},
+      articleid = #{articleid,jdbcType=VARCHAR},
+      userid = #{userid,jdbcType=VARCHAR},
+      keyword_rule = #{keywordRule,jdbcType=VARCHAR},
+      reportinfo = #{reportinfo,jdbcType=BIT},
+      attention = #{attention,jdbcType=BIT},
+      warning = #{warning,jdbcType=BIT},
+      readsign = #{readsign,jdbcType=BIT},
+      briefing = #{briefing,jdbcType=BIT},
+      emotion = #{emotion,jdbcType=VARCHAR},
+      formats = #{formats,jdbcType=VARCHAR},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      source = #{source,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      author = #{author,jdbcType=VARCHAR},
+      pubdate = #{pubdate,jdbcType=TIMESTAMP},
+      attentiontime = #{attentiontime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <!--  今日舆情-->
+   <select id="selectMediaByPerson" resultMap="BaseResultMap" parameterType="com.bayside.app.opinion.war.mynews.bo.PersonmanagemarticleBo" >
+    select count(articleid) articleid,formats,emotion,id
+    from bs_personmanage_m_article
+    where 
+    1=1
+    <if test="persionid == null or persionid ==''">
+        and userid = #{userid,jdbcType=VARCHAR} 
+    </if>
+    <if test="persionid != null and persionid!=''">
+      and persionid = #{persionid,jdbcType=VARCHAR} 
+    </if>
+    <if test="pubdate !=null and pubdate!=''">
+      and DATE(pubdate) &gt;= #{pubdate,jdbcType=TIMESTAMP}
+    </if>
+    <if test="medialist !=null">
+      and formats in 
+      <foreach collection="medialist" index="index" item="formats" open="(" separator="," close=")">
+         #{formats}
+      </foreach>
+    </if> 
+     group by formats,emotion
+  </select>
+  <!--  载体趋势-->
+   <select id="selectPaperqushi" resultMap="BaseResultMap" parameterType="com.bayside.app.opinion.war.mynews.bo.PersonmanagemarticleBo" >
+    select count(articleid) articleid,formats,id,DATE(pubdate) updatetime
+    from bs_personmanage_m_article
+    where 1=1
+    <if test="persionid == null or persionid ==''">
+        and userid = #{userid,jdbcType=VARCHAR} 
+    </if>
+    <if test="persionid != null and persionid!=''">
+      and persionid = #{persionid,jdbcType=VARCHAR} 
+    </if>
+    <if test="updatetime !=null and updatetime!=''">
+      and DATE(pubdate) &gt;= #{updatetime,jdbcType=TIMESTAMP}
+    </if>
+     group by formats, DATE(pubdate) order by pubdate 
+  </select>
+   <!-- <select id="selectTodayPaperqushi" resultMap="ResultMap" parameterType="com.bayside.app.opinion.war.mynews.bo.PersonmanagemarticleBo" >
+    select count(articleid) articleid,formats,id,DATE_FORMAT(updatetime, '%Y-%m-%d %H') updatetime
+    from bs_personmanage_m_article
+    where 
+    <if test="userid !=null and userid!=''">
+        userid = #{userid,jdbcType=VARCHAR}
+    </if>
+    <if test="persionid != null and persionid!=''">
+      and persionid = #{persionid,jdbcType=VARCHAR} 
+    </if>
+    <if test="updatetime !=null and updatetime!=''">
+      and updatetime &gt;= #{updatetime,jdbcType=TIMESTAMP}
+    </if>
+     group by formats,DATE_FORMAT(updatetime, '%Y-%m-%d %H') order by DATE_FORMAT(updatetime, '%Y-%m-%d %H') 
+  </select> -->
+   <select id="selectTodayPaperqushi" resultMap="ResultMap" parameterType="com.bayside.app.opinion.war.mynews.bo.PersonmanagemarticleBo" >
+    select count(articleid) articleid,formats,id,DATE(pubdate) updatetime
+    from bs_personmanage_m_article
+    where 1=1
+    <if test="persionid == null or persionid ==''">
+        and userid = #{userid,jdbcType=VARCHAR} 
+     </if>
+    <if test="persionid != null and persionid!=''">
+      and persionid = #{persionid,jdbcType=VARCHAR} 
+    </if>
+    <if test="updatetime !=null and updatetime!=''">
+      and DATE(pubdate) &gt;= #{updatetime,jdbcType=TIMESTAMP}
+    </if>
+     group by formats,DATE(pubdate) order by DATE(pubdate)
+  </select>
+  <!-- 全网动态 -->
+  <select id="selectNewInfo" resultMap="BaseResultMap" parameterType="com.bayside.app.opinion.war.mynews.bo.PersonmanagemarticleBo" >
+   <!--  select articleid, ID, persionid,userid,
+    title, url, pubdate,source,attention
+    from bs_personmanage_m_article
+    where  
+    <if test="userid !=null">
+        userid = #{userid,jdbcType=VARCHAR}
+    </if>
+    <if test="persionid != null and persionid !=''">
+      and persionid = #{persionid,jdbcType=VARCHAR} 
+    </if>
+    <if test="medialist !=null">
+          and formats not in ('trade') 
+          
+    </if>
+    group by articleid
+     order by pubdate desc limit 6 -->
+     
+      select articleid, ID, persionid,userid,
+       title, url, pubdate,source,attention
+      from( 
+       select articleid, ID, persionid,userid,
+       title, url, pubdate,source,attention
+       from bs_personmanage_m_article
+       where  1=1
+        <if test="persionid == null or persionid ==''">
+             and userid = #{userid,jdbcType=VARCHAR} 
+         </if>
+        <if test="persionid != null and persionid !=''">
+          and persionid = #{persionid,jdbcType=VARCHAR} 
+         </if>
+         <if test="medialist !=null">
+          and formats not in ('trade') 
+         </if>
+        order by pubdate desc limit 50
+     ) as s  group by articleid order by pubdate desc limit 6
+   
+     
+  </select>
+  <!-- 趋势分析 -->
+   <select id="selectMediaNumber" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select count(articleid) articleid,formats
+    from bs_personmanage_m_article
+    where persionid = #{persionid,jdbcType=VARCHAR} 
+    <if test="emotion != null" >
+    and emotion = #{emotion,jdbcType=VARCHAR} 
+    </if>
+    and pubdate &gt;= #{time,jdbcType=TIMESTAMP}
+   
+  </select>
+  <!-- 媒体Top -->
+  <select id="selectMediaTypeNumberByTime" resultMap="BaseResultMap" parameterType="com.bayside.app.opinion.war.mynews.bo.PersonmanagemarticleBo" >
+    select count(articleid) articleid,source
+    from bs_personmanage_m_article
+    where 
+    pubdate &gt;= #{updatetime,jdbcType=TIMESTAMP}
+   <if test="persionid == null or persionid ==''">
+       and userid = #{userid,jdbcType=VARCHAR} 
+      </if>
+     <if test="persionid !=null and persionid !=''">
+      and persionid = #{persionid,jdbcType=VARCHAR} 
+     </if>
+     <if test="formats !=null and formats !=''">
+      and formats = #{formats,jdbcType=VARCHAR} 
+     </if>
+      group by source order by articleid desc limit 6
+  </select>
+  <!-- 媒体分步 -->
+  <select id="selectMediazhexianByTime" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select count(articleid) articleid,DATE_FORMAT(a.pubdate,'%Y-%m-%d') updatetime,formats
+    from bs_personmanage_m_article
+    where persionid = #{persionid,jdbcType=VARCHAR} and formats = #{formats,jdbcType=VARCHAR} and pubdate &gt;= #{time,jdbcType=TIMESTAMP}
+  </select>
+  
+</mapper>

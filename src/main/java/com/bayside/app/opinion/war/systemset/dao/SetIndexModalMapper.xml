@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bayside.app.opinion.war.systemset.dao.SetIndexModalMapper">
+  <resultMap id="BaseResultMap" type="com.bayside.app.opinion.war.systemset.model.SetIndexModal">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="setModalName" jdbcType="VARCHAR" property="setmodalname" />
+    <result column="setModalNick" jdbcType="VARCHAR" property="setmodalnick" />
+    <result column="subject" jdbcType="LONGVARCHAR" property="subject" />
+    <result column="browscope" jdbcType="VARCHAR" property="browscope" />
+    <result column="timescope" jdbcType="VARCHAR" property="timescope" />
+    <result column="mediaType" jdbcType="LONGVARCHAR" property="mediatype" />
+    <result column="userid" jdbcType="VARCHAR" property="userid" />
+    <result column="emotion" jdbcType="VARCHAR" property="emotion" />
+    <result column="setModalId" jdbcType="VARCHAR" property="setModalId" />
+    <result column="startTime" jdbcType="TIMESTAMP" property="startTime" />
+    <result column="endTime" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+    <result column="sortNum" jdbcType="VARCHAR" property="sortNum" />
+    <result column="isDefault" jdbcType="VARCHAR" property="isDefault" />
+    <result column="width" jdbcType="VARCHAR" property="width" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, setModalName, setModalNick, subject, browscope, timescope, mediaType, userid, emotion, setModalId, startTime, endTime, content, sortNum, isDefault, width
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from bs_setindexmodal
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectModalById" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from bs_setindexmodal
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectIndexModel" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from bs_setindexmodal
+    where userid = #{userid,jdbcType=VARCHAR} and width!='datav' order by sortNum asc
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from bs_setindexmodal
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByUserId" parameterType="java.lang.String">
+    delete from bs_setindexmodal
+    where userid = #{userid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.bayside.app.opinion.war.systemset.model.SetIndexModal">
+    insert into bs_setindexmodal (id, setModalName, setModalNick, 
+      subject, browscope, timescope, 
+      mediaType, userid)
+    values (#{id,jdbcType=VARCHAR}, #{setmodalname,jdbcType=VARCHAR}, #{setmodalnick,jdbcType=VARCHAR}, 
+      #{subject,jdbcType=LONGVARCHAR}, #{browscope,jdbcType=VARCHAR}, #{timescope,jdbcType=VARCHAR}, 
+      #{mediatype,jdbcType=LONGVARCHAR}, #{userid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bayside.app.opinion.war.systemset.bo.SetIndexModalBo">
+    insert into bs_setindexmodal
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="setmodalname != null">
+        setModalName,
+      </if>
+      <if test="setmodalnick != null">
+        setModalNick,
+      </if>
+      <if test="subject != null">
+        subject,
+      </if>
+      <if test="browscope != null">
+        browscope,
+      </if>
+     <if test="timescope != null">
+        timescope,
+      </if>
+      <if test="mediatype != null">
+        mediaType,
+      </if>
+      <if test="userid != null">
+        userid,
+      </if>
+      <if test="emotion != null">
+        emotion,
+      </if>
+       <if test="setModalId != null">
+        setModalId,
+      </if>
+      <if test="startTime != null and startTime!=''">
+        startTime,
+      </if>
+      <if test="endTime != null and endTime!=''">
+        endTime,
+      </if>
+        <if test="content != null">
+        content,
+      </if>
+       <if test="sortNum != null">
+        sortNum,
+      </if>
+      <if test="isDefault != null">
+        isDefault,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="setmodalname != null">
+        #{setmodalname,jdbcType=VARCHAR},
+      </if>
+      <if test="setmodalnick != null">
+        #{setmodalnick,jdbcType=VARCHAR},
+      </if>
+      <if test="subject != null">
+        #{subject,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="browscope != null">
+        #{browscope,jdbcType=VARCHAR},
+      </if>
+      <if test="timescope != null">
+        #{timescope,jdbcType=VARCHAR},
+      </if>
+      <if test="mediatype != null">
+        #{mediatype,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="userid != null">
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="emotion != null">
+        #{emotion,jdbcType=VARCHAR},
+      </if>
+      <if test="setModalId != null">
+        #{setModalId,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null and startTime!=''">
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null and endTime!=''">
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="sortNum != null">
+        #{sortNum,jdbcType=VARCHAR},
+      </if>
+      <if test="isDefault != null">
+        #{isDefault,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bayside.app.opinion.war.systemset.model.SetIndexModal">
+    update bs_setindexmodal
+    <set>
+      <if test="setmodalname != null">
+        setModalName = #{setmodalname,jdbcType=VARCHAR},
+      </if>
+      <if test="setmodalnick != null">
+        setModalNick = #{setmodalnick,jdbcType=VARCHAR},
+      </if>
+      <if test="subject != null">
+        subject = #{subject,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="browscope != null">
+        browscope = #{browscope,jdbcType=VARCHAR},
+      </if>
+      <if test="timescope != null">
+        timescope = #{timescope,jdbcType=VARCHAR},
+      </if>
+      <if test="mediatype != null">
+        mediaType = #{mediatype,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="userid != null">
+        userid = #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="emotion != null">
+        emotion = #{emotion,jdbcType=VARCHAR},
+      </if>
+       <if test="setModalId != null">
+        setModalId = #{setModalId,jdbcType=VARCHAR},
+      </if>
+      <if test="sortNum != null">
+        sortNum = #{sortNum,jdbcType=VARCHAR},
+      </if>
+      <if test="isDefault != null and isDefault!=''">
+        isDefault = #{isDefault,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null">
+        startTime = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+       <if test="endTime != null">
+        endTime = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bayside.app.opinion.war.systemset.model.SetIndexModal">
+    update bs_setindexmodal
+    set setModalName = #{setmodalname,jdbcType=VARCHAR},
+      setModalNick = #{setmodalnick,jdbcType=VARCHAR},
+      subject = #{subject,jdbcType=LONGVARCHAR},
+      browscope = #{browscope,jdbcType=VARCHAR},
+      timescope = #{timescope,jdbcType=VARCHAR},
+      mediaType = #{mediatype,jdbcType=LONGVARCHAR},
+      userid = #{userid,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+   <select id="selectByUserid" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from bs_setindexmodal
+    where userid = #{userid,jdbcType=VARCHAR}
+  </select>
+</mapper>

@@ -1,0 +1,171 @@
+package com.bayside;
+
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
+
+import javax.sql.DataSource;
+
+import org.apache.ibatis.plugin.Interceptor;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.log4j.Logger;
+import org.mybatis.spring.SqlSessionFactoryBean;
+import org.mybatis.spring.SqlSessionTemplate;
+import org.mybatis.spring.mapper.MapperScannerConfigurer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.core.io.support.ResourcePatternResolver;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+import com.alibaba.druid.filter.Filter;
+import com.alibaba.druid.filter.stat.StatFilter;
+import com.alibaba.druid.pool.DruidDataSource;
+import com.github.pagehelper.PageHelper;
+
+/**
+ * <p>Title: AppDataSourceConfig</P>
+ * <p>Description: 数据源配置</p>
+ */
+@Configuration
+@EnableTransactionManagement
+@PropertySource({ "classpath:/mybatis.properties", "classpath:/application.properties" })
+public class AppDataSourceConfig {
+
+	private static final Logger log = Logger.getLogger(AppDataSourceConfig.class);
+	@Autowired
+	private DataSource dataSource; 
+
+	@Autowired
+	SqlSessionFactory sqlSessionFactory;
+
+	@Autowired
+	SqlSessionTemplate sessionTemplate;
+
+	@Bean(destroyMethod = "close")
+	public DataSource dataSource(final Environment env) {
+		return this.getDataSource(env);
+	}
+
+	@Bean
+	public SqlSessionFactory sqlSessionFactory(final Environment env) {
+		return this.getSqlSessionFactory(env);
+	}
+
+	@Bean
+	public SqlSessionTemplate sqlSessionTemplate(final Environment env) {
+		return new SqlSessionTemplate(this.getSqlSessionFactory(env));
+	}
+	
+	@Bean
+	public PlatformTransactionManager transactionManager(final Environment env) {
+		return new DataSourceTransactionManager(this.getDataSource(env));
+	}
+
+	@Bean 
+	public MapperScannerConfigurer mapperScannerConfigurer(final Environment env){
+		MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
+		mapperScannerConfigurer.setBasePackage(env.getProperty("jdbc.mapper.scanner.basepackage"));
+		mapperScannerConfigurer.setSqlSessionFactoryBeanName(env.getProperty("jdbc.mapper.sqlSessionFactory"));
+		return mapperScannerConfigurer;
+	}
+
+	private DataSource getDataSource(final Environment env) {
+		
+		if( this.dataSource != null ) {
+			return this.dataSource; 
+		}
+		
+		final DruidDataSource druidDataSource = new DruidDataSource();
+		druidDataSource.setUrl(env.getRequiredProperty("jdbc.url"));
+		druidDataSource
+				.setDriverClassName(env.getRequiredProperty("jdbc.driver"));
+		druidDataSource.setUsername(env.getRequiredProperty("jdbc.username"));
+		druidDataSource.setPassword(env.getRequiredProperty("jdbc.password"));
+		druidDataSource.setInitialSize(env.getProperty("jdbc.initialSize", Integer.class));
+		druidDataSource.setMinIdle(env.getProperty("jdbc.minIdle", Integer.class));
+		druidDataSource.setMaxActive(env.getProperty("jdbc.maxActive", Integer.class));
+
+		druidDataSource.setMaxWait(env.getProperty("jdbc.maxWait", Long.class));
+		druidDataSource.setTimeBetweenEvictionRunsMillis(env.getProperty("jdbc.timeBetweenEvictionRunsMillis", Long.class));
+		druidDataSource.setMinEvictableIdleTimeMillis(env.getProperty("jdbc.minEvictableIdleTimeMillis", Long.class));
+
+		druidDataSource.setPoolPreparedStatements(env.getProperty("jdbc.poolPreparedStatements", Boolean.class));
+		
+		try {
+			// 增加监控配置
+			this.addDSMonitor(druidDataSource,env);
+			// 初始化数据源
+			druidDataSource.init();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			log.error(e.getMessage(),e);
+		}
+		
+		this.dataSource = druidDataSource; 
+
+		return druidDataSource;
+	}
+	
+
+	private void addDSMonitor(DruidDataSource druidDataSource, Environment env) throws SQLException {
+
+			if(druidDataSource != null){
+				StatFilter statFileter = new StatFilter();
+				statFileter.setMergeSql(true);
+				statFileter.setLogSlowSql(true);
+				statFileter.setSlowSqlMillis(3000);
+				
+				List<Filter> proxyFilter = new ArrayList<Filter>();
+				proxyFilter.add(statFileter);
+				
+				druidDataSource.setProxyFilters(proxyFilter);
+				druidDataSource.addFilters(env.getProperty("jdbc.monitor.stat"));
+			}
+	}
+
+	private SqlSessionFactory getSqlSessionFactory(final Environment env) {
+		if(this.sqlSessionFactory!=null) return this.sqlSessionFactory;		
+		SqlSessionFactoryBean bean = new SqlSessionFactoryBean();						
+		 //分页插件
+        PageHelper pageHelper = new PageHelper();
+        Properties properties = new Properties();
+        properties.setProperty("reasonable", "true");
+        properties.setProperty("supportMethodsArguments", "true");
+        properties.setProperty("returnPageInfo", "check");
+        properties.setProperty("params", "count=countSql");
+        pageHelper.setProperties(properties);
+
+        //添加插件
+        bean.setPlugins(new Interceptor[]{pageHelper});
+		ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+		Resource[] resources;
+		try {
+			resources = resolver.getResources(env.getProperty("jdbc.mapper.scanner.resource"));
+			bean.setMapperLocations(resources);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+			log.error(e1.getMessage(),e1);
+		}
+		
+		bean.setDataSource(this.getDataSource(env));
+		
+		SqlSessionFactory sqlSessionFactoryToCreate = null;
+		try {
+			sqlSessionFactoryToCreate = bean.getObject();
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.error(e.getMessage(),e);
+		}
+		this.sqlSessionFactory = sqlSessionFactoryToCreate;
+		return sqlSessionFactoryToCreate;
+	}
+}

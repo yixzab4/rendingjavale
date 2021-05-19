@@ -1,0 +1,438 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bayside.app.opinion.war.subject.dao.SubjectMapper">
+	<resultMap id="BaseResultMap"
+		type="com.bayside.app.opinion.war.subject.model.Subject">
+		<id column="ID" jdbcType="VARCHAR" property="id" />
+		<result column="subjectname" jdbcType="VARCHAR" property="subjectname" />
+		<result column="region_word" jdbcType="VARCHAR" property="regionWord" />
+		<result column="subject_word" jdbcType="VARCHAR" property="subjectWord" />
+		<result column="event_word" jdbcType="VARCHAR" property="eventWord" />
+		<result column="ambiguity_word" jdbcType="VARCHAR" property="ambiguityWord" />
+		<result column="warning" jdbcType="BIT" property="warning" />
+		<result column="warning_type" jdbcType="VARCHAR" property="warningType" />
+		<result column="tinterval" jdbcType="VARCHAR" property="tinterval" />
+		<result column="starttime" jdbcType="TIMESTAMP" property="starttime" />
+		<result column="endtime" jdbcType="TIMESTAMP" property="endtime" />
+		<result column="userid" jdbcType="VARCHAR" property="userid" />
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="combined_word" jdbcType="VARCHAR" property="combinedWord" />
+		<result column="classifyid" jdbcType="VARCHAR" property="classifyid" />
+		<result column="isdelete" jdbcType="BIT" property="isdelete" />
+		<result column="warn_start" jdbcType="VARCHAR" property="warnStart" />
+		<result column="warn_end" jdbcType="VARCHAR" property="warnEnd" />
+		<result column="type" jdbcType="INTEGER" property="type" />
+		<result column="isfilter" jdbcType="INTEGER" property="isfilter" />
+		<result column="userparentid" jdbcType="VARCHAR" property="userparentid" />
+		<result column="istrade" jdbcType="VARCHAR" property="istrade" />
+		<result column="emotion_standard" jdbcType="DOUBLE" property="emotionStandard" />
+		<result column="negative_warning" jdbcType="DOUBLE" property="negativeWarning" />
+		<result column="warning_interval" jdbcType="INTEGER" property="warningInterval" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, subjectname,classifyid,isdelete, userid,region_word, subject_word, event_word, ambiguity_word,
+		warning,warning_type,
+		tinterval, starttime, endtime,create_time,combined_word,warn_start,warn_end,type,userparentid,isfilter,emotion_standard,negative_warning,warning_interval
+	</sql>
+	  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+	    select 
+	    <include refid="Base_Column_List" />
+	    from bs_subject
+	    where classifyid = #{classifyid,jdbcType=VARCHAR}
+	    and isdelete = 0
+	   <!--  <if test="classifyid!=null and classifyid!=''">
+	      and classifyid = #{classifyid,jdbcType=VARCHAR}
+	    </if> -->
+	     ORDER BY create_time DESC
+	  </select>	
+	   <select id="selectAllSubjectByUserId" resultMap="BaseResultMap" parameterType="java.lang.String">
+	        select s.id,s.subjectname,s.classifyid,c.classifyname from bs_subject as s 
+	        left join bs_subject_classify as c on s.classifyid = c.id where isdelete='0'
+	        <if test="userid!=null">
+  		     and s.userid = #{userid}
+  	        </if>
+	      <if test="userparentid !=null">
+		    and s.userparentid = #{userparentid}
+	     </if>
+	   </select>
+	  <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+	    select 
+	    <include refid="Base_Column_List" />
+	    from bs_subject
+	      where userid = #{userid,jdbcType=VARCHAR} AND ISDELETE = 0
+	      ORDER BY create_time DESC
+	  </select>	
+	   <select id="selectdeleteSubject" resultMap="BaseResultMap" parameterType="java.lang.String" >
+	    select 
+	    <include refid="Base_Column_List" />
+	    from bs_subject
+	      where userid = #{userid,jdbcType=VARCHAR} 
+	      AND ISDELETE = 1
+	      ORDER BY create_time DESC
+	  </select>	 
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from bs_subject
+		where ID = #{id,jdbcType=VARCHAR}
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from bs_subject
+		where ID = #{id,jdbcType=VARCHAR}
+	</delete>
+	<delete id="deleteByUserId" parameterType="java.lang.String">
+		delete from bs_subject
+		where userid = #{userid,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="com.bayside.app.opinion.war.subject.model.Subject">
+		insert into bs_subject (ID, subjectname, region_word,
+		subject_word, event_word, ambiguity_word,
+		warning, warning_type, tinterval, starttime,
+		endtime, userid, create_time,combined_word,classifyid,isdelete,warn_start,warn_end,type,userparentid,isfilter,istrade,negative_warning,warning_interval
+		)
+		values (#{id,jdbcType=VARCHAR}, #{subjectname,jdbcType=VARCHAR},
+		#{regionWord,jdbcType=VARCHAR},
+		#{subjectWord,jdbcType=VARCHAR}, #{eventWord,jdbcType=VARCHAR}, #{ambiguityWord,jdbcType=VARCHAR},
+		#{warning,jdbcType=BIT},#{warningType,jdbcType=VARCHAR}, #{tinterval,jdbcType=VARCHAR},
+		#{starttime,jdbcType=TIMESTAMP},
+		#{endtime,jdbcType=TIMESTAMP}, #{userid,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},#{combinedWord,jdbcType=VARCHAR}
+		,#{classifyid,jdbcType=VARCHAR},#{isdelete,jdbcType=BIT}, #{warnStart,jdbcType=VARCHAR}, #{warnEnd,jdbcType=VARCHAR},#{type,jdbcType=INTEGER}
+		,#{userparentid,jdbcType=VARCHAR}, #{isfilter,jdbcType=INTEGER},#{istrade,jdbcType=VARCHAR},#{negativeWarning,jdbcType=VARCHAR},#{warningInterval,jdbcType=VARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.bayside.app.opinion.war.subject.model.Subject">
+		insert into bs_subject
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="subjectname != null">
+				subjectname,
+			</if>
+			<if test="regionWord != null">
+				region_word,
+			</if>
+			<if test="subjectWord != null">
+				subject_word,
+			</if>
+			<if test="eventWord != null">
+				event_word,
+			</if>
+			<if test="ambiguityWord != null">
+				ambiguity_word,
+			</if>
+			<if test="warning != null">
+				warning,
+			</if>
+			<if test="warningType != null">
+				warning_type,
+			</if>
+			<if test="tinterval != null">
+				tinterval,
+			</if>
+			<if test="starttime != null">
+				starttime,
+			</if>
+			<if test="endtime != null">
+				endtime,
+			</if>
+			<if test="userid != null">
+				userid,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="combinedWord != null">
+				combined_word,
+			</if>
+			<if test="classifyid != null">
+				classifyid,
+			</if>
+			<if test="warnStart != null">
+				warn_start,
+			</if>
+			<if test="warnEnd != null">
+				warn_end,
+			</if>
+			<if test="type != null">
+				type,
+			</if>
+			<if test="userparentid != null">
+				userparentid,
+			</if>
+			<if test="isfilter != null">
+				isfilter,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="subjectname != null">
+				#{subjectname,jdbcType=VARCHAR},
+			</if>
+			<if test="regionWord != null">
+				#{regionWord,jdbcType=VARCHAR},
+			</if>
+			<if test="subjectWord != null">
+				#{subjectWord,jdbcType=VARCHAR},
+			</if>
+			<if test="eventWord != null">
+				#{eventWord,jdbcType=VARCHAR},
+			</if>
+			<if test="ambiguityWord != null">
+				#{ambiguityWord,jdbcType=VARCHAR},
+			</if>
+			<if test="warning != null">
+				#{warning,jdbcType=BIT},
+			</if>
+			<if test="warningType != null">
+				#{warningType,jdbcType=VARCHAR},
+			</if>
+			<if test="tinterval != null">
+				#{tinterval,jdbcType=VARCHAR},
+			</if>
+			<if test="starttime != null">
+				#{starttime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="endtime != null">
+				#{endtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="userid != null">
+				#{userid,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="combinedWord != null">
+				#{combinedWord,jdbcType=VARCHAR},
+			</if>
+			<if test="classifyid != null">
+				#{classifyid,jdbcType=VARCHAR},
+			</if>
+			<if test="warnStart != null">
+				#{warnStart,jdbcType=VARCHAR},
+			</if>
+			<if test="warnEnd != null">
+				#{warnEnd,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=INTEGER},
+			</if>
+			<if test="userparentid != null">
+				#{userparentid,jdbcType=VARCHAR},
+			</if>
+			<if test="isfilter != null">
+				#{isfilter,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.bayside.app.opinion.war.subject.model.Subject">
+		update bs_subject
+		<set>
+			<if test="subjectname != null">
+				subjectname = #{subjectname,jdbcType=VARCHAR},
+			</if>
+			<if test="regionWord != null">
+				region_word = #{regionWord,jdbcType=VARCHAR},
+			</if>
+			<if test="subjectWord != null">
+				subject_word = #{subjectWord,jdbcType=VARCHAR},
+			</if>
+			<if test="eventWord != null">
+				event_word = #{eventWord,jdbcType=VARCHAR},
+			</if>
+			<if test="ambiguityWord != null">
+				ambiguity_word = #{ambiguityWord,jdbcType=VARCHAR},
+			</if>
+			<if test="warning != null">
+				warning = #{warning,jdbcType=BIT},
+			</if>
+			<if test="warningType != null">
+				warning_type = #{warningType,jdbcType=BIT},
+			</if>
+			<if test="tinterval != null">
+				tinterval = #{tinterval,jdbcType=VARCHAR},
+			</if>
+			<if test="starttime != null">
+				starttime = #{starttime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="endtime != null">
+				endtime = #{endtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="userid != null">
+				userid = #{userid,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="combinedWord != null">
+				combined_word = #{combinedWord,jdbcType=VARCHAR},
+			</if>
+			<if test="classifyid != null">
+				classifyid = #{classifyid,jdbcType=VARCHAR},
+			</if>
+			<if test="warnStart != null">
+				warn_start = #{warnStart,jdbcType=VARCHAR},
+			</if>
+			<if test="warnEnd != null">
+				warn_end = #{warnEnd,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				type = #{type,jdbcType=INTEGER},
+			</if>
+			<if test="isdelete != null">
+				isdelete = #{isdelete,jdbcType=BIT},
+			</if>
+			<if test="isfilter != null">
+				isfilter = #{isfilter,jdbcType=INTEGER},
+			</if>
+			<if test="emotionStandard != null">
+				emotion_standard = #{emotionStandard,jdbcType=INTEGER},
+			</if>
+			<if test="emotionStandard != null">
+				negative_warning = #{negativeWarning,jdbcType=INTEGER},
+			</if>
+			<if test="emotionStandard != null">
+				warning_interval = #{warningInterval,jdbcType=INTEGER},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.bayside.app.opinion.war.subject.model.Subject">
+		update bs_subject
+		set subjectname = #{subjectname,jdbcType=VARCHAR},
+		region_word = #{regionWord,jdbcType=VARCHAR},
+		subject_word = #{subjectWord,jdbcType=VARCHAR},
+		event_word = #{eventWord,jdbcType=VARCHAR},
+		ambiguity_word = #{ambiguityWord,jdbcType=VARCHAR},
+		warning = #{warning,jdbcType=BIT},
+		warning_type = #{warningType,jdbcType=VARCHAR},
+		tinterval = #{tinterval,jdbcType=VARCHAR},
+		starttime = #{starttime,jdbcType=TIMESTAMP},
+		endtime = #{endtime,jdbcType=TIMESTAMP},
+		userid = #{userid,jdbcType=VARCHAR},
+		create_time = #{createTime,jdbcType=TIMESTAMP},
+		combined_word = #{combinedWord,jdbcType=VARCHAR}
+		classifyid = #{classifyid,jdbcType=VARCHAR}
+		warn_start = #{warnStart,jdbcType=VARCHAR},
+		warn_end = #{warnEnd,jdbcType=VARCHAR},
+		type = #{type,jdbcType=INTEGER}
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+	<update id="updateDeleteSubject" parameterType="com.bayside.app.opinion.war.subject.model.Subject">
+		update bs_subject
+		set isdelete = #{isdelete,jdbcType=BIT}
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+	<select id="selectBySelective" parameterType="com.bayside.app.opinion.war.subject.model.Subject" resultMap="BaseResultMap">
+		select
+		ID, subjectname,region_word, subject_word, event_word, ambiguity_word,starttime, endtime, userparentid, isdelete, userid,CASE WHEN userid=userparentid THEN 1 ELSE 0 END rowid
+			from (select ID, subjectname,starttime, endtime, userparentid, userid, region_word, subject_word,isdelete, event_word, ambiguity_word from bs_subject
+				where isdelete = #{isdelete,jdbcType=VARCHAR}
+				<if test="id != null">
+					and id = #{id,jdbcType=VARCHAR}
+				</if>
+				<if test="subjectname != null">
+					and subjectname = #{subjectname,jdbcType=VARCHAR}
+				</if>
+				<if test="regionWord != null">
+					and region_word = #{regionWord,jdbcType=VARCHAR}
+				</if>
+				<if test="subjectWord != null">
+					and subject_word = #{subjectWord,jdbcType=VARCHAR}
+				</if>
+				<if test="eventWord != null">
+					and event_word = #{eventWord,jdbcType=VARCHAR}
+				</if>
+				<if test="ambiguityWord != null">
+					and ambiguity_word = #{ambiguityWord,jdbcType=VARCHAR}
+				</if>
+				<if test="warning != null">
+					and warning = #{warning,jdbcType=BIT}
+				</if>
+				<if test="warningType != null">
+					and warning_type = #{warningType,jdbcType=VARCHAR}
+				</if>
+				<if test="tinterval != null">
+					and tinterval = #{tinterval,jdbcType=VARCHAR}
+				</if>
+				<if test="starttime != null">
+					and starttime = #{starttime,jdbcType=TIMESTAMP}
+				</if>
+				<if test="endtime != null">
+					and endtime = #{endtime,jdbcType=TIMESTAMP}
+				</if>
+				<if test="createTime != null">
+					and create_time = #{createTime,jdbcType=TIMESTAMP}
+				</if>
+				<if test="combinedWord != null">
+					and combined_word = #{combinedWord,jdbcType=VARCHAR}
+				</if>
+				<if test="classifyid != null">
+					and classifyid = #{classifyid,jdbcType=VARCHAR}
+				</if>
+				<if test="userparentid != null">
+					and userparentid = #{userparentid,jdbcType=VARCHAR}
+				</if>
+				<if test="userid !=null">
+					and userid=#{userid}
+				</if>
+					order by create_time desc
+				)t
+				ORDER BY rowid DESC
+				
+	</select>
+	<select id="selectBySubjectName" parameterType="com.bayside.app.opinion.war.subject.model.Subject"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from bs_subject
+		where subjectname = #{subjectname,jdbcType=VARCHAR} and userid = #{userid,jdbcType=VARCHAR} and isdelete = #{isdelete,jdbcType=VARCHAR}
+		 ORDER BY create_time DESC
+	</select>
+	<select id="selectNumBySubjectName" parameterType="com.bayside.app.opinion.war.subject.model.Subject"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from bs_subject
+		where subjectname = #{subjectname,jdbcType=VARCHAR} and userid = #{userid,jdbcType=VARCHAR} and isdelete = #{isdelete,jdbcType=VARCHAR}
+	</select>
+	<select id="selectSubjectNoClassifyid" parameterType="com.bayside.app.opinion.war.subject.model.Subject" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List"/>
+			from bs_subject where 
+				 isdelete = 0
+				 AND (classifyid IS NULL OR classifyid ='')
+              	 AND userid = #{userid,jdbcType=VARCHAR}
+              	 ORDER BY create_time DESC
+	</select>
+	<select id="selectSubjectByClassifyid" parameterType="com.bayside.app.opinion.war.subject.model.Subject" resultMap="BaseResultMap">
+		select
+		ID, subjectname,classifyid,isdelete, userid
+			from bs_subject where 1=1 and isdelete = #{isdelete,jdbcType=VARCHAR}
+			   <if test="classifyid != null">
+				 and classifyid = #{classifyid,jdbcType=VARCHAR}
+			   </if>
+			    ORDER BY create_time DESC
+	</select>
+	<update id="updateSubjectById" parameterType="com.bayside.app.opinion.war.subject.model.Subject">
+		update bs_subject
+		set 
+		classifyid = #{classifyid,jdbcType=VARCHAR}
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+	<select id="checkSubjectByClassifyid" parameterType="com.bayside.app.opinion.war.subject.model.Subject" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List"/>
+			from bs_subject where 1=1 and isdelete = #{isdelete,jdbcType=VARCHAR}
+			   <if test="classifyid != null">
+				 and classifyid = #{classifyid,jdbcType=VARCHAR}
+			   </if>
+			   <if test="userid != null">
+					and userid = #{userid,jdbcType=VARCHAR}
+			   </if>
+      </select>
+</mapper>

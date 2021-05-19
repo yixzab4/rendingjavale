@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bayside.app.opinion.war.opinionMonitor.dao.SubjectMArticleMapper" >
+  <resultMap id="BaseResultMap" type="com.bayside.app.opinion.war.opinionMonitor.model.SubjectMArticle" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="subjectid" property="subjectid" jdbcType="VARCHAR" />
+    <result column="articleid" property="articleid" jdbcType="VARCHAR" />
+    <result column="userid" property="userid" jdbcType="VARCHAR" />
+    <result column="keyword_rule" property="keywordRule" jdbcType="VARCHAR" />
+    <result column="reportinfo" property="reportinfo" jdbcType="BIT" />
+    <result column="attention" property="attention" jdbcType="BIT" />
+    <result column="warning" property="warning" jdbcType="BIT" />
+    <result column="readsign" property="readsign" jdbcType="BIT" />
+    <result column="briefing" property="briefing" jdbcType="BIT" />
+    <result column="emotion" property="emotion" jdbcType="VARCHAR" />
+    <result column="data_source" property="dataSource" jdbcType="VARCHAR" />
+    <result column="formats" property="formats" jdbcType="VARCHAR" />
+     <result column="attentiontime" property="attentiontime" jdbcType="TIMESTAMP" />
+     <result column="updatetime" property="updatetime" jdbcType="TIMESTAMP" />
+     <result column="source_num" property="sourceNum" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, subjectid, articleid, userid, keyword_rule, reportinfo, attention, warning, readsign,attentiontime,
+    data_source, formats
+    briefing, emotion, updatetime,warning_word,simids
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bs_subject_m_article
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+   <select id="selectsmids" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+     simids
+    from bs_subject_m_article
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <update id="updateById" parameterType="com.bayside.app.opinion.war.opinionMonitor.model.SubjectMArticle" >
+    update bs_subject_m_article
+    <set >
+      <if test="reportinfo != null" >
+        reportinfo = #{reportinfo,jdbcType=BIT},
+      </if>
+      <if test="attention != null" >
+        attention = #{attention,jdbcType=BIT},
+      </if>
+      <if test="warning != null" >
+        warning = #{warning,jdbcType=BIT},
+      </if>
+      <if test="readsign != null" >
+        readsign = #{readsign,jdbcType=BIT},
+      </if>
+      <if test="briefing != null" >
+        briefing = #{briefing,jdbcType=BIT},
+      </if>
+      <if test="emotion != null" >
+        emotion = #{emotion,jdbcType=VARCHAR},
+      </if>
+      <if test="attentiontime != null" >
+       attentiontime = #{attentiontime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+       updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <where> 
+        userid = #{userid,jdbcType=VARCHAR} 
+     <if test="id != null and id !=''" >
+       and id = #{id,jdbcType=VARCHAR} 
+     </if>
+     and articleid in 
+    <foreach collection="ids" index="index" item="item" open="(" separator="," close=")">  
+       #{ids[${index}]}
+    </foreach>
+    <if test="subjectid != null and subjectid !=''" >
+        and subjectid = #{subjectid,jdbcType=VARCHAR}
+    </if>
+    </where> 
+  </update>
+  
+   <delete id="deleteByid" parameterType="com.bayside.app.opinion.war.opinionMonitor.model.SubjectMArticle" >
+    delete from bs_subject_m_article
+    <where>
+     userid = #{userid,jdbcType=VARCHAR} and articleid in 
+    <foreach collection="ids" index="index" item="item" open="(" separator="," close=")">  
+       #{ids[${index}]}
+    </foreach>
+    <if test="subjectid != null and subjectid !=''" >
+        and subjectid = #{subjectid,jdbcType=VARCHAR}
+    </if>
+    </where>
+  </delete>
+  
+  <select id="getArticleById" resultType="java.lang.String" parameterType="java.lang.String" >
+    select articleid from bs_subject_m_article
+    <where>
+    <if test="param1 != null and param1 !=''">
+      userid = #{0}
+    </if>
+    <if test="param2 != null and param2 !=''">
+     and subjectid = #{1}
+    </if> 
+    </where>
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bs_subject_m_article
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.bayside.app.opinion.war.opinionMonitor.model.SubjectMArticle" >
+    insert into bs_subject_m_article (ID, subjectid, articleid, 
+      userid, keyword_rule, reportinfo, 
+      attention, warning, readsign, briefing, 
+      emotion)
+    values (#{id,jdbcType=VARCHAR}, #{subjectid,jdbcType=VARCHAR}, #{articleid,jdbcType=VARCHAR}, 
+      #{userid,jdbcType=VARCHAR}, #{keywordRule,jdbcType=VARCHAR}, #{reportinfo,jdbcType=BIT}, 
+      #{attention,jdbcType=BIT}, #{warning,jdbcType=BIT}, #{readsign,jdbcType=BIT}, #{briefing,jdbcType=BIT}, 
+      #{emotion,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bayside.app.opinion.war.opinionMonitor.model.SubjectMArticle" >
+    insert into bs_subject_m_article
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="subjectid != null" >
+        subjectid,
+      </if>
+      <if test="articleid != null" >
+        articleid,
+      </if>
+      <if test="userid != null" >
+        userid,
+      </if>
+      <if test="keywordRule != null" >
+        keyword_rule,
+      </if>
+      <if test="reportinfo != null" >
+        reportinfo,
+      </if>
+      <if test="attention != null" >
+        attention,
+      </if>
+      <if test="warning != null" >
+        warning,
+      </if>
+      <if test="readsign != null" >
+        readsign,
+      </if>
+      <if test="briefing != null" >
+        briefing,
+      </if>
+      <if test="emotion != null" >
+        emotion,
+      </if>
+       <if test="attentiontime != null and attentiontime!=''" >
+         attentiontime,
+      </if>
+       <if test="updatetime != null and updatetime!=''" >
+         updatetime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="subjectid != null" >
+        #{subjectid,jdbcType=VARCHAR},
+      </if>
+      <if test="articleid != null" >
+        #{articleid,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="keywordRule != null" >
+        #{keywordRule,jdbcType=VARCHAR},
+      </if>
+      <if test="reportinfo != null" >
+        #{reportinfo,jdbcType=BIT},
+      </if>
+      <if test="attention != null" >
+        #{attention,jdbcType=BIT},
+      </if>
+      <if test="warning != null" >
+        #{warning,jdbcType=BIT},
+      </if>
+      <if test="readsign != null" >
+        #{readsign,jdbcType=BIT},
+      </if>
+      <if test="briefing != null" >
+        #{briefing,jdbcType=BIT},
+      </if>
+      <if test="emotion != null" >
+        #{emotion,jdbcType=VARCHAR},
+      </if>
+       <if test="attentiontime != null and attentiontime!=''" >
+         #{attentiontime,jdbcType=TIMESTAMP},
+      </if>
+        <if test="updatetime != null and updatetime!=''" >
+         #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bayside.app.opinion.war.opinionMonitor.model.SubjectMArticle" >
+    update bs_subject_m_article
+    <set >
+      <if test="subjectid != null" >
+        subjectid = #{subjectid,jdbcType=VARCHAR},
+      </if>
+      <if test="articleid != null" >
+        articleid = #{articleid,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null" >
+        userid = #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="keywordRule != null" >
+        keyword_rule = #{keywordRule,jdbcType=VARCHAR},
+      </if>
+      <if test="reportinfo != null" >
+        reportinfo = #{reportinfo,jdbcType=BIT},
+      </if>
+      <if test="attention != null" >
+        attention = #{attention,jdbcType=BIT},
+      </if>
+      <if test="warning != null" >
+        warning = #{warning,jdbcType=BIT},
+      </if>
+      <if test="readsign != null" >
+        readsign = #{readsign,jdbcType=BIT},
+      </if>
+      <if test="briefing != null" >
+        briefing = #{briefing,jdbcType=BIT},
+      </if>
+      <if test="emotion != null" >
+        emotion = #{emotion,jdbcType=VARCHAR},
+      </if>
+      <if test="attentiontime != null and attentiontime!=''" >
+       attentiontime = #{attentiontime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null and updatetime!=''" >
+       updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bayside.app.opinion.war.opinionMonitor.model.SubjectMArticle" >
+    update bs_subject_m_article
+    set subjectid = #{subjectid,jdbcType=VARCHAR},
+      articleid = #{articleid,jdbcType=VARCHAR},
+      userid = #{userid,jdbcType=VARCHAR},
+      keyword_rule = #{keywordRule,jdbcType=VARCHAR},
+      reportinfo = #{reportinfo,jdbcType=BIT},
+      attention = #{attention,jdbcType=BIT},
+      warning = #{warning,jdbcType=BIT},
+      readsign = #{readsign,jdbcType=BIT},
+      briefing = #{briefing,jdbcType=BIT},
+      emotion = #{emotion,jdbcType=VARCHAR},
+      attentiontime = #{attentiontime,jdbcType=TIMESTAMP}
+      updatetime = #{updatetime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateArticleNoquery" parameterType="com.bayside.app.opinion.war.opinionMonitor.model.SubjectMArticle" >
+    update bs_subject_m_article
+    set noquery =  #{noquery,jdbcType=INTEGER}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <!-- 删除负面文章 -->
+  <delete id="deletefumianById" parameterType="java.lang.String">
+     delete from bs_subject_m_article where id = #{id,jdbcType=VARCHAR}
+  </delete>
+   <delete id="deletefumianByObject" parameterType="com.bayside.app.opinion.war.opinionMonitor.model.SubjectMArticle">
+     delete from bs_subject_m_article where articleid = #{articleid,jdbcType=VARCHAR} and userid = #{userid,jdbcType=VARCHAR}
+  </delete>
+  <!--  删除所有相似文章-->
+   <delete id="deleteIndexSimilarArticle" parameterType="com.bayside.app.opinion.war.opinionMonitor.model.SubjectMArticle">
+     delete from bs_subject_m_article where id in 
+    <foreach collection="ids" index="index" item="item" open="(" separator="," close=")">  
+       #{ids[${index}]}
+    </foreach>
+  </delete>
+  <!--删除此文章  -->
+   <delete id="deleteIndexArticle" parameterType="com.bayside.app.opinion.war.opinionMonitor.model.SubjectMArticle">
+     delete from bs_subject_m_article where id  = #{id,jdbcType=VARCHAR}
+  </delete>
+  <!--  关注负面文章-->
+  <update id="updatefumian" parameterType="com.bayside.app.opinion.war.opinionMonitor.model.SubjectMArticle" >
+   update bs_subject_m_article
+    <set >
+      <if test="subjectid != null" >
+        subjectid = #{subjectid,jdbcType=VARCHAR},
+      </if>
+      <if test="articleid != null" >
+        articleid = #{articleid,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null" >
+        userid = #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="keywordRule != null" >
+        keyword_rule = #{keywordRule,jdbcType=VARCHAR},
+      </if>
+      <if test="reportinfo != null" >
+        reportinfo = #{reportinfo,jdbcType=BIT},
+      </if>
+      <if test="attention != null" >
+        attention = #{attention,jdbcType=BIT},
+      </if>
+      <if test="warning != null" >
+        warning = #{warning,jdbcType=BIT},
+      </if>
+      <if test="readsign != null" >
+        readsign = #{readsign,jdbcType=BIT},
+      </if>
+      <if test="briefing != null" >
+        briefing = #{briefing,jdbcType=BIT},
+      </if>
+      <if test="emotion != null" >
+        emotion = #{emotion,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="attentiontime != null" >
+        attentiontime = #{attentiontime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where articleid = #{articleid,jdbcType=VARCHAR} and userid = #{userid,jdbcType=VARCHAR}
+  </update>
+   <select id="selectAttention" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bs_subject_m_article
+    where articleid = #{articleid,jdbcType=VARCHAR}
+  </select>
+
+  <select id="getArticleInfoById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select * from bs_subject_m_article
+    <where>
+    <if test="param1 != null and param1 !=''">
+      userid = #{0}
+    </if>
+    <if test="param2 != null and param2 !=''">
+     and subjectid = #{1}
+    </if> 
+    </where>
+  </select>
+
+  <delete id="deleteBySubjectId" parameterType="java.lang.String">
+  	delete from bs_subject_m_article
+  	where subjectid = #{subjectid,jdbcType=INTEGER}
+  </delete>
+ <select id="selectArticleById" resultMap="BaseResultMap" parameterType="com.bayside.app.opinion.war.opinionMonitor.model.SubjectMArticle" >
+    select * from bs_subject_m_article
+    <where>
+     1=1
+    <if test="userid != null and userid !=''">
+     and userid = #{userid}
+    </if>
+    <if test="articleid != null  and  articleid !=''">
+     and articleid = #{articleid}
+    </if> 
+    </where>
+  </select>
+  <select id="selectMediaList" parameterType="com.bayside.app.opinion.war.subject.bo.SubjectParamBo" resultMap="BaseResultMap">
+  	SELECT formats,data_source,COUNT(data_source) source_num FROM bs_subject_m_article
+	WHERE subjectid=#{subjectid}
+	AND FORMATS = #{formats}
+    AND pubdate &gt;= #{startTime}
+	AND pubdate &lt;= #{endTime}
+	
+	GROUP BY data_source
+	ORDER BY source_num DESC
+	<if test="start!=null and size!=null">
+	limit #{start},#{size}
+	</if>
+	
+  </select>
+  <!-- 根据媒体类型查询某用户的最多的来源 -->
+  <select id="selectMaxFormatSource" parameterType="java.lang.String" resultType="hashMap">
+  	SELECT data_source,COUNT(data_source) sourceAcount FROM bs_subject_m_article 
+		WHERE formats = #{formats} AND userid = #{userid}
+		AND updatetime &gt;= #{startTime} AND updatetime &lt;= #{endTime}	
+		GROUP BY data_source
+		ORDER BY COUNT(data_source) DESC LIMIT 1
+  </select>
+  <!-- 查询某用户的最多的来源 -->
+  <select id="selectMaxSource" parameterType="com.bayside.app.opinion.war.subject.bo.SubjectParamBo" resultType="hashMap">
+  	SELECT data_source,COUNT(data_source) sourceAcount FROM bs_subject_m_article 
+		WHERE userid = #{userid}
+		AND updatetime &gt;= #{startTime} AND updatetime &lt;= #{endTime}	
+		GROUP BY data_source
+		ORDER BY sourceAcount DESC LIMIT 8
+  </select>
+  <select id="selectAttentionOpinion" parameterType="com.bayside.app.opinion.war.subject.bo.SubjectParamBo" resultType="hashMap">
+  	SELECT t.keyword_rule,t1.data_source,t1.tittle,t1.pubdate,t1.similarnum FROM bs_subject_m_article t 
+		INNER JOIN bs_subject_article t1
+		ON t.articleid = t1.id
+		 WHERE t.attention = '1' AND t.userid =#{userid}
+		 AND t1.updatetime &gt;= #{startTime} AND t1.updatetime &lt;= #{endTime}	
+		 LIMIT 10
+  </select>
+  <update id="updateEmotion" parameterType="com.bayside.app.opinion.war.opinionMonitor.model.SubjectMArticle" >
+    update bs_subject_m_article  set emotion = #{emotion,jdbcType=VARCHAR},updatetime = #{updatetime,jdbcType=TIMESTAMP} where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="selectReportDataInfo" parameterType="com.bayside.app.opinion.war.subject.bo.SubjectParamBo" resultType="hashMap">
+	  	SELECT 
+	COUNT(1) total,
+	IFNULL(SUM(CASE warning WHEN 1 THEN 1 ELSE 0 END),0) wanringNum,
+	IFNULL(SUM(CASE emotion WHEN 1 THEN 1 ELSE 0 END),0) positive,
+	IFNULL(SUM(CASE emotion WHEN 0 THEN 1 ELSE 0 END),0) neutral,
+	IFNULL(SUM(CASE emotion WHEN -2 THEN 1 ELSE 0 END),0) negative
+	FROM bs_subject_m_article 
+	WHERE userid = #{userid} 
+	AND pubdate &gt;= #{startTime}
+	AND pubdate &lt; #{endTime}
+  </select>
+</mapper>

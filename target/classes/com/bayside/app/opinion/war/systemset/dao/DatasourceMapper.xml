@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bayside.app.opinion.war.systemset.dao.DatasourceMapper">
+  <resultMap id="BaseResultMap" type="com.bayside.app.opinion.war.systemset.model.Datasource">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="typeid" jdbcType="VARCHAR" property="typeid" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="userid" jdbcType="VARCHAR" property="userid" />
+    <result column="region" jdbcType="VARCHAR" property="region" />
+    <result column="wechat" jdbcType="VARCHAR" property="wechat" />
+    <result column="siteType" jdbcType="VARCHAR" property="siteType" />
+    <result column="searchid" jdbcType="VARCHAR" property="searchid" />
+    <result column="tag" jdbcType="INTEGER" property="tag" />
+    <result column="attentiontime" jdbcType="TIMESTAMP" property="attentiontime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, type, typeid, name, address, userid, region, wechat, siteType, searchid, tag, attentiontime
+  </sql>
+  <insert id="batchInsertSource" parameterType="com.bayside.app.opinion.war.systemset.model.Datasource">
+    insert into bs_datasource
+     (id, type, name, address, userid, wechat, siteType, searchid, tag, attentiontime)
+      values  
+     <foreach collection="list" item="item" index="index" separator="," > 
+      (#{item.id}, #{item.type}, #{item.name}, #{item.address},#{item.userid}, #{item.wechat}, #{item.siteType}, #{item.searchid}, #{item.tag}, #{item.attentiontime})
+     </foreach>  
+  </insert>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from bs_datasource
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+    <select id="selectDataSourceBySearchid" parameterType="com.bayside.app.opinion.war.systemset.model.Datasource" resultMap="BaseResultMap">
+    select 
+    id,searchid
+    from bs_datasource
+    where userid = #{userid,jdbcType=VARCHAR}
+    <if test="searchids !=null ">
+      and searchid in
+       <foreach collection="searchids" index="index" item="searchid" open="(" separator="," close=")">  
+           #{searchid}
+    </foreach> 
+    </if>
+    
+  </select>
+   <select id="selectBySearchid" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from bs_datasource
+    where searchid = #{searchid,jdbcType=VARCHAR}
+  </select>
+  <select id="selectSourceById" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from bs_datasource
+    where 1=1
+    <if test="id!=null and id!=''">
+     and id = #{id,jdbcType=VARCHAR}
+    </if>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from bs_datasource
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.bayside.app.opinion.war.systemset.model.Datasource">
+    insert into bs_datasource (id, type, typeid, 
+      name, address, userid, region, wechat
+      )
+    values (#{id,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{typeid,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{userid,jdbcType=VARCHAR}, #{region,jdbcType=VARCHAR}, #{wechat,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bayside.app.opinion.war.systemset.model.Datasource">
+    insert into bs_datasource
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="typeid != null">
+        typeid,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="userid != null">
+        userid,
+      </if>
+      <if test="region != null">
+        region,
+      </if>
+      <if test="wechat != null">
+        wechat,
+      </if>
+      <if test="siteType != null">
+        siteType,
+      </if>
+      <if test="searchid != null">
+        searchid,
+      </if>
+      <if test="tag != null">
+        tag,
+      </if>
+       <if test="attentiontime != null">
+        attentiontime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="typeid != null">
+        #{typeid,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null">
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="region != null">
+        #{region,jdbcType=VARCHAR},
+      </if>
+      <if test="wechat != null">
+        #{wechat,jdbcType=VARCHAR},
+      </if>
+        <if test="siteType != null">
+        #{siteType,jdbcType=VARCHAR},
+      </if>
+        <if test="searchid != null">
+        #{searchid,jdbcType=VARCHAR},
+      </if>
+        <if test="tag != null">
+        #{tag,jdbcType=VARCHAR},
+      </if>
+       <if test="attentiontime != null">
+        #{attentiontime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bayside.app.opinion.war.systemset.model.Datasource">
+    update bs_datasource
+    <set>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="typeid != null">
+        typeid = #{typeid,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null">
+        userid = #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="region != null">
+        region = #{region,jdbcType=VARCHAR},
+      </if>
+       <if test="wechat != null">
+        wechat = #{wechat,jdbcType=VARCHAR},
+      </if>
+       <if test="siteType != null">
+        #{siteType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bayside.app.opinion.war.systemset.model.Datasource">
+    update bs_datasource
+    set type = #{type,jdbcType=VARCHAR},
+      typeid = #{typeid,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      userid = #{userid,jdbcType=VARCHAR},
+      region = #{region,jdbcType=VARCHAR},
+      wechat = #{wechat,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+ 
+   <select id="selectAllDataSource" parameterType="com.bayside.app.opinion.war.systemset.bo.DatasourceBo" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from bs_datasource
+    where userid = #{userid,jdbcType=VARCHAR}
+    <if test="startTime != null and startTime !=''">
+			and DATE(attentiontime) &gt;= #{startTime,jdbcType=TIMESTAMP}
+   </if>
+  <if test="endTime != null and endTime !=''">
+			and DATE(attentiontime) &lt;= #{endTime,jdbcType=TIMESTAMP}
+  </if>
+  <if test="type!=null ">
+      and type = #{type,jdbcType=VARCHAR}
+  </if>
+    limit #{start},#{size}
+  </select>
+     <select id="selectDateSouceTotal" parameterType="com.bayside.app.opinion.war.systemset.bo.DatasourceBo" resultMap="BaseResultMap">
+    select 
+    count(id) tag
+    from bs_datasource
+    where userid = #{userid,jdbcType=VARCHAR}
+    <if test="startTime != null and startTime !=''">
+			and DATE(attentiontime) &gt;= #{startTime,jdbcType=TIMESTAMP}
+   </if>
+  <if test="endTime != null and endTime !=''">
+			and DATE(attentiontime) &lt;= #{endTime,jdbcType=TIMESTAMP}
+  </if>
+  <if test="type!=null ">
+      and type = #{type,jdbcType=VARCHAR}
+  </if>
+  </select>
+</mapper>

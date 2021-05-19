@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bayside.app.opinion.war.mynews.dao.PersonHistoryMapper" >
+  <resultMap id="BaseResultMap" type="com.bayside.app.opinion.war.mynews.model.PersonHistory" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="timeframe" property="timeframe" jdbcType="TIMESTAMP" />
+    <result column="negativenumber" property="negativenumber" jdbcType="INTEGER" />
+    <result column="totalnumber" property="totalnumber" jdbcType="INTEGER" />
+    <result column="weibonumber" property="weibonumber" jdbcType="INTEGER" />
+    <result column="weixinnumber" property="weixinnumber" jdbcType="INTEGER" />
+    <result column="blognumber" property="blognumber" jdbcType="INTEGER" />
+    <result column="newsnumber" property="newsnumber" jdbcType="INTEGER" />
+    <result column="forumnumber" property="forumnumber" jdbcType="INTEGER" />
+    <result column="videonumber" property="videonumber" jdbcType="INTEGER" />
+    <result column="picturenumber" property="picturenumber" jdbcType="INTEGER" />
+    <result column="personid" property="personid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, timeframe, negativenumber, totalnumber, weibonumber, weixinnumber, blognumber, 
+    newsnumber, forumnumber, videonumber, picturenumber, personid
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bs_personhistory
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bs_personhistory
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.bayside.app.opinion.war.mynews.model.PersonHistory" >
+    insert into bs_personhistory (ID, timeframe, negativenumber, 
+      totalnumber, weibonumber, weixinnumber, 
+      blognumber, newsnumber, forumnumber, 
+      videonumber, picturenumber, personid
+      )
+    values (#{id,jdbcType=VARCHAR}, #{timeframe,jdbcType=TIMESTAMP}, #{negativenumber,jdbcType=INTEGER}, 
+      #{totalnumber,jdbcType=INTEGER}, #{weibonumber,jdbcType=INTEGER}, #{weixinnumber,jdbcType=INTEGER}, 
+      #{blognumber,jdbcType=INTEGER}, #{newsnumber,jdbcType=INTEGER}, #{forumnumber,jdbcType=INTEGER}, 
+      #{videonumber,jdbcType=INTEGER}, #{picturenumber,jdbcType=INTEGER}, #{personid,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bayside.app.opinion.war.mynews.model.PersonHistory" >
+    insert into bs_personhistory
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="timeframe != null" >
+        timeframe,
+      </if>
+      <if test="negativenumber != null" >
+        negativenumber,
+      </if>
+      <if test="totalnumber != null" >
+        totalnumber,
+      </if>
+      <if test="weibonumber != null" >
+        weibonumber,
+      </if>
+      <if test="weixinnumber != null" >
+        weixinnumber,
+      </if>
+      <if test="blognumber != null" >
+        blognumber,
+      </if>
+      <if test="newsnumber != null" >
+        newsnumber,
+      </if>
+      <if test="forumnumber != null" >
+        forumnumber,
+      </if>
+      <if test="videonumber != null" >
+        videonumber,
+      </if>
+      <if test="picturenumber != null" >
+        picturenumber,
+      </if>
+      <if test="personid != null" >
+        personid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="timeframe != null" >
+        #{timeframe,jdbcType=TIMESTAMP},
+      </if>
+      <if test="negativenumber != null" >
+        #{negativenumber,jdbcType=INTEGER},
+      </if>
+      <if test="totalnumber != null" >
+        #{totalnumber,jdbcType=INTEGER},
+      </if>
+      <if test="weibonumber != null" >
+        #{weibonumber,jdbcType=INTEGER},
+      </if>
+      <if test="weixinnumber != null" >
+        #{weixinnumber,jdbcType=INTEGER},
+      </if>
+      <if test="blognumber != null" >
+        #{blognumber,jdbcType=INTEGER},
+      </if>
+      <if test="newsnumber != null" >
+        #{newsnumber,jdbcType=INTEGER},
+      </if>
+      <if test="forumnumber != null" >
+        #{forumnumber,jdbcType=INTEGER},
+      </if>
+      <if test="videonumber != null" >
+        #{videonumber,jdbcType=INTEGER},
+      </if>
+      <if test="picturenumber != null" >
+        #{picturenumber,jdbcType=INTEGER},
+      </if>
+      <if test="personid != null" >
+        #{personid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bayside.app.opinion.war.mynews.model.PersonHistory" >
+    update bs_personhistory
+    <set >
+      <if test="timeframe != null" >
+        timeframe = #{timeframe,jdbcType=TIMESTAMP},
+      </if>
+      <if test="negativenumber != null" >
+        negativenumber = #{negativenumber,jdbcType=INTEGER},
+      </if>
+      <if test="totalnumber != null" >
+        totalnumber = #{totalnumber,jdbcType=INTEGER},
+      </if>
+      <if test="weibonumber != null" >
+        weibonumber = #{weibonumber,jdbcType=INTEGER},
+      </if>
+      <if test="weixinnumber != null" >
+        weixinnumber = #{weixinnumber,jdbcType=INTEGER},
+      </if>
+      <if test="blognumber != null" >
+        blognumber = #{blognumber,jdbcType=INTEGER},
+      </if>
+      <if test="newsnumber != null" >
+        newsnumber = #{newsnumber,jdbcType=INTEGER},
+      </if>
+      <if test="forumnumber != null" >
+        forumnumber = #{forumnumber,jdbcType=INTEGER},
+      </if>
+      <if test="videonumber != null" >
+        videonumber = #{videonumber,jdbcType=INTEGER},
+      </if>
+      <if test="picturenumber != null" >
+        picturenumber = #{picturenumber,jdbcType=INTEGER},
+      </if>
+      <if test="personid != null" >
+        personid = #{personid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bayside.app.opinion.war.mynews.model.PersonHistory" >
+    update bs_personhistory
+    set timeframe = #{timeframe,jdbcType=TIMESTAMP},
+      negativenumber = #{negativenumber,jdbcType=INTEGER},
+      totalnumber = #{totalnumber,jdbcType=INTEGER},
+      weibonumber = #{weibonumber,jdbcType=INTEGER},
+      weixinnumber = #{weixinnumber,jdbcType=INTEGER},
+      blognumber = #{blognumber,jdbcType=INTEGER},
+      newsnumber = #{newsnumber,jdbcType=INTEGER},
+      forumnumber = #{forumnumber,jdbcType=INTEGER},
+      videonumber = #{videonumber,jdbcType=INTEGER},
+      picturenumber = #{picturenumber,jdbcType=INTEGER},DATE_FORMAT(pubdate,'%Y-%m-%d') updatetime
+      personid = #{personid,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <!-- 查询当月每天的数据量 -->
+  <select id="selectMdInfo" resultMap="BaseResultMap" parameterType="java.lang.String">
+  select sum(negativenumber) negativenumber,sum(totalnumber) totalnumber,sum(weibonumber) weibonumber,
+	   sum(weixinnumber) weixinnumber,sum(blognumber) blognumber,sum(newsnumber) newsnumber,sum(forumnumber) forumnumber,
+	   sum(videonumber) videonumber,sum(picturenumber) picturenumber, DATE_FORMAT(timeframe,'%Y-%m-%d') timeframe from bs_personhistory where personid = #{personid,jdbcType=VARCHAR} group by DATE_FORMAT(timeframe,'%d')
+   </select>
+   <!-- 查询上个月每天的数量 -->
+   <!-- select id="selectLastMdInfo" resultMap="BaseResultMap" parameterType="java.lang.String">
+     
+ select sum(negativenumber) negativenumber,sum(totalnumber),(weibonumber),
+	   sum(weixinnumber),sum(blognumber),sum(newsnumber),sum(forumnumber),
+	   sum(videonumber),sum(picturenumber), DATE_FORMAT(timeframe,'%Y-%m-%d') timeframe from bs_personhistory where personid = #{personid,jdbcType=VARCHAR} group by DATE_FORMAT(timeframe,'%d')
+   </select-->
+  <!--查询当月每周的数据量  -->
+  <!-- select id="selectLastMwInfo" resultMap="BaseResultMap" parameterType="java.lang.String">
+     select sum(a.negativenumber) as '负面数量',sum(a.totalnumber) as '整体数量',sum(a.weibonumber) as '微博数量',
+	   sum(a.weixinnumber) as '微信数量',sum(a.blognumber) as '博客数量',sum(a.newsnumber) as '新闻数量',sum(a.forumnumber) as '论坛数量',
+	   sum(a.videonumber) as '视频数量',sum(a.picturenumber) as '图像数量',DATE_FORMAT(a.timeframe,'%e') as '日期' from bs_personhistory a
+	   where PERIOD_DIFF( date_format( now( ) , '%Y%m' ) , date_format( a.timeframe, '%Y%m' ) ) =1 
+	   group by '日期'
+   </select-->
+  <!--查询当年每天的数据量  -->
+  <!-- 查询当年每周的数据量 -->
+</mapper>

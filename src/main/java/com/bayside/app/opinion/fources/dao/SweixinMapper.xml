@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bayside.app.opinion.fources.dao.SweixinMapper" >
+  <resultMap id="BaseResultMap" type="com.bayside.app.opinion.fources.model.Sweixin" >
+    <id column="rowid" property="rowid" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="score" property="score" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMap" type="com.bayside.app.opinion.fources.bo.Sweixinbo" >
+   <id column="rowid" property="rowid" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="searchid" property="searchid" jdbcType="VARCHAR" />
+   
+  </resultMap>
+  <sql id="Base_Column_List" >
+    rowid, name, code, url
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bs_weixinaccount
+    where rowid = #{rowid,jdbcType=VARCHAR}
+  </select>
+   <select id="selectSearchWeixin" resultMap="ResultMap" parameterType="com.bayside.app.opinion.fources.bo.Sweixinbo">
+	   select s.rowid id,s.name,s.code url,s.url,f.searchid 
+	   from (
+	    select rowid,name,code,url from bs_weixinaccount where INSTR(code,#{nick})>0 order by score desc
+	    limit 200
+	   )as s left join bs_datasource as f on s.rowid = f.searchid
+  </select>
+    <select id="selectSearchWeixinTotal" resultMap="ResultMap" parameterType="com.bayside.app.opinion.fources.bo.Sweixinbo">
+	   
+	    select count(rowid) total from bs_weixinaccount where INSTR(code,#{nick})>0 order by score desc
+	    
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bs_weixinaccount
+    where rowid = #{rowid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.bayside.app.opinion.fources.model.Sweixin" >
+    insert into bs_weixinaccount (rowid, name, code, 
+      url)
+    values (#{rowid,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, 
+      #{url,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bayside.app.opinion.fources.model.Sweixin" >
+    insert into bs_weixinaccount
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="rowid!= null" >
+        rowid,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="url != null" >
+        url,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="rowid != null" >
+        #{rowid,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bayside.app.opinion.fources.model.Sweixin" >
+    update bs_weixinaccount
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where rowid = #{rowid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bayside.app.opinion.fources.model.Sweixin" >
+    update bs_weixinaccount
+    set name = #{name,jdbcType=VARCHAR},
+      code = #{code,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR}
+    where rowid = #{rowid,jdbcType=VARCHAR}
+  </update>
+</mapper>

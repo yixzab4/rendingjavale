@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bayside.app.opinion.war.report.dao.OpinionReportMapper" >
+  <resultMap id="BaseResultMap" type="com.bayside.app.opinion.war.report.model.OpinionReport" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="starttime" property="starttime" jdbcType="TIMESTAMP" />
+    <result column="endtime" property="endtime" jdbcType="TIMESTAMP" />
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="userid" property="userid" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="note" property="note" jdbcType="VARCHAR" />
+    <result column="htmlurl" property="htmlurl" jdbcType="VARCHAR" />
+    <result column="wordurl" property="wordurl" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, title, status, starttime, endtime, createtime, userid, type, note,htmlurl,wordurl
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bs_opinion_report
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bs_opinion_report
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.bayside.app.opinion.war.report.model.OpinionReport" >
+    insert into bs_opinion_report (ID, title, status, 
+      starttime, endtime, createtime, 
+      userid, type, note,htmlurl,wordurl)
+    values (#{id,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{starttime,jdbcType=TIMESTAMP}, #{endtime,jdbcType=TIMESTAMP}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{userid,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR},#{htmlurl,jdbcType=VARCHAR}, #{wordurl,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bayside.app.opinion.war.report.model.OpinionReport" >
+    insert into bs_opinion_report
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="starttime != null" >
+        starttime,
+      </if>
+      <if test="endtime != null" >
+        endtime,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="userid != null" >
+        userid,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="note != null" >
+        note,
+      </if>
+      <if test="htmlurl != null" >
+        htmlurl,
+      </if>
+      <if test="wordurl != null" >
+        wordurl,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="starttime != null" >
+        #{starttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endtime != null" >
+        #{endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null" >
+        #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null" >
+        #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null" >
+        #{note,jdbcType=VARCHAR},
+      </if>
+       <if test="htmlurl != null" >
+       #{htmlurl,jdbcType=VARCHAR},
+      </if>
+      <if test="wordurl != null" >
+       #{wordurl,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bayside.app.opinion.war.report.model.OpinionReport" >
+    update bs_opinion_report
+    <set >
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="starttime != null" >
+        starttime = #{starttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endtime != null" >
+        endtime = #{endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userid != null" >
+        userid = #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null" >
+        note = #{note,jdbcType=VARCHAR},
+      </if>
+       <if test="htmlurl != null" >
+       #{htmlurl,jdbcType=VARCHAR},
+      </if>
+      <if test="wordurl != null" >
+       #{wordurl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bayside.app.opinion.war.report.model.OpinionReport" >
+    update bs_opinion_report
+    set title = #{title,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      starttime = #{starttime,jdbcType=TIMESTAMP},
+      endtime = #{endtime,jdbcType=TIMESTAMP},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      userid = #{userid,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      note = #{note,jdbcType=VARCHAR}
+      htmlurl = #{htmlurl,jdbcType=VARCHAR}
+      wordurl = #{wordurl,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <insert id="insertTrainRecordBatch" parameterType="java.util.List">
+  	insert into bs_opinion_report (ID, title, 
+      starttime, endtime, createtime, 
+      userid, type,htmlurl,wordurl) 
+      values 
+      <foreach collection="list" item="item" index="index" separator="," >  
+        (#{item.id},#{item.title},#{item.starttime},#{item.endtime},#{item.createtime},#{item.userid},#{item.type},#{item.htmlurl},#{item.wordurl})  
+    </foreach>  
+  </insert>
+  <select id="selectOpinionReport" resultMap="BaseResultMap" parameterType="com.bayside.app.opinion.war.report.model.OpinionReport"> 
+  	SELECT 
+  	<include refid="Base_Column_List" />
+  	FROM bs_opinion_report
+  	where 
+  	  userid = #{userid,jdbcType=VARCHAR}
+      and type = #{type,jdbcType=VARCHAR}
+  	 <if test="title != null" >
+       and title = #{title,jdbcType=VARCHAR}
+      </if>
+      <if test="status != null" >
+       and status = #{status,jdbcType=VARCHAR}
+      </if>
+      <if test="starttime != null" >
+       and starttime = #{starttime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="endtime != null" >
+       and endtime = #{endtime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="createtime != null" >
+       and createtime = #{createtime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="note != null" >
+       and note = #{note,jdbcType=VARCHAR}
+      </if>
+        ORDER BY createtime DESC
+  </select>
+</mapper>

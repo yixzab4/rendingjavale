@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bayside.app.opinion.war.subject.dao.SubjectTiebaMapper" >
+  <resultMap id="BaseResultMap" type="com.bayside.app.opinion.war.subject.model.SubjectTieba" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="subjectid" property="subjectid" jdbcType="VARCHAR" />
+    <result column="pubdate" property="pubdate" jdbcType="TIMESTAMP" />
+    <result column="totalTieba" property="totalTieba" jdbcType="INTEGER" />
+    <result column="tiebaName" property="tiebaName" jdbcType="VARCHAR" />
+    <result column="tiebaUrl" property="tiebaUrl" jdbcType="VARCHAR" />
+    <result column="province" property="province" jdbcType="VARCHAR" />
+    <result column="emotion" property="emotion" jdbcType="VARCHAR" />
+    <result column="totalEmotion" property="totalEmotion" jdbcType="INTEGER" />
+    <result column="totalactive" property="totalactive" jdbcType="INTEGER" />
+    <result column="tittle" property="tittle" jdbcType="VARCHAR" />
+    <result column="commtcount" property="commtcount" jdbcType="INTEGER" />
+  </resultMap>
+   <!-- 专题贴吧趋势 -->
+   <select id="getSubTiebaTrend" parameterType="com.bayside.app.opinion.war.subject.model.SubjectTieba" resultMap="BaseResultMap">
+  	SELECT  DATE(ma.pubdate) pubdate,COUNT(DISTINCT ma.data_source) totalTieba FROM bs_subject_m_article ma
+	WHERE 
+    ma.subjectid=#{subjectid}
+	AND ma.formats='tieba'	
+	and ma.pubdate &gt;= #{startTime}
+	AND ma.pubdate &lt;=#{endTime}
+	
+	AND ma.pubdate IS NOT NULL
+	GROUP BY DATE(ma.pubdate)
+	ORDER BY pubdate DESC
+	LIMIT 20
+  </select>
+  <!-- 贴吧排行 -->
+  <select id="getSubTiebaTop" parameterType="com.bayside.app.opinion.war.subject.model.SubjectTieba" resultMap="BaseResultMap">
+  	SELECT t.tieba tiebaName,tb.url tiebaUrl FROM (
+	SELECT SUBSTRING(ma.data_source, 4) tieba,COUNT(ma.data_source) totalTieba FROM bs_subject_m_article ma
+	WHERE 
+	ma.subjectid=#{subjectid}
+    AND ma.formats='tieba'
+	and ma.pubdate &gt;= #{startTime}
+	AND ma.pubdate &lt;=#{endTime}
+
+	GROUP BY ma.data_source
+	ORDER BY totalTieba DESC
+<!-- 	LIMIT 10  -->
+	)t
+	INNER JOIN bs_tiebaraccount tb
+	on t.tieba = tb.name where t.tieba is not null LIMIT 10
+  </select>
+  <!--获取贴吧区域-->
+  <select id="getSubTiebaProvince" parameterType="com.bayside.app.opinion.war.subject.model.SubjectTieba" resultMap="BaseResultMap">
+  	SELECT tb.secondkind province,COUNT(t.tieba) totalTieba FROM (
+	SELECT DISTINCT SUBSTRING(ma.data_source, 4) tieba FROM bs_subject_m_article ma
+	WHERE 
+	 ma.subjectid=#{subjectid}
+	AND ma.formats='tieba'
+	and ma.pubdate &gt;= #{startTime}
+	AND ma.pubdate &lt;=#{endTime}
+	
+	)t
+	INNER JOIN bs_tiebaraccount tb
+	WHERE t.tieba = tb.name AND tb.firstkind='地区'
+	GROUP BY  tb.secondkind
+  </select>
+  <!-- 情感 -->
+  <select id="getsubTiebaEmotion"  parameterType="com.bayside.app.opinion.war.subject.model.SubjectTieba" resultMap="BaseResultMap">
+  	SELECT ma.emotion,COUNT(ma.emotion) totalEmotion FROM bs_subject_m_article ma
+	WHERE 
+	ma.subjectid=#{subjectid}
+    AND ma.formats='tieba'
+	and ma.pubdate &gt;= #{startTime}
+	AND ma.pubdate &lt;=#{endTime}
+	
+	GROUP BY ma.`emotion`
+  </select>
+  <!-- 活跃贴吧数 -->
+  <select id="getsubTiebaActive" parameterType="com.bayside.app.opinion.war.subject.model.SubjectTieba" resultMap="BaseResultMap">
+ <!--  SELECT COUNT(t.tieba) totalTieba,COUNT(tb1.name) totalactive FROM (
+	SELECT DISTINCT SUBSTRING(ma.data_source, 4) tieba FROM bs_subject_m_article ma
+	WHERE 
+	 ma.formats='tieba'
+	AND ma.subjectid=#{subjectid}
+	and ma.pubdate &gt;= #{startTime}
+	AND ma.pubdate &lt;=#{endTime}
+
+	)t
+	LEFT JOIN bs_tiebaraccount tb
+	ON t.tieba = tb.name
+	LEFT JOIN bs_tiebaraccount tb1
+	ON t.tieba = tb1.name AND REPLACE(tb1.articlenum,',','') >tb1.attentionnum -->
+	
+	SELECT COUNT(t.tieba) totalTieba,COUNT(tb1.name) totalactive FROM (
+	SELECT SUBSTRING(ma.data_source, 4) tieba FROM bs_subject_m_article ma
+	WHERE 
+	 ma.formats='tieba'
+	AND ma.subjectid=#{subjectid}
+	and ma.pubdate &gt;= #{startTime}
+	AND ma.pubdate &lt;=#{endTime}
+
+	)t
+	inner JOIN bs_tiebaraccount tb
+	ON t.tieba = tb.name
+	LEFT JOIN bs_tiebaraccount tb1
+	ON t.tieba = tb1.name AND REPLACE(tb1.articlenum,',','') >tb1.attentionnum
+	
+  </select>
+  <select id="getsubTiebaArticleTop" parameterType="com.bayside.app.opinion.war.subject.model.SubjectTieba" resultMap="BaseResultMap">
+  <!-- 	SELECT ma.id mid,a.`ID` articleid,a.tittle,a.commtcount FROM bs_subject_m_article ma,
+	bs_subject_article a
+	WHERE ma.articleid = a.ID
+	AND ma.formats='tieba'
+	AND DATE(ma.pubdate) &gt;= #{startTime}
+	AND DATE(ma.pubdate) &lt;=#{endTime}
+	AND ma.subjectid=#{subjectid}
+	ORDER BY a.score DESC
+	LIMIT 10 -->
+	SELECT m.id mid,a.`ID` articleid,a.tittle,a.commtcount FROM 
+  (
+
+    select id, articleid from bs_subject_m_article 
+
+     where subjectid= #{subjectid}
+      and formats='tieba'
+      AND pubdate &gt;= #{startTime}
+	    AND pubdate &lt;=#{endTime}
+   )as m inner join bs_subject_article as a on m.articleid = a.id ORDER BY a.score DESC
+	LIMIT 10
+  </select>
+</mapper>

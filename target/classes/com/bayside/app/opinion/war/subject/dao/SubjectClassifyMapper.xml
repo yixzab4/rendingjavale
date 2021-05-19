@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bayside.app.opinion.war.subject.dao.SubjectClassifyMapper" >
+  <resultMap id="BaseResultMap" type="com.bayside.app.opinion.war.subject.model.SubjectClassify" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="classifyname" property="classifyname" jdbcType="VARCHAR" />
+    <result column="userid" property="userid" jdbcType="VARCHAR" />
+    <result column="navigation" property="navigation" jdbcType="BIT" />
+    <result column="order_index" property="orderIndex" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="userparentid" property="userparentid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, classifyname, userid, navigation, order_index, create_time,userparentid
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bs_subject_classify
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bs_subject_classify
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.bayside.app.opinion.war.subject.model.SubjectClassify" >
+    insert into bs_subject_classify (ID, classifyname, userid, 
+      navigation, order_index, create_time,userparentid
+      )
+    values (#{id,jdbcType=VARCHAR}, #{classifyname,jdbcType=VARCHAR}, #{userid,jdbcType=VARCHAR}, 
+      #{navigation,jdbcType=BIT}, #{orderIndex,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP},
+      #{userparentid,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bayside.app.opinion.war.subject.model.SubjectClassify" >
+    insert into bs_subject_classify
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="classifyname != null" >
+        classifyname,
+      </if>
+      <if test="userid != null" >
+        userid,
+      </if>
+      <if test="navigation != null" >
+        navigation,
+      </if>
+      <if test="orderIndex != null" >
+        order_index,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="userparentid != null" >
+        userparentid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="classifyname != null" >
+        #{classifyname,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="navigation != null" >
+        #{navigation,jdbcType=BIT},
+      </if>
+      <if test="orderIndex != null" >
+        #{orderIndex,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userparentid != null" >
+        #{userparentid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bayside.app.opinion.war.subject.model.SubjectClassify" >
+    update bs_subject_classify
+    <set >
+      <if test="classifyname != null" >
+        classifyname = #{classifyname,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null" >
+        userid = #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="navigation != null" >
+        navigation = #{navigation,jdbcType=BIT},
+      </if>
+      <if test="orderIndex != null" >
+        order_index = #{orderIndex,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bayside.app.opinion.war.subject.model.SubjectClassify" >
+    update bs_subject_classify
+    set classifyname = #{classifyname,jdbcType=VARCHAR},
+      userid = #{userid,jdbcType=VARCHAR},
+      navigation = #{navigation,jdbcType=BIT},
+      order_index = #{orderIndex,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="selectAllSujectClassify" parameterType="com.bayside.app.opinion.war.subject.model.SubjectClassify" resultMap="BaseResultMap">
+  	select 
+  	<include refid="Base_Column_List" />
+  	from bs_subject_classify
+  	<where>
+  		<if test="id != null">
+  			id=#{id,jdbcType=VARCHAR}
+  		</if>
+  		<if test="classifyname != null" >
+        and classifyname = #{classifyname,jdbcType=VARCHAR}
+      </if>
+      <if test="userid != null" >
+        and userid = #{userid,jdbcType=VARCHAR}
+      </if>
+      <if test="orderIndex != null" >
+        and order_index = #{orderIndex,jdbcType=INTEGER}
+      </if>
+      <if test="createTime != null" >
+        and create_time = #{createTime,jdbcType=TIMESTAMP}
+      </if>
+  	</where>
+  </select>
+   <select id="selectAllClassify" resultMap="BaseResultMap">
+  	select 
+  	<include refid="Base_Column_List" />
+  	from bs_subject_classify
+  </select>
+   <select id="selectByOrder" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select 
+    <include refid="Base_Column_List" />
+    from bs_subject_classify where userid = #{userid,jdbcType=VARCHAR} order by order_Index asc
+  </select>
+   <!-- 按序号查询 -->
+   <select id="selectSujectClassifyByOrder" resultMap="BaseResultMap" parameterType="com.bayside.app.opinion.war.subject.model.SubjectClassify">
+       select 
+  	<include refid="Base_Column_List" />
+  	from bs_subject_classify where order_index = #{orderIndex,jdbcType=INTEGER} and userid = #{userid,jdbcType=VARCHAR}
+   </select>
+   <!--根据用户id查询  -->
+   <select id="selectSujectClassifyByUserId" resultMap="BaseResultMap" parameterType="java.lang.String">
+       select 
+  	<include refid="Base_Column_List" />
+  	from bs_subject_classify where userid = #{userid,jdbcType=VARCHAR}
+   </select>
+   <!-- 查询分类信息 -->  
+ <!--   <select id="getCateogy" resultMap="categoryResultMap" parameterType="java.lang.String">  
+     SELECT   
+     sc.id,sc.classifyname,sc.userid,sc.userparentid,CASE WHEN userid=userparentid THEN 1 ELSE 0 END rowid 
+  		 from bs_subject_classify sc where 
+  	1=1
+  	<if test="userid!=null">
+  		and sc.userid = #{userid,jdbcType =VARCHAR}
+  	</if>
+	<if test="userparentid !=null">
+		and userparentid = #{userparentid,jdbcType=VARCHAR}
+	</if>
+	order by rowid desc
+   </select> -->  
+      <select id="getCateogy" resultMap="BaseResultMap" parameterType="java.lang.String">  
+     SELECT   
+     sc.id,sc.classifyname,sc.userid,sc.userparentid,CASE WHEN userid=userparentid THEN 1 ELSE 0 END rowid 
+  		 from bs_subject_classify sc where 
+  	1=1
+  	<if test="userid!=null">
+  		and sc.userid = #{userid,jdbcType =VARCHAR}
+  	</if>
+	<if test="userparentid !=null">
+		and userparentid = #{userparentid,jdbcType=VARCHAR}
+	</if>
+	order by rowid desc
+   </select>
+   <resultMap type="com.bayside.app.opinion.war.subject.bo.SubjectClassifyBo" id="categoryResultMap">  
+      <id property="id" column="id"/>  
+      <result property="classifyname" column="classifyname"/>  
+      <result column="userid" property="userid"/>
+      <result column="userparentid" property="userparentid"/>
+      <collection property="subjectList" ofType="com.bayside.app.opinion.war.subject.model.Subject" column="Id" select="getsinglesku" >  
+      </collection >  
+   </resultMap>  
+       <!-- ofType指定集合中的对象类型-->  
+   <select id="getsinglesku" parameterType="java.lang.String" resultType="com.bayside.app.opinion.war.subject.model.Subject">  
+	       SELECT s.Id,  
+	       s.subjectname,  
+	       s.classifyid,
+	       s.userid,
+	       s.userparentid   
+	       FROM bs_subject s WHERE s.classifyid=#{Id}
+	       and isdelete = 0
+	       ORDER BY s.create_time DESC
+   </select>  
+   
+   
+   
+   
+   
+</mapper>

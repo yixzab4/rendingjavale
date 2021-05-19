@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bayside.app.opinion.war.systemset.dao.WarnconfigMapper">
+  <resultMap id="BaseResultMap" type="com.bayside.app.opinion.war.systemset.model.Warnconfig">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="warnmodule" jdbcType="VARCHAR" property="warnmodule" />
+    <result column="touchmode" jdbcType="VARCHAR" property="touchmode" />
+    <result column="touchindex" jdbcType="DECIMAL" property="touchindex" />
+    <result column="touchrule" jdbcType="VARCHAR" property="touchrule" />
+    <result column="contact" jdbcType="VARCHAR" property="contact" />
+    <result column="warnmethod" jdbcType="VARCHAR" property="warnmethod" />
+    <result column="warnfrequency" jdbcType="DECIMAL" property="warnfrequency" />
+    <result column="userid" jdbcType="VARCHAR" property="userid" />
+    <result column="isenable" jdbcType="VARCHAR" property="isenable" />
+    <result column="warnname" jdbcType="VARCHAR" property="warnname" />
+    <result column="region_word" jdbcType="VARCHAR" property="regionWord" />
+    <result column="subject_word" jdbcType="VARCHAR" property="subjectWord" />
+    <result column="event_word" jdbcType="VARCHAR" property="eventWord" />
+    <result column="eliminate_word" jdbcType="VARCHAR" property="eliminateWord" />
+   <result column="combined_word" jdbcType="VARCHAR" property="combinedWord" />
+   <result column="userparentid" jdbcType="VARCHAR" property="userparentid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, warnmodule, touchmode, touchindex, touchrule, contact, warnmethod, warnfrequency, 
+    userid, isenable, warnname, region_word, subject_word, event_word, eliminate_word, combined_word,userparentid
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from bs_warnconfig
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+    <select id="selectWarnByUserId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from bs_warnconfig
+    where userid = #{userid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from bs_warnconfig
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.bayside.app.opinion.war.systemset.model.Warnconfig">
+    insert into bs_warnconfig (ID, warnmodule, touchmode, 
+      touchindex, touchrule, contact, 
+      warnmethod, warnfrequency, userid, 
+      isenable, warnname, region_word, 
+      subject_word, event_word, eliminate_word,combined_word,userparentid
+      )
+    values (#{id,jdbcType=VARCHAR}, #{warnmodule,jdbcType=VARCHAR}, #{touchmode,jdbcType=VARCHAR}, 
+      #{touchindex,jdbcType=DECIMAL}, #{touchrule,jdbcType=VARCHAR}, #{contact,jdbcType=VARCHAR}, 
+      #{warnmethod,jdbcType=VARCHAR}, #{warnfrequency,jdbcType=DECIMAL}, #{userid,jdbcType=VARCHAR}, 
+      #{isenable,jdbcType=VARCHAR}, #{warnname,jdbcType=VARCHAR}, #{regionWord,jdbcType=VARCHAR}, 
+      #{subjectWord,jdbcType=VARCHAR}, #{eventWord,jdbcType=VARCHAR}, #{eliminateWord,jdbcType=VARCHAR},#{combinedWord,jdbcType=VARCHAR},
+      #{userparentid,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bayside.app.opinion.war.systemset.model.Warnconfig">
+    insert into bs_warnconfig
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="warnmodule != null">
+        warnmodule,
+      </if>
+      <if test="touchmode != null">
+        touchmode,
+      </if>
+      <if test="touchindex != null">
+        touchindex,
+      </if>
+      <if test="touchrule != null">
+        touchrule,
+      </if>
+      <if test="contact != null">
+        contact,
+      </if>
+      <if test="warnmethod != null">
+        warnmethod,
+      </if>
+      <if test="warnfrequency != null">
+        warnfrequency,
+      </if>
+      <if test="userid != null">
+        userid,
+      </if>
+      <if test="isenable != null">
+        isenable,
+      </if>
+      <if test="warnname != null">
+        warnname,
+      </if>
+      <if test="regionWord != null">
+        region_word,
+      </if>
+      <if test="subjectWord != null">
+        subject_word,
+      </if>
+      <if test="eventWord != null">
+        event_word,
+      </if>
+      <if test="eliminateWord != null">
+        eliminate_word,
+      </if>
+      <if test="combinedWord != null">
+        combined_word,
+      </if>
+      <if test="userparentid != null">
+        userparentid
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="warnmodule != null">
+        #{warnmodule,jdbcType=VARCHAR},
+      </if>
+      <if test="touchmode != null">
+        #{touchmode,jdbcType=VARCHAR},
+      </if>
+      <if test="touchindex != null">
+        #{touchindex,jdbcType=DECIMAL},
+      </if>
+      <if test="touchrule != null">
+        #{touchrule,jdbcType=VARCHAR},
+      </if>
+      <if test="contact != null">
+        #{contact,jdbcType=VARCHAR},
+      </if>
+      <if test="warnmethod != null">
+        #{warnmethod,jdbcType=VARCHAR},
+      </if>
+      <if test="warnfrequency != null">
+        #{warnfrequency,jdbcType=DECIMAL},
+      </if>
+      <if test="userid != null">
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="isenable != null">
+        #{isenable,jdbcType=VARCHAR},
+      </if>
+      <if test="warnname != null">
+        #{warnname,jdbcType=VARCHAR},
+      </if>
+      <if test="regionWord != null">
+        #{regionWord,jdbcType=VARCHAR},
+      </if>
+      <if test="subjectWord != null">
+        #{subjectWord,jdbcType=VARCHAR},
+      </if>
+      <if test="eventWord != null">
+        #{eventWord,jdbcType=VARCHAR},
+      </if>
+      <if test="eliminateWord != null">
+        #{eliminateWord,jdbcType=VARCHAR},
+      </if>
+        <if test="combinedWord != null">
+        #{combinedWord,jdbcType=VARCHAR},
+      </if>
+        <if test="userparentid != null">
+        #{userparentid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bayside.app.opinion.war.systemset.model.Warnconfig">
+    update bs_warnconfig
+    <set>
+      <if test="warnmodule != null">
+        warnmodule = #{warnmodule,jdbcType=VARCHAR},
+      </if>
+      <if test="touchmode != null">
+        touchmode = #{touchmode,jdbcType=VARCHAR},
+      </if>
+      <if test="touchindex != null">
+        touchindex = #{touchindex,jdbcType=DECIMAL},
+      </if>
+      <if test="touchrule != null">
+        touchrule = #{touchrule,jdbcType=VARCHAR},
+      </if>
+      <if test="contact != null">
+        contact = #{contact,jdbcType=VARCHAR},
+      </if>
+      <if test="warnmethod != null">
+        warnmethod = #{warnmethod,jdbcType=VARCHAR},
+      </if>
+      <if test="warnfrequency != null">
+        warnfrequency = #{warnfrequency,jdbcType=DECIMAL},
+      </if>
+      <if test="userid != null">
+        userid = #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="isenable != null">
+        isenable = #{isenable,jdbcType=VARCHAR},
+      </if>
+      <if test="warnname != null">
+        warnname = #{warnname,jdbcType=VARCHAR},
+      </if>
+      <if test="regionWord != null">
+        region_word = #{regionWord,jdbcType=VARCHAR},
+      </if>
+      <if test="subjectWord != null">
+        subject_word = #{subjectWord,jdbcType=VARCHAR},
+      </if>
+      <if test="eventWord != null">
+        event_word = #{eventWord,jdbcType=VARCHAR},
+      </if>
+      <if test="eliminateWord != null">
+        eliminate_word = #{eliminateWord,jdbcType=VARCHAR},
+      </if>
+       <if test="combinedWord != null">
+        combined_word = #{combinedWord,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bayside.app.opinion.war.systemset.model.Warnconfig">
+    update bs_warnconfig
+    set warnmodule = #{warnmodule,jdbcType=VARCHAR},
+      touchmode = #{touchmode,jdbcType=VARCHAR},
+      touchindex = #{touchindex,jdbcType=DECIMAL},
+      touchrule = #{touchrule,jdbcType=VARCHAR},
+      contact = #{contact,jdbcType=VARCHAR},
+      warnmethod = #{warnmethod,jdbcType=VARCHAR},
+      warnfrequency = #{warnfrequency,jdbcType=DECIMAL},
+      userid = #{userid,jdbcType=VARCHAR},
+      isenable = #{isenable,jdbcType=VARCHAR},
+      warnname = #{warnname,jdbcType=VARCHAR},
+      region_word = #{regionWord,jdbcType=VARCHAR},
+      subject_word = #{subjectWord,jdbcType=VARCHAR},
+      event_word = #{eventWord,jdbcType=VARCHAR},
+      eliminate_word = #{eliminateWord,jdbcType=VARCHAR}
+      combined_word = #{combinedWord,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+   <select id="selectAllWarnconfig" parameterType="com.bayside.app.opinion.war.systemset.bo.WarnconfigBo" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />,CASE WHEN userid=userparentid THEN 1 ELSE 0 END rowid
+    from bs_warnconfig
+    where 1=1
+    <if test="userid!=null">
+    	and userid = #{userid,jdbcType=VARCHAR}
+    </if>
+    <if test="userparentid">
+    	and userparentid=#{userparentid,jdbcType=VARCHAR}
+    </if>
+    order by rowid desc
+  </select>
+</mapper>

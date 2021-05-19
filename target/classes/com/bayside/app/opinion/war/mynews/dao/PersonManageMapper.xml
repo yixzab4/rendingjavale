@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bayside.app.opinion.war.mynews.dao.PersonManageMapper">
+  <resultMap id="BaseResultMap" type="com.bayside.app.opinion.war.mynews.model.PersonManage">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="name" jdbcType="CHAR" property="name" />
+    <result column="gender" jdbcType="VARCHAR" property="gender" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="originaddress" jdbcType="VARCHAR" property="originaddress" />
+    <result column="company" jdbcType="VARCHAR" property="company" />
+    <result column="post" jdbcType="VARCHAR" property="post" />
+    <result column="age" jdbcType="INTEGER" property="age" />
+    <result column="industry" jdbcType="VARCHAR" property="industry" />
+    <result column="commonaccount" jdbcType="VARCHAR" property="commonaccount" />
+    <result column="starttime" jdbcType="TIMESTAMP" property="starttime" />
+    <result column="endtime" jdbcType="TIMESTAMP" property="endtime" />
+    <result column="isenable" jdbcType="BIT" property="isenable" />
+    <result column="userid" jdbcType="VARCHAR" property="userid" />
+    <result column="addressprovince" jdbcType="VARCHAR" property="addressprovince" />
+    <result column="addresscity" jdbcType="VARCHAR" property="addresscity" />
+    <result column="originprovince" jdbcType="VARCHAR" property="originprovince" />
+    <result column="origincity" jdbcType="VARCHAR" property="origincity" />
+    <result column="birth" jdbcType="TIMESTAMP" property="birth" />
+    <result column="userparentid" jdbcType="VARCHAR" property="userparentid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, code, name, gender, address, originaddress, company, post, age, industry, commonaccount, 
+    starttime, endtime, isenable, userid, addressprovince, addresscity, originprovince, origincity, birth,userparentid
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from bs_personmanage
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select 
+    <include refid="Base_Column_List" />
+    from bs_personmanage where userid=#{userid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from bs_personmanage
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.bayside.app.opinion.war.mynews.model.PersonManage">
+    insert into bs_personmanage (ID, code, name, 
+      gender, address, originaddress, 
+      company, post, age, 
+      industry, commonaccount, starttime, 
+      endtime, isenable, userid, addressprovince, addresscity, originprovince, origincity, birth,userparentid
+      )
+    values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=CHAR}, 
+      #{gender,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{originaddress,jdbcType=VARCHAR}, 
+      #{company,jdbcType=VARCHAR}, #{post,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, 
+      #{industry,jdbcType=VARCHAR}, #{commonaccount,jdbcType=VARCHAR}, #{starttime,jdbcType=TIMESTAMP}, 
+      #{endtime,jdbcType=TIMESTAMP}, #{isenable,jdbcType=BIT}, #{userid,jdbcType=VARCHAR}, #{addressprovince,jdbcType=VARCHAR}, 
+      #{addresscity,jdbcType=VARCHAR}, #{originprovince,jdbcType=VARCHAR}, #{origincity,jdbcType=VARCHAR}, #{birth,jdbcType=TIMESTAMP},
+      #{userparentid,jdbcType=VARCHAR}
+      
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bayside.app.opinion.war.mynews.model.PersonManage">
+    insert into bs_personmanage
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="gender != null">
+        gender,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="originaddress != null">
+        originaddress,
+      </if>
+      <if test="company != null">
+        company,
+      </if>
+      <if test="post != null">
+        post,
+      </if>
+      <if test="age != null">
+        age,
+      </if>
+      <if test="industry != null">
+        industry,
+      </if>
+      <if test="commonaccount != null">
+        commonaccount,
+      </if>
+      <if test="starttime != null">
+        starttime,
+      </if>
+      <if test="endtime != null">
+        endtime,
+      </if>
+      <if test="isenable != null">
+        isenable,
+      </if>
+      <if test="userid != null">
+        userid,
+      </if>
+      <if test="addressprovince != null">
+        addressprovince,
+      </if>
+      <if test="addresscity != null">
+        addresscity,
+      </if>
+      <if test="originprovince != null">
+        originprovince,
+      </if>
+      <if test="origincity != null">
+        origincity,
+      </if>
+      <if test="birth != null">
+        birth,
+      </if>
+      <if test="userparentid != null">
+        userparentid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=CHAR},
+      </if>
+      <if test="gender != null">
+        #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="originaddress != null">
+        #{originaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="company != null">
+        #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="post != null">
+        #{post,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null">
+        #{age,jdbcType=INTEGER},
+      </if>
+      <if test="industry != null">
+        #{industry,jdbcType=VARCHAR},
+      </if>
+      <if test="commonaccount != null">
+        #{commonaccount,jdbcType=VARCHAR},
+      </if>
+      <if test="starttime != null">
+        #{starttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endtime != null">
+        #{endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isenable != null">
+        #{isenable,jdbcType=BIT},
+      </if>
+      <if test="userid != null">
+        #{userid,jdbcType=VARCHAR},
+      </if>
+       <if test="addressprovince != null">
+        #{addressprovince,jdbcType=VARCHAR},
+      </if>
+       <if test="addresscity != null">
+        #{addresscity,jdbcType=VARCHAR},
+      </if>
+       <if test="originprovince != null">
+        #{originprovince,jdbcType=VARCHAR},
+      </if>
+      <if test="origincity != null">
+        #{origincity,jdbcType=VARCHAR},
+      </if>
+      <if test="birth != null">
+        #{birth,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userparentid != null">
+        #{userparentid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bayside.app.opinion.war.mynews.model.PersonManage">
+    update bs_personmanage
+    <set>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=CHAR},
+      </if>
+      <if test="gender != null">
+        gender = #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="originaddress != null">
+        originaddress = #{originaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="company != null">
+        company = #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="post != null">
+        post = #{post,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null">
+        age = #{age,jdbcType=INTEGER},
+      </if>
+      <if test="industry != null">
+        industry = #{industry,jdbcType=VARCHAR},
+      </if>
+      <if test="commonaccount != null">
+        commonaccount = #{commonaccount,jdbcType=VARCHAR},
+      </if>
+      <if test="starttime != null">
+        starttime = #{starttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endtime != null">
+        endtime = #{endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isenable != null">
+        isenable = #{isenable,jdbcType=BIT},
+      </if>
+      <if test="userid != null">
+        userid = #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="addressprovince != null">
+        addressprovince = #{addressprovince,jdbcType=VARCHAR},
+      </if>
+      <if test="addresscity != null">
+        addresscity = #{addresscity,jdbcType=VARCHAR},
+      </if>
+      <if test="originprovince != null">
+        originprovince = #{originprovince,jdbcType=VARCHAR},
+      </if>
+      <if test="origincity != null">
+        origincity = #{origincity,jdbcType=VARCHAR},
+      </if>
+       <if test="birth != null">
+        birth = #{birth,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bayside.app.opinion.war.mynews.model.PersonManage">
+    update bs_personmanage
+    set name = #{name,jdbcType=CHAR},
+      gender = #{gender,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      originaddress = #{originaddress,jdbcType=VARCHAR},
+      company = #{company,jdbcType=VARCHAR},
+      post = #{post,jdbcType=VARCHAR},
+      age = #{age,jdbcType=INTEGER},
+      industry = #{industry,jdbcType=VARCHAR},
+      commonaccount = #{commonaccount,jdbcType=VARCHAR},
+      starttime = #{starttime,jdbcType=TIMESTAMP},
+      endtime = #{endtime,jdbcType=TIMESTAMP},
+      isenable = #{isenable,jdbcType=BIT},
+      addressprovince = #{addressprovince,jdbcType=VARCHAR},
+      addresscity = #{addresscity,jdbcType=VARCHAR},
+      originprovince = #{originprovince,jdbcType=VARCHAR},
+      origincity = #{origincity,jdbcType=VARCHAR},
+      birth = #{birth,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateById" parameterType="java.lang.String">
+    update bs_personmanage
+    set code = #{code,jdbcType=VARCHAR},
+      name = #{name,jdbcType=CHAR},
+      gender = #{gender,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      originaddress = #{originaddress,jdbcType=VARCHAR},
+      company = #{company,jdbcType=VARCHAR},
+      post = #{post,jdbcType=VARCHAR},
+      age = #{age,jdbcType=INTEGER},
+      industry = #{industry,jdbcType=VARCHAR},
+      commonaccount = #{commonaccount,jdbcType=VARCHAR},
+      starttime = #{starttime,jdbcType=TIMESTAMP},
+      endtime = #{endtime,jdbcType=TIMESTAMP},
+      isenable = #{isenable,jdbcType=BIT},
+      userid = #{userid,jdbcType=VARCHAR},
+      addressprovince = #{addressprovince,jdbcType=VARCHAR},
+      addresscity = #{addresscity,jdbcType=VARCHAR},
+      originprovince = #{originprovince,jdbcType=VARCHAR},
+      origincity = #{origincity,jdbcType=VARCHAR},
+      birth = #{birth,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPersonId" parameterType="com.bayside.app.opinion.war.mynews.model.PersonManage">
+    update bs_personmanage
+    set isenable = #{isenable,jdbcType=BIT}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="selectpageParent" resultMap="BaseResultMap" parameterType="com.bayside.app.opinion.war.mynews.bo.PersonManageBo">
+    select 
+    <include refid="Base_Column_List" />
+    from bs_personmanage where 
+    
+    	 userid=#{userid,jdbcType=VARCHAR} 
+    
+    <if test="isenable !=null ">
+      and isenable = #{isenable,jdbcType=BIT}
+    </if>
+  </select>
+  
+   <select id="selectpageAll" resultMap="BaseResultMap" parameterType="com.bayside.app.opinion.war.mynews.bo.PersonManageBo">
+    select 
+    <include refid="Base_Column_List" />,CASE WHEN userid=userparentid THEN 1 ELSE 0 END rowid
+    from bs_personmanage where 1=1
+    <if test="userid !=null ">
+    	and userid=#{userid,jdbcType=VARCHAR} 
+    </if>
+    <if test="isenable !=null ">
+      and isenable = #{isenable,jdbcType=BIT}
+    </if>
+    <if test="userparentid !=null">
+    	and userparentid = #{userparentid,jdbcType=VARCHAR}
+    </if>
+    order by rowid desc
+  </select>
+</mapper>

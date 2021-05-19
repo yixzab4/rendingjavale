@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bayside.app.opinion.war.opinionMonitor.dao.FocusCountMapper" >
+  <resultMap id="BaseResultMap" type="com.bayside.app.opinion.war.opinionMonitor.model.FocusCount" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="number" property="number" jdbcType="INTEGER" />
+    <result column="newAdd" property="newadd" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="statisticTime" property="statistictime" jdbcType="TIMESTAMP" />
+    <result column="negative" property="negative" jdbcType="INTEGER" />
+    <result column="positive" property="positive" jdbcType="INTEGER" />
+    <result column="related" property="related" jdbcType="INTEGER" />
+    <result column="neutral" property="neutral" jdbcType="INTEGER" />
+    <result column="warning" property="warning" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, number, newAdd, type, statisticTime, negative, positive, related, neutral, warning
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bs_focuscount
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="getByTime" resultMap="BaseResultMap"  parameterType="java.lang.String">
+  	select 
+    <include refid="Base_Column_List" />
+    from bs_focuscount
+    WHERE statisticTime &gt;= #{time,jdbcType=TIMESTAMP} ORDER BY statisticTime
+  </select>
+  
+  <select id="getPieByTime" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	select 
+    <include refid="Base_Column_List" />
+    from bs_focuscount
+    WHERE statisticTime &gt;= #{0} and type = #{1} ORDER BY statisticTime
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bs_focuscount
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.bayside.app.opinion.war.opinionMonitor.model.FocusCount" >
+    insert into bs_focuscount (id, number, newAdd, 
+      type, statisticTime, negative, 
+      positive, related, neutral, 
+      warning)
+    values (#{id,jdbcType=VARCHAR}, #{number,jdbcType=INTEGER}, #{newadd,jdbcType=INTEGER}, 
+      #{type,jdbcType=VARCHAR}, #{statistictime,jdbcType=TIMESTAMP}, #{negative,jdbcType=INTEGER}, 
+      #{positive,jdbcType=INTEGER}, #{related,jdbcType=INTEGER}, #{neutral,jdbcType=INTEGER}, 
+      #{warning,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bayside.app.opinion.war.opinionMonitor.model.FocusCount" >
+    insert into bs_focuscount
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="number != null" >
+        number,
+      </if>
+      <if test="newadd != null" >
+        newAdd,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="statistictime != null" >
+        statisticTime,
+      </if>
+      <if test="negative != null" >
+        negative,
+      </if>
+      <if test="positive != null" >
+        positive,
+      </if>
+      <if test="related != null" >
+        related,
+      </if>
+      <if test="neutral != null" >
+        neutral,
+      </if>
+      <if test="warning != null" >
+        warning,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="number != null" >
+        #{number,jdbcType=INTEGER},
+      </if>
+      <if test="newadd != null" >
+        #{newadd,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="statistictime != null" >
+        #{statistictime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="negative != null" >
+        #{negative,jdbcType=INTEGER},
+      </if>
+      <if test="positive != null" >
+        #{positive,jdbcType=INTEGER},
+      </if>
+      <if test="related != null" >
+        #{related,jdbcType=INTEGER},
+      </if>
+      <if test="neutral != null" >
+        #{neutral,jdbcType=INTEGER},
+      </if>
+      <if test="warning != null" >
+        #{warning,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bayside.app.opinion.war.opinionMonitor.model.FocusCount" >
+    update bs_focuscount
+    <set >
+      <if test="number != null" >
+        number = #{number,jdbcType=INTEGER},
+      </if>
+      <if test="newadd != null" >
+        newAdd = #{newadd,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="statistictime != null" >
+        statisticTime = #{statistictime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="negative != null" >
+        negative = #{negative,jdbcType=INTEGER},
+      </if>
+      <if test="positive != null" >
+        positive = #{positive,jdbcType=INTEGER},
+      </if>
+      <if test="related != null" >
+        related = #{related,jdbcType=INTEGER},
+      </if>
+      <if test="neutral != null" >
+        neutral = #{neutral,jdbcType=INTEGER},
+      </if>
+      <if test="warning != null" >
+        warning = #{warning,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bayside.app.opinion.war.opinionMonitor.model.FocusCount" >
+    update bs_focuscount
+    set number = #{number,jdbcType=INTEGER},
+      newAdd = #{newadd,jdbcType=INTEGER},
+      type = #{type,jdbcType=VARCHAR},
+      statisticTime = #{statistictime,jdbcType=TIMESTAMP},
+      negative = #{negative,jdbcType=INTEGER},
+      positive = #{positive,jdbcType=INTEGER},
+      related = #{related,jdbcType=INTEGER},
+      neutral = #{neutral,jdbcType=INTEGER},
+      warning = #{warning,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

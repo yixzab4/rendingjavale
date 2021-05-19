@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bayside.app.opinion.war.infopush.dao.InforpushMapper">
+  <resultMap id="BaseResultMap" type="com.bayside.app.opinion.war.infopush.model.Inforpush">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="userid" jdbcType="VARCHAR" property="userid" />
+    <result column="cid" jdbcType="VARCHAR" property="cid" />
+    <result column="logtime" jdbcType="DATE" property="logtime" />
+    <result column="push" jdbcType="BIT" property="push" />
+    <result column="is_vibrate" jdbcType="BIT" property="isVibrate" />
+    <result column="is_ring" jdbcType="BIT" property="isRing" />
+    <result column="start_time" jdbcType="VARCHAR" property="startTime" />
+    <result column="end_time" jdbcType="VARCHAR" property="endTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, userid, cid, logtime, push, is_vibrate, is_ring, start_time, end_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from bs_inforpush
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from bs_inforpush
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.bayside.app.opinion.war.infopush.model.Inforpush">
+    insert into bs_inforpush (ID, userid, cid, 
+      logtime, push, is_vibrate, is_ring, 
+      start_time, end_time)
+    values (#{id,jdbcType=VARCHAR}, #{userid,jdbcType=VARCHAR}, #{cid,jdbcType=VARCHAR}, 
+      #{logtime,jdbcType=DATE}, #{push,jdbcType=BIT}, #{isVibrate,jdbcType=BIT}, #{isRing,jdbcType=BIT}, 
+      #{startTime,jdbcType=VARCHAR}, #{endTime,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bayside.app.opinion.war.infopush.model.Inforpush">
+    insert into bs_inforpush
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="userid != null">
+        userid,
+      </if>
+      <if test="cid != null">
+        cid,
+      </if>
+      <if test="logtime != null">
+        logtime,
+      </if>
+      <if test="push != null">
+        push,
+      </if>
+      <if test="isVibrate != null">
+        is_vibrate,
+      </if>
+      <if test="isRing != null">
+        is_ring,
+      </if>
+      <if test="startTime != null">
+        start_time,
+      </if>
+      <if test="endTime != null">
+        end_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null">
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="cid != null">
+        #{cid,jdbcType=VARCHAR},
+      </if>
+      <if test="logtime != null">
+        #{logtime,jdbcType=DATE},
+      </if>
+      <if test="push != null">
+        #{push,jdbcType=BIT},
+      </if>
+      <if test="isVibrate != null">
+        #{isVibrate,jdbcType=BIT},
+      </if>
+      <if test="isRing != null">
+        #{isRing,jdbcType=BIT},
+      </if>
+      <if test="startTime != null">
+        #{startTime,jdbcType=VARCHAR},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bayside.app.opinion.war.infopush.model.Inforpush">
+    update bs_inforpush
+    <set>
+      <if test="userid != null">
+        userid = #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="cid != null">
+        cid = #{cid,jdbcType=VARCHAR},
+      </if>
+      <if test="logtime != null">
+        logtime = #{logtime,jdbcType=DATE},
+      </if>
+      <if test="push != null">
+        push = #{push,jdbcType=BIT},
+      </if>
+      <if test="isVibrate != null">
+        is_vibrate = #{isVibrate,jdbcType=BIT},
+      </if>
+      <if test="isRing != null">
+        is_ring = #{isRing,jdbcType=BIT},
+      </if>
+      <if test="startTime != null">
+        start_time = #{startTime,jdbcType=VARCHAR},
+      </if>
+      <if test="endTime != null">
+        end_time = #{endTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bayside.app.opinion.war.infopush.model.Inforpush">
+    update bs_inforpush
+    set userid = #{userid,jdbcType=VARCHAR},
+      cid = #{cid,jdbcType=VARCHAR},
+      logtime = #{logtime,jdbcType=DATE},
+      push = #{push,jdbcType=BIT},
+      is_vibrate = #{isVibrate,jdbcType=BIT},
+      is_ring = #{isRing,jdbcType=BIT},
+      start_time = #{startTime,jdbcType=VARCHAR},
+      end_time = #{endTime,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="selectPush" parameterType="com.bayside.app.opinion.war.infopush.model.Inforpush" resultMap="BaseResultMap">
+    select * from bs_Inforpush  where 1=1
+    <if test="userid!=null and userid!=''">
+       and  userid=#{userid,jdbcType=VARCHAR}
+    </if>
+   <if test="cid!=null and cid!=''">
+       and  cid=#{cid,jdbcType=VARCHAR}
+    </if>
+  </select>
+  
+  <select id="selectUserid" parameterType="com.bayside.app.opinion.war.infopush.model.Inforpush" resultMap="BaseResultMap">
+    select * from bs_Inforpush where 1=1
+    <if test="userid!=null and userid!=''">
+       and  userid=#{userid,jdbcType=VARCHAR}
+    </if>
+   <if test="cid!=null and cid!=''">
+       and  cid=#{cid,jdbcType=VARCHAR}
+    </if>
+  </select>
+  
+  <select id="seCidByuid" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+     <include refid="Base_Column_List" />
+     from bs_Inforpush where userid=#{userid,jdbcType=VARCHAR}
+      AND start_time  &lt;=DATE_FORMAT(NOW(),'%H:%i') AND end_time &gt;= DATE_FORMAT(NOW(),'%H:%i')
+      AND push = 1
+  </select>
+  
+  <update id="setUpdateUserid" parameterType="com.bayside.app.opinion.war.infopush.model.Inforpush">
+    UPDATE bs_Inforpush set userid=#{userid,jdbcType=VARCHAR} where cid = #{cid,jdbcType=VARCHAR}
+  </update>
+  
+ 
+</mapper>

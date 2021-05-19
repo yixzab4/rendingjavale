@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bayside.app.opinion.war.knowledge.dao.RelevantMapper">
+	<resultMap id="BaseResultMap"
+		type="com.bayside.app.opinion.war.knowledge.model.Relevant">
+		<id column="ID" property="id" jdbcType="VARCHAR" />
+		<result column="userid" property="userid" jdbcType="VARCHAR" />
+		<result column="containall" property="containall" jdbcType="VARCHAR" />
+		<result column="containanyone" property="containanyone"
+			jdbcType="VARCHAR" />
+		<result column="notcontainall" property="notcontainall"
+			jdbcType="VARCHAR" />
+		<result column="notcontainanyone" property="notcontainanyone"
+			jdbcType="VARCHAR" />
+		<result column="dictrule" property="dictrule" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="isdelete" jdbcType="BIT" property="isdelete" />
+		<result column="type" property="type" jdbcType="VARCHAR" />
+		<result column="wordin" property="wordin" jdbcType="VARCHAR" />
+		<result column="userparentid" property="userparentid" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, userid, containall, containanyone, notcontainall, notcontainanyone,
+		dictrule,name,type, wordin,userparentid
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from bs_relevant
+		where ID = #{id,jdbcType=VARCHAR}
+	</select>
+	<select id="selectByRevelatByUserid" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from bs_relevant
+		where userid = #{userid,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from bs_relevant
+		where ID = #{id,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert"
+		parameterType="com.bayside.app.opinion.war.knowledge.model.Relevant">
+		insert into bs_relevant (ID, userid, containall,
+		containanyone, notcontainall, notcontainanyone,
+		dictrule, name, type, wordin)
+		values (#{id,jdbcType=VARCHAR}, #{userid,jdbcType=VARCHAR},
+		#{containall,jdbcType=VARCHAR},
+		#{containanyone,jdbcType=VARCHAR}, #{notcontainall,jdbcType=VARCHAR},
+		#{notcontainanyone,jdbcType=VARCHAR},
+		#{dictrule,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+		#{type,jdbcType=VARCHAR}, #{wordin,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.bayside.app.opinion.war.knowledge.model.Relevant">
+		insert into bs_relevant
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="userid != null">
+				userid,
+			</if>
+			<if test="containall != null">
+				containall,
+			</if>
+			<if test="containanyone != null">
+				containanyone,
+			</if>
+			<if test="notcontainall != null">
+				notcontainall,
+			</if>
+			<if test="notcontainanyone != null">
+				notcontainanyone,
+			</if>
+			<if test="dictrule != null">
+				dictrule,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			
+			<if test="type != null">
+				type,
+			</if>
+			<if test="wordin != null">
+				wordin,
+			</if>
+			<if test="userparentid != null">
+				userparentid,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="userid != null">
+				#{userid,jdbcType=VARCHAR},
+			</if>
+			<if test="containall != null">
+				#{containall,jdbcType=VARCHAR},
+			</if>
+			<if test="containanyone != null">
+				#{containanyone,jdbcType=VARCHAR},
+			</if>
+			<if test="notcontainall != null">
+				#{notcontainall,jdbcType=VARCHAR},
+			</if>
+			<if test="notcontainanyone != null">
+				#{notcontainanyone,jdbcType=VARCHAR},
+			</if>
+			<if test="dictrule != null">
+				#{dictrule,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			
+			<if test="type != null">
+				#{type,jdbcType=VARCHAR},
+			</if>
+			<if test="wordin != null">
+				#{wordin,jdbcType=VARCHAR},
+			</if>
+			<if test="userparentid != null">
+				#{userparentid,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.bayside.app.opinion.war.knowledge.model.Relevant">
+		update bs_relevant
+		<set>
+			<if test="userid != null">
+				userid = #{userid,jdbcType=VARCHAR},
+			</if>
+			<if test="containall != null">
+				containall = #{containall,jdbcType=VARCHAR},
+			</if>
+			<if test="containanyone != null">
+				containanyone = #{containanyone,jdbcType=VARCHAR},
+			</if>
+			<if test="notcontainall != null">
+				notcontainall = #{notcontainall,jdbcType=VARCHAR},
+			</if>
+			<if test="notcontainanyone != null">
+				notcontainanyone = #{notcontainanyone,jdbcType=VARCHAR},
+			</if>
+			<if test="dictrule != null">
+				dictrule = #{dictrule,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				type = #{type,jdbcType=VARCHAR},
+			</if>
+			<if test="wordin != null">
+				wordin = #{wordin,jdbcType=VARCHAR},
+			</if>
+			<if test="isdelete != null">
+				isdelete = #{isdelete,jdbcType=BIT},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.bayside.app.opinion.war.knowledge.model.Relevant">
+		update bs_relevant
+		set userid = #{userid,jdbcType=VARCHAR},
+		containall = #{containall,jdbcType=VARCHAR},
+		containanyone = #{containanyone,jdbcType=VARCHAR},
+		notcontainall = #{notcontainall,jdbcType=VARCHAR},
+		notcontainanyone = #{notcontainanyone,jdbcType=VARCHAR},
+		dictrule = #{dictrule,jdbcType=VARCHAR},
+		name = #{name,jdbcType=VARCHAR},
+		
+		type = #{type,jdbcType=VARCHAR},
+		wordin = #{wordin,jdbcType=VARCHAR}
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+	<select id="selectBySelective" resultMap="BaseResultMap" parameterType="com.bayside.app.opinion.war.knowledge.model.Relevant">
+			select
+			<include refid="Base_Column_List" />,CASE WHEN userid=userparentid THEN 1 ELSE 0 END rowid
+			from bs_relevant
+				where isdelete = 0
+				<if test="id !=null">
+					and ID = #{id,jdbcType=VARCHAR}
+				</if>
+				<if test="containall != null">
+					and containall = #{containall,jdbcType=VARCHAR}
+				</if>
+				<if test="containanyone != null">
+					and containanyone = #{containanyone,jdbcType=VARCHAR}
+				</if>
+				<if test="notcontainall != null">
+					and notcontainall = #{notcontainall,jdbcType=VARCHAR}
+				</if>
+				<if test="notcontainanyone != null">
+					and notcontainanyone = #{notcontainanyone,jdbcType=VARCHAR}
+				</if>
+				<if test="dictrule != null">
+					and dictrule = #{dictrule,jdbcType=VARCHAR}
+				</if>
+				<if test="name != null">
+					and name = #{name,jdbcType=VARCHAR}
+				</if>
+				<if test="type != null">
+					and type = #{type,jdbcType=VARCHAR}
+				</if>
+				<if test="wordin != null">
+					and wordin = #{wordin,jdbcType=VARCHAR}
+				</if>
+				<if test="userparentid != null">
+					and userparentid = #{userparentid}
+				</if>
+				<if test="userid!=null">
+					and userid = #{userid}
+				</if>
+				order by rowid desc
+	</select>
+</mapper>

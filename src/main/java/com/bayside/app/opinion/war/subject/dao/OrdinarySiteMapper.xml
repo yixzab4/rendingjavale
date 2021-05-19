@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bayside.app.opinion.war.subject.dao.OrdinarySiteMapper" >
+  <resultMap id="BaseResultMap" type="com.bayside.app.opinion.war.subject.model.OrdinarySite" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="count" property="count" jdbcType="INTEGER" />
+    <result column="next_time" property="nextTime" jdbcType="TIMESTAMP" />
+    <result column="weight" property="weight" jdbcType="DOUBLE" />
+    <result column="fathersiteId" property="fathersiteid" jdbcType="VARCHAR" />
+    <result column="deep" property="deep" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="frequency" property="frequency" jdbcType="DOUBLE" />
+    <result column="province" property="province" jdbcType="VARCHAR" />
+    <result column="domain" property="domain" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, url, name, update_time, count, next_time, weight, fathersiteId, deep, type, 
+    frequency, province,domain
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bs_ordinarysite
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bs_ordinarysite
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bayside.app.opinion.war.subject.model.OrdinarySite" >
+    insert into bs_ordinarysite (id, url, name, 
+      update_time, count, next_time, 
+      weight, fathersiteId, deep, 
+      type, frequency, province
+      )
+    values (#{id,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{count,jdbcType=INTEGER}, #{nextTime,jdbcType=TIMESTAMP}, 
+      #{weight,jdbcType=DOUBLE}, #{fathersiteid,jdbcType=VARCHAR}, #{deep,jdbcType=INTEGER}, 
+      #{type,jdbcType=VARCHAR}, #{frequency,jdbcType=DOUBLE}, #{province,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bayside.app.opinion.war.subject.model.OrdinarySite" >
+    insert into bs_ordinarysite
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="url != null" >
+        url,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="count != null" >
+        count,
+      </if>
+      <if test="nextTime != null" >
+        next_time,
+      </if>
+      <if test="weight != null" >
+        weight,
+      </if>
+      <if test="fathersiteid != null" >
+        fathersiteId,
+      </if>
+      <if test="deep != null" >
+        deep,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="frequency != null" >
+        frequency,
+      </if>
+      <if test="domain != null" >
+        domain,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="count != null" >
+        #{count,jdbcType=INTEGER},
+      </if>
+      <if test="nextTime != null" >
+        #{nextTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="weight != null" >
+        #{weight,jdbcType=DOUBLE},
+      </if>
+      <if test="fathersiteid != null" >
+        #{fathersiteid,jdbcType=VARCHAR},
+      </if>
+      <if test="deep != null" >
+        #{deep,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="frequency != null" >
+        #{frequency,jdbcType=DOUBLE},
+      </if>
+      <if test="province != null" >
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="domain != null" >
+        #{domain,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bayside.app.opinion.war.subject.model.OrdinarySite" >
+    update bs_ordinarysite
+    <set >
+      <if test="url != null" >
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="count != null" >
+        count = #{count,jdbcType=INTEGER},
+      </if>
+      <if test="nextTime != null" >
+        next_time = #{nextTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="weight != null" >
+        weight = #{weight,jdbcType=DOUBLE},
+      </if>
+      <if test="fathersiteid != null" >
+        fathersiteId = #{fathersiteid,jdbcType=VARCHAR},
+      </if>
+      <if test="deep != null" >
+        deep = #{deep,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="frequency != null" >
+        frequency = #{frequency,jdbcType=DOUBLE},
+      </if>
+      <if test="province != null" >
+        province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="domain != null" >
+        province = #{domain,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bayside.app.opinion.war.subject.model.OrdinarySite" >
+    update bs_ordinarysite
+    set url = #{url,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      count = #{count,jdbcType=INTEGER},
+      next_time = #{nextTime,jdbcType=TIMESTAMP},
+      weight = #{weight,jdbcType=DOUBLE},
+      fathersiteId = #{fathersiteid,jdbcType=VARCHAR},
+      deep = #{deep,jdbcType=INTEGER},
+      type = #{type,jdbcType=VARCHAR},
+      frequency = #{frequency,jdbcType=DOUBLE},
+      province = #{province,jdbcType=VARCHAR}，
+      province = #{domain,jdbcType=VARCHAR}，
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="getMediaInfluence" parameterType="com.bayside.app.opinion.war.subject.bo.SubjectParamBo" resultMap="BaseResultMap">
+	  	SELECT  distinct o.name name,o.weight FROM (
+	  	SELECT data_source,COUNT(data_source)num FROM bs_subject_m_article
+		WHERE
+	      subjectid=#{subjectid}
+		and DATE(pubdate) &gt;=#{startTime}
+		AND DATE(pubdate) &lt;=#{endTime}
+		GROUP BY data_source
+		ORDER BY num DESC
+		LIMIT 5
+	)t
+	INNER JOIN 
+	bs_ordinarysite o
+	ON t.data_source = o.name
+	ORDER BY o.weight
+  </select>
+  <select id="selectBydomain" parameterType="java.lang.String" resultType="java.lang.Long">
+  	select count(1) num from bs_ordinarysite where domain = #{domian}
+  </select>
+</mapper>

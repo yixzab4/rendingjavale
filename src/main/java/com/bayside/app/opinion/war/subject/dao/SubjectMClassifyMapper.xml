@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bayside.app.opinion.war.subject.dao.SubjectMClassifyMapper">
+  <resultMap id="BaseResultMap" type="com.bayside.app.opinion.war.subject.model.SubjectMClassify">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="classifyid" jdbcType="VARCHAR" property="classifyid" />
+    <result column="classifyname" jdbcType="VARCHAR" property="classifyname" />
+    <result column="subjectid" jdbcType="VARCHAR" property="subjectid" />
+    <result column="subjectname" jdbcType="CHAR" property="subjectname" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, classifyid, classifyname, subjectid, subjectname
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from bs_subject_m_classify
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from bs_subject_m_classify
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.bayside.app.opinion.war.subject.model.SubjectMClassify">
+    insert into bs_subject_m_classify (id, classifyid, classifyname, 
+      subjectid, subjectname)
+    values (#{id,jdbcType=VARCHAR}, #{classifyid,jdbcType=VARCHAR}, #{classifyname,jdbcType=VARCHAR}, 
+      #{subjectid,jdbcType=VARCHAR}, #{subjectname,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bayside.app.opinion.war.subject.model.SubjectMClassify">
+    insert into bs_subject_m_classify
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="classifyid != null">
+        classifyid,
+      </if>
+      <if test="classifyname != null">
+        classifyname,
+      </if>
+      <if test="subjectid != null">
+        subjectid,
+      </if>
+      <if test="subjectname != null">
+        subjectname,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="classifyid != null">
+        #{classifyid,jdbcType=VARCHAR},
+      </if>
+      <if test="classifyname != null">
+        #{classifyname,jdbcType=VARCHAR},
+      </if>
+      <if test="subjectid != null">
+        #{subjectid,jdbcType=VARCHAR},
+      </if>
+      <if test="subjectname != null">
+        #{subjectname,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bayside.app.opinion.war.subject.model.SubjectMClassify">
+    update bs_subject_m_classify
+    <set>
+      <if test="classifyid != null">
+        classifyid = #{classifyid,jdbcType=VARCHAR},
+      </if>
+      <if test="classifyname != null">
+        classifyname = #{classifyname,jdbcType=VARCHAR},
+      </if>
+      <if test="subjectid != null">
+        subjectid = #{subjectid,jdbcType=VARCHAR},
+      </if>
+      <if test="subjectname != null">
+        subjectname = #{subjectname,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bayside.app.opinion.war.subject.model.SubjectMClassify">
+    update bs_subject_m_classify
+    set classifyid = #{classifyid,jdbcType=VARCHAR},
+      classifyname = #{classifyname,jdbcType=VARCHAR},
+      subjectid = #{subjectid,jdbcType=VARCHAR},
+      subjectname = #{subjectname,jdbcType=CHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="selectAllSMC" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from bs_subject_m_classify
+  </select>
+  <select id="selectSubjectById" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from bs_subject_m_classify
+    where subjectid = #{subjectid,jdbcType=VARCHAR}
+  </select>
+   <select id="selectBySMCId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from bs_subject_m_classify
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteBySubId" parameterType="java.lang.String">
+    delete from bs_subject_m_classify
+    where subjectid = #{subjectid,jdbcType=VARCHAR}
+  </delete>
+  <update id="updateBySubjectId" parameterType="com.bayside.app.opinion.war.subject.model.SubjectMClassify">
+    update bs_subject_m_classify
+    <set>
+      <if test="classifyid != null">
+        classifyid = #{classifyid,jdbcType=VARCHAR},
+      </if>
+      <if test="classifyname != null">
+        classifyname = #{classifyname,jdbcType=VARCHAR},
+      </if>
+      <if test="subjectname != null">
+        subjectname = #{subjectname,jdbcType=CHAR},
+      </if>
+    </set>
+     where subjectid = #{subjectid,jdbcType=VARCHAR}
+  </update>
+   <select id="selectSubjectByClassify" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from bs_subject_m_classify
+    where classifyid = #{classifyid,jdbcType=VARCHAR}
+  </select>
+</mapper>

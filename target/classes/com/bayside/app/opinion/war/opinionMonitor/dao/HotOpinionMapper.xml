@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bayside.app.opinion.war.opinionMonitor.dao.HotOpinionMapper" >
+  <resultMap id="BaseResultMap" type="com.bayside.app.opinion.war.opinionMonitor.model.HotOpinion" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="pageId" property="pageid" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="fromsite" property="fromsite" jdbcType="VARCHAR" />
+    <result column="opinionindex" property="opinionindex" jdbcType="VARCHAR" />
+    <result column="sendtime" property="sendtime" jdbcType="TIMESTAMP" />
+    <result column="url" property="url" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, pageId, title, fromsite, opinionindex, sendtime,url
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bs_hotopinion
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="getDayHot" resultMap="BaseResultMap"  parameterType="java.lang.String">
+  	select 
+    <include refid="Base_Column_List" />
+    from bs_hotopinion
+    WHERE sendtime &gt;= #{time,jdbcType=TIMESTAMP} ORDER BY sendtime LIMIT 10
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bs_hotopinion
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.bayside.app.opinion.war.opinionMonitor.model.HotOpinion" >
+    insert into bs_hotopinion (ID, pageId, title, 
+      fromsite, opinionindex, sendtime, 
+      url)
+    values (#{id,jdbcType=VARCHAR}, #{pageid,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
+      #{fromsite,jdbcType=VARCHAR}, #{opinionindex,jdbcType=VARCHAR}, #{sendtime,jdbcType=TIMESTAMP}, 
+      #{url,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bayside.app.opinion.war.opinionMonitor.model.HotOpinion" >
+    insert into bs_hotopinion
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="pageid != null" >
+        pageId,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="fromsite != null" >
+        fromsite,
+      </if>
+      <if test="opinionindex != null" >
+        opinionindex,
+      </if>
+      <if test="sendtime != null" >
+        sendtime,
+      </if>
+      <if test="url != null" >
+        url,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="pageid != null" >
+        #{pageid,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="fromsite != null" >
+        #{fromsite,jdbcType=VARCHAR},
+      </if>
+      <if test="opinionindex != null" >
+        #{opinionindex,jdbcType=VARCHAR},
+      </if>
+      <if test="sendtime != null" >
+        #{sendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bayside.app.opinion.war.opinionMonitor.model.HotOpinion" >
+    update bs_hotopinion
+    <set >
+      <if test="pageid != null" >
+        pageId = #{pageid,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="fromsite != null" >
+        fromsite = #{fromsite,jdbcType=VARCHAR},
+      </if>
+      <if test="opinionindex != null" >
+        opinionindex = #{opinionindex,jdbcType=VARCHAR},
+      </if>
+      <if test="sendtime != null" >
+        sendtime = #{sendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="url != null" >
+        url = #{url,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.bayside.app.opinion.war.opinionMonitor.model.HotOpinion" >
+    update bs_hotopinion
+    set pageId = #{pageid,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      fromsite = #{fromsite,jdbcType=VARCHAR},
+      opinionindex = #{opinionindex,jdbcType=VARCHAR},
+      sendtime = #{sendtime,jdbcType=TIMESTAMP},
+      url = #{url,jdbcType=LONGVARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bayside.app.opinion.war.opinionMonitor.model.HotOpinion" >
+    update bs_hotopinion
+    set pageId = #{pageid,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      fromsite = #{fromsite,jdbcType=VARCHAR},
+      opinionindex = #{opinionindex,jdbcType=VARCHAR},
+      sendtime = #{sendtime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bayside.app.opinion.war.opinionMonitor.dao.ZfwbMapper" >
+  <resultMap id="BaseResultMap" type="com.bayside.app.opinion.war.opinionMonitor.model.Zfwb" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="o_id" property="oId" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="created_at" property="createdAt" jdbcType="VARCHAR" />
+    <result column="screen_name" property="screenName" jdbcType="VARCHAR" />
+    <result column="profile_image_url" property="profileImageUrl" jdbcType="VARCHAR" />
+    <result column="profile_url" property="profileUrl" jdbcType="VARCHAR" />
+    <result column="text" property="text" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.bayside.app.opinion.war.opinionMonitor.model.Zfwb" extends="BaseResultMap" >
+    <result column="text" property="text" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, o_id, url, created_at, screen_name, profile_image_url, profile_url, text
+  </sql>
+ 
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bs_zfwb
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectByArticleid" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    id, o_id, url, created_at, screen_name
+    from bs_zfwb
+    where o_id = #{oId,jdbcType=VARCHAR}
+  </select>
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bs_zfwb
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.bayside.app.opinion.war.opinionMonitor.model.Zfwb" >
+    insert into bs_zfwb (id, o_id, url, 
+      created_at, screen_name, profile_image_url, 
+      profile_url, text)
+    values (#{id,jdbcType=VARCHAR}, #{oId,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
+      #{createdAt,jdbcType=VARCHAR}, #{screenName,jdbcType=VARCHAR}, #{profileImageUrl,jdbcType=VARCHAR}, 
+      #{profileUrl,jdbcType=VARCHAR}, #{text,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bayside.app.opinion.war.opinionMonitor.model.Zfwb" >
+    insert into bs_zfwb
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="oId != null" >
+        o_id,
+      </if>
+      <if test="url != null" >
+        url,
+      </if>
+      <if test="createdAt != null" >
+        created_at,
+      </if>
+      <if test="screenName != null" >
+        screen_name,
+      </if>
+      <if test="profileImageUrl != null" >
+        profile_image_url,
+      </if>
+      <if test="profileUrl != null" >
+        profile_url,
+      </if>
+      <if test="text != null" >
+        text,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="oId != null" >
+        #{oId,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null" >
+        #{createdAt,jdbcType=VARCHAR},
+      </if>
+      <if test="screenName != null" >
+        #{screenName,jdbcType=VARCHAR},
+      </if>
+      <if test="profileImageUrl != null" >
+        #{profileImageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="profileUrl != null" >
+        #{profileUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="text != null" >
+        #{text,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bayside.app.opinion.war.opinionMonitor.model.Zfwb" >
+    update bs_zfwb
+    <set >
+      <if test="oId != null" >
+        o_id = #{oId,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null" >
+        created_at = #{createdAt,jdbcType=VARCHAR},
+      </if>
+      <if test="screenName != null" >
+        screen_name = #{screenName,jdbcType=VARCHAR},
+      </if>
+      <if test="profileImageUrl != null" >
+        profile_image_url = #{profileImageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="profileUrl != null" >
+        profile_url = #{profileUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="text != null" >
+        text = #{text,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.bayside.app.opinion.war.opinionMonitor.model.Zfwb" >
+    update bs_zfwb
+    set o_id = #{oId,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      created_at = #{createdAt,jdbcType=VARCHAR},
+      screen_name = #{screenName,jdbcType=VARCHAR},
+      profile_image_url = #{profileImageUrl,jdbcType=VARCHAR},
+      profile_url = #{profileUrl,jdbcType=VARCHAR},
+      text = #{text,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bayside.app.opinion.war.opinionMonitor.model.Zfwb" >
+    update bs_zfwb
+    set o_id = #{oId,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      created_at = #{createdAt,jdbcType=VARCHAR},
+      screen_name = #{screenName,jdbcType=VARCHAR},
+      profile_image_url = #{profileImageUrl,jdbcType=VARCHAR},
+      profile_url = #{profileUrl,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+        http://www.springframework.org/schema/aop 
+        http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-4.2.xsd
+        http://www.springframework.org/schema/mvc 
+        http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
+        http://www.springframework.org/schema/tx 
+        http://www.springframework.org/schema/tx/spring-tx-4.2.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-4.0.xsd"
+        >
+	<context:component-scan base-package="com.bayside" />
+	<context:property-placeholder location="classpath:mybatis.properties"/>
+	<mvc:annotation-driven />
+	<!-- 配置数据源 -->
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName">
+			<value>${jdbc.driver}</value>
+			
+		</property>
+		<property name="url">
+			<value>${jdbc.url}
+			</value>
+			<!--springmybaitis是我的数据库 -->
+		</property>
+		<property name="username">
+			<value>${jdbc.username}</value>
+		</property>
+		<property name="password">
+			<value>${jdbc.password}</value>
+		</property>
+	</bean>
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="classpath:mybatis-config.xml"></property>
+	</bean>
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+   <!-- 上传文件 -->  
+	 <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">  
+	    <property name="defaultEncoding" value="utf-8"/> 
+	<!--  //   最大内存大小   -->
+	   <!--  <property name="maxInMemorySize" value="10240"/>  -->
+	<!--     最大文件大小，-1为不限制大小   -->
+	    <property name="maxUploadSize" value="-1"/>  
+	</bean>   
+  
+	<!--配置拦截器, 多个拦截器,顺序执行 -->
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<!-- 匹配的是url路径， 如果不配置或/**,将拦截所有的Controller -->
+			<mvc:mapping path="/**" />
+			<mvc:mapping path="/user/**" />
+			<mvc:mapping path="/test/**" />
+			<bean class="com.bayside.util.CommonInterceptor"></bean>
+		</mvc:interceptor>
+		<!-- 当设置多个拦截器时，先按顺序调用preHandle方法，然后逆序调用每个拦截器的postHandle和afterCompletion方法 -->
+	</mvc:interceptors>
+	
+	<mvc:annotation-driven>  
+        <mvc:message-converters>  
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter" >
+            	<constructor-arg value="UTF-8" />
+            </bean>  
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" />  
+        </mvc:message-converters>  
+        
+	</mvc:annotation-driven>
+</beans>

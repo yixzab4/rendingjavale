@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bayside.app.opinion.war.opinionMonitor.dao.DayCountMapper" >
+  <resultMap id="BaseResultMap" type="com.bayside.app.opinion.war.opinionMonitor.model.DayCount" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="totalarticle" property="totalarticle" jdbcType="INTEGER" />
+    <result column="totalUrl" property="totalurl" jdbcType="INTEGER" />
+    <result column="opinions" property="opinions" jdbcType="INTEGER" />
+    <result column="negative" property="negative" jdbcType="INTEGER" />
+    <result column="positive" property="positive" jdbcType="INTEGER" />
+    <result column="neutral" property="neutral" jdbcType="INTEGER" />
+    <result column="related" property="related" jdbcType="INTEGER" />
+    <result column="articleNum" property="articlenum" jdbcType="INTEGER" />
+    <result column="newNum" property="newnum" jdbcType="INTEGER" />
+    <result column="weiboNum" property="weibonum" jdbcType="INTEGER" />
+    <result column="weixinNum" property="weixinnum" jdbcType="INTEGER" />
+    <result column="tiebaNum" property="tiebanum" jdbcType="INTEGER" />
+    <result column="gettime" property="gettime" jdbcType="TIMESTAMP" />
+    <result column="warning" property="warning" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, totalarticle, totalUrl, opinions, negative, positive, neutral, related, articleNum, 
+    newNum, weiboNum, weixinNum, tiebaNum, gettime, warning
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bs_daycount
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bs_daycount
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  
+  <select id="getsumByTime" resultMap="BaseResultMap"  parameterType="java.lang.String">
+  	select sum(totalarticle) as totalarticle,sum(totalUrl) as totalUrl,sum(opinions) as opinions,sum(negative) as negative,
+  	sum(positive) as positive,sum(neutral) as neutral,sum(related) as related,sum(articleNum) as articleNum,sum(newNum) as newNum,
+  	sum(weiboNum) as weiboNum,sum(weixinNum) as weixinNum,sum(tiebaNum) as tiebaNum  
+    from bs_daycount
+     WHERE gettime &gt;= #{time,jdbcType=TIMESTAMP} ORDER BY gettime
+  </select>
+  
+  <select id="getEmotionSum" resultMap="BaseResultMap">
+  	select sum(opinions) as opinions,sum(negative) as negative,
+  	sum(positive) as positive,sum(related) as related,sum(warning) as warning
+    from bs_daycount
+  </select>
+  
+  <insert id="insert" parameterType="com.bayside.app.opinion.war.opinionMonitor.model.DayCount" >
+    insert into bs_daycount (ID, totalarticle, totalUrl, 
+      opinions, negative, positive, 
+      neutral, related, articleNum, 
+      newNum, weiboNum, weixinNum, 
+      tiebaNum, gettime, warning
+      )
+    values (#{id,jdbcType=VARCHAR}, #{totalarticle,jdbcType=INTEGER}, #{totalurl,jdbcType=INTEGER}, 
+      #{opinions,jdbcType=INTEGER}, #{negative,jdbcType=INTEGER}, #{positive,jdbcType=INTEGER}, 
+      #{neutral,jdbcType=INTEGER}, #{related,jdbcType=INTEGER}, #{articlenum,jdbcType=INTEGER}, 
+      #{newnum,jdbcType=INTEGER}, #{weibonum,jdbcType=INTEGER}, #{weixinnum,jdbcType=INTEGER}, 
+      #{tiebanum,jdbcType=INTEGER}, #{gettime,jdbcType=TIMESTAMP}, #{warning,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bayside.app.opinion.war.opinionMonitor.model.DayCount" >
+    insert into bs_daycount
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="totalarticle != null" >
+        totalarticle,
+      </if>
+      <if test="totalurl != null" >
+        totalUrl,
+      </if>
+      <if test="opinions != null" >
+        opinions,
+      </if>
+      <if test="negative != null" >
+        negative,
+      </if>
+      <if test="positive != null" >
+        positive,
+      </if>
+      <if test="neutral != null" >
+        neutral,
+      </if>
+      <if test="related != null" >
+        related,
+      </if>
+      <if test="articlenum != null" >
+        articleNum,
+      </if>
+      <if test="newnum != null" >
+        newNum,
+      </if>
+      <if test="weibonum != null" >
+        weiboNum,
+      </if>
+      <if test="weixinnum != null" >
+        weixinNum,
+      </if>
+      <if test="tiebanum != null" >
+        tiebaNum,
+      </if>
+      <if test="gettime != null" >
+        gettime,
+      </if>
+      <if test="warning != null" >
+        warning,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="totalarticle != null" >
+        #{totalarticle,jdbcType=INTEGER},
+      </if>
+      <if test="totalurl != null" >
+        #{totalurl,jdbcType=INTEGER},
+      </if>
+      <if test="opinions != null" >
+        #{opinions,jdbcType=INTEGER},
+      </if>
+      <if test="negative != null" >
+        #{negative,jdbcType=INTEGER},
+      </if>
+      <if test="positive != null" >
+        #{positive,jdbcType=INTEGER},
+      </if>
+      <if test="neutral != null" >
+        #{neutral,jdbcType=INTEGER},
+      </if>
+      <if test="related != null" >
+        #{related,jdbcType=INTEGER},
+      </if>
+      <if test="articlenum != null" >
+        #{articlenum,jdbcType=INTEGER},
+      </if>
+      <if test="newnum != null" >
+        #{newnum,jdbcType=INTEGER},
+      </if>
+      <if test="weibonum != null" >
+        #{weibonum,jdbcType=INTEGER},
+      </if>
+      <if test="weixinnum != null" >
+        #{weixinnum,jdbcType=INTEGER},
+      </if>
+      <if test="tiebanum != null" >
+        #{tiebanum,jdbcType=INTEGER},
+      </if>
+      <if test="gettime != null" >
+        #{gettime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="warning != null" >
+        #{warning,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bayside.app.opinion.war.opinionMonitor.model.DayCount" >
+    update bs_daycount
+    <set >
+      <if test="totalarticle != null" >
+        totalarticle = #{totalarticle,jdbcType=INTEGER},
+      </if>
+      <if test="totalurl != null" >
+        totalUrl = #{totalurl,jdbcType=INTEGER},
+      </if>
+      <if test="opinions != null" >
+        opinions = #{opinions,jdbcType=INTEGER},
+      </if>
+      <if test="negative != null" >
+        negative = #{negative,jdbcType=INTEGER},
+      </if>
+      <if test="positive != null" >
+        positive = #{positive,jdbcType=INTEGER},
+      </if>
+      <if test="neutral != null" >
+        neutral = #{neutral,jdbcType=INTEGER},
+      </if>
+      <if test="related != null" >
+        related = #{related,jdbcType=INTEGER},
+      </if>
+      <if test="articlenum != null" >
+        articleNum = #{articlenum,jdbcType=INTEGER},
+      </if>
+      <if test="newnum != null" >
+        newNum = #{newnum,jdbcType=INTEGER},
+      </if>
+      <if test="weibonum != null" >
+        weiboNum = #{weibonum,jdbcType=INTEGER},
+      </if>
+      <if test="weixinnum != null" >
+        weixinNum = #{weixinnum,jdbcType=INTEGER},
+      </if>
+      <if test="tiebanum != null" >
+        tiebaNum = #{tiebanum,jdbcType=INTEGER},
+      </if>
+      <if test="gettime != null" >
+        gettime = #{gettime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="warning != null" >
+        warning = #{warning,jdbcType=INTEGER},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bayside.app.opinion.war.opinionMonitor.model.DayCount" >
+    update bs_daycount
+    set totalarticle = #{totalarticle,jdbcType=INTEGER},
+      totalUrl = #{totalurl,jdbcType=INTEGER},
+      opinions = #{opinions,jdbcType=INTEGER},
+      negative = #{negative,jdbcType=INTEGER},
+      positive = #{positive,jdbcType=INTEGER},
+      neutral = #{neutral,jdbcType=INTEGER},
+      related = #{related,jdbcType=INTEGER},
+      articleNum = #{articlenum,jdbcType=INTEGER},
+      newNum = #{newnum,jdbcType=INTEGER},
+      weiboNum = #{weibonum,jdbcType=INTEGER},
+      weixinNum = #{weixinnum,jdbcType=INTEGER},
+      tiebaNum = #{tiebanum,jdbcType=INTEGER},
+      gettime = #{gettime,jdbcType=TIMESTAMP},
+      warning = #{warning,jdbcType=INTEGER}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

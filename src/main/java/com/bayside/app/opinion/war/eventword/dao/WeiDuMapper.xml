@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bayside.app.opinion.war.eventword.dao.WeiDuMapper" >
+  <resultMap id="BaseResultMap" type="com.bayside.app.opinion.war.eventword.model.WeiDu" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="tradeid" property="tradeid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, tradeid
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bs_weidu
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+   <select id="selectByTradeId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    w.id, w.name,w.tradeid
+    from bs_weidu as w left join bs_trade as t on w.tradeid = t.id where w.tradeid=#{name}    
+    
+  </select>
+    <select id="selectByTradeByName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    w.id, w.name,w.tradeid
+    from bs_weidu as w left join bs_trade as t on w.tradeid = t.id where t.name=#{name}    
+    
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bs_weidu
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.bayside.app.opinion.war.eventword.model.WeiDu" >
+    insert into bs_weidu (id, name, tradeid
+      )
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{tradeid,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bayside.app.opinion.war.eventword.model.WeiDu" >
+    insert into bs_weidu
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="tradeid != null" >
+        tradeid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeid != null" >
+        #{tradeid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bayside.app.opinion.war.eventword.model.WeiDu" >
+    update bs_weidu
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeid != null" >
+        tradeid = #{tradeid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bayside.app.opinion.war.eventword.model.WeiDu" >
+    update bs_weidu
+    set name = #{name,jdbcType=VARCHAR},
+      tradeid = #{tradeid,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

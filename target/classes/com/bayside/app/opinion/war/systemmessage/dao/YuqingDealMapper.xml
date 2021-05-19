@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bayside.app.opinion.war.systemmessage.dao.YuqingDealMapper" >
+  <resultMap id="BaseResultMap" type="com.bayside.app.opinion.war.systemmessage.model.YuqingDeal" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="reason" property="reason" jdbcType="VARCHAR" />
+    <result column="dealcontent" property="dealcontent" jdbcType="VARCHAR" />
+    <result column="userid" property="userid" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="tag" property="tag" jdbcType="INTEGER" />
+    <result column="mid" property="mid" jdbcType="VARCHAR" />
+    <result column="articleid" property="articleid" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, reason, dealcontent, userid, url, tag, mid, articleid, type
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bs_yuqingdeal
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectDealByMid" resultMap="BaseResultMap" parameterType="com.bayside.app.opinion.war.systemmessage.model.YuqingDeal">
+    select 
+    <include refid="Base_Column_List" />
+    from bs_yuqingdeal
+    where mid = #{mid,jdbcType=VARCHAR} and type = #{type,jdbcType=INTEGER} and userid = #{userid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bs_yuqingdeal
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.bayside.app.opinion.war.systemmessage.model.YuqingDeal" >
+    insert into bs_yuqingdeal (id, reason, dealcontent, 
+      userid, url, tag, mid, 
+      articleid, type)
+    values (#{id,jdbcType=VARCHAR}, #{reason,jdbcType=VARCHAR}, #{dealcontent,jdbcType=VARCHAR}, 
+      #{userid,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{tag,jdbcType=INTEGER}, #{mid,jdbcType=VARCHAR}, 
+      #{articleid,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER})
+  </insert>
+   <insert id="insertbatchDeal" parameterType="java.util.List" >
+    insert into bs_yuqingdeal (id, reason, 
+      userid,mid,type,tag
+     )
+    values
+      <foreach collection="list" item="item" index="index" separator="," >  
+        (#{item.id}, #{item.reason}, #{item.userid}, #{item.mid}, #{item.type}, #{item.tag})  
+    </foreach> 
+  </insert>
+  <insert id="insertSelective" parameterType="com.bayside.app.opinion.war.systemmessage.model.YuqingDeal">
+    insert into bs_yuqingdeal
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="reason != null" >
+        reason,
+      </if>
+      <if test="dealcontent != null" >
+        dealcontent,
+      </if>
+      <if test="userid != null" >
+        userid,
+      </if>
+      <if test="url != null" >
+        url,
+      </if>
+      <if test="tag != null" >
+        tag,
+      </if>
+      <if test="mid != null" >
+        mid,
+      </if>
+      <if test="articleid != null" >
+        articleid,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="reason != null" >
+        #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="dealcontent != null" >
+        #{dealcontent,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="tag != null" >
+        #{tag,jdbcType=INTEGER},
+      </if>
+      <if test="mid != null" >
+        #{mid,jdbcType=VARCHAR},
+      </if>
+      <if test="articleid != null" >
+        #{articleid,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bayside.app.opinion.war.systemmessage.model.YuqingDeal" >
+    update bs_yuqingdeal
+    <set >
+      <if test="reason != null" >
+        reason = #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="dealcontent != null" >
+        dealcontent = #{dealcontent,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null" >
+        userid = #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="tag != null" >
+        tag = #{tag,jdbcType=INTEGER},
+      </if>
+      <if test="mid != null" >
+        mid = #{mid,jdbcType=VARCHAR},
+      </if>
+      <if test="articleid != null" >
+        articleid = #{articleid,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bayside.app.opinion.war.systemmessage.model.YuqingDeal" >
+    update bs_yuqingdeal
+    set reason = #{reason,jdbcType=VARCHAR},
+      dealcontent = #{dealcontent,jdbcType=VARCHAR},
+      userid = #{userid,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      tag = #{tag,jdbcType=INTEGER},
+      mid = #{mid,jdbcType=VARCHAR},
+      articleid = #{articleid,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

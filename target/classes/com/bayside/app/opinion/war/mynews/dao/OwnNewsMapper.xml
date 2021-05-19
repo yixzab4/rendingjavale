@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bayside.app.opinion.war.mynews.dao.OwnNewsMapper" >
+  <resultMap id="BaseResultMap" type="com.bayside.app.opinion.war.mynews.model.OwnNews" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="userid" property="userid" jdbcType="VARCHAR" />
+    <result column="personid" property="personid" jdbcType="VARCHAR" />
+    <result column="sendtime" property="sendtime" jdbcType="TIMESTAMP" />
+    <result column="updatetime" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="sender" property="sender" jdbcType="VARCHAR" />
+    <result column="score" property="score" jdbcType="INTEGER" />
+    <result column="pageId" property="pageid" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="origin" property="origin" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="gongzhonghao" property="gongzhonghao" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.bayside.app.opinion.war.mynews.model.OwnNews" extends="BaseResultMap" >
+    <result column="url" property="url" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, type, title, userid, personid, sendtime, updatetime, sender, score, pageId, content, name, gongzhonghao,origin
+  </sql>
+  <sql id="Blob_Column_List" >
+    url
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bs_ownnews
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bs_ownnews
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.bayside.app.opinion.war.mynews.model.OwnNews" >
+    insert into bs_ownnews (ID, type, title, 
+      userid, personid, sendtime, 
+      updatetime, sender, score, 
+      pageId, url, content, origin, name, gongzhonghao)
+    values (#{id,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
+      #{userid,jdbcType=VARCHAR}, #{personid,jdbcType=VARCHAR}, #{sendtime,jdbcType=TIMESTAMP}, 
+      #{updatetime,jdbcType=TIMESTAMP}, #{sender,jdbcType=VARCHAR}, #{score,jdbcType=INTEGER}, 
+      #{pageid,jdbcType=VARCHAR}, #{url,jdbcType=LONGVARCHAR}, #{content,jdbcType=VARCHAR}, #{origin,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{gongzhonghao,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bayside.app.opinion.war.mynews.model.OwnNews" >
+    insert into bs_ownnews
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="userid != null" >
+        userid,
+      </if>
+      <if test="personid != null" >
+        personid,
+      </if>
+      <if test="sendtime != null" >
+        sendtime,
+      </if>
+      <if test="updatetime != null" >
+        updatetime,
+      </if>
+      <if test="sender != null" >
+        sender,
+      </if>
+      <if test="score != null" >
+        score,
+      </if>
+      <if test="pageid != null" >
+        pageId,
+      </if>
+      <if test="url != null" >
+        url,
+      </if>
+       <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="origin != null" >
+        #{origin,jdbcType=LONGVARCHAR},
+      </if>
+       <if test="name != null" >
+        name,
+      </if>
+      <if test="gongzhonghao != null" >
+        gongzhonghao,
+      </if>
+      
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="personid != null" >
+        #{personid,jdbcType=VARCHAR},
+      </if>
+      <if test="sendtime != null" >
+        #{sendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sender != null" >
+        #{sender,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null" >
+        #{score,jdbcType=INTEGER},
+      </if>
+      <if test="pageid != null" >
+        #{pageid,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="origin != null" >
+        #{origin,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="gongzhonghao != null" >
+        gongzhonghao,
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bayside.app.opinion.war.mynews.model.OwnNews" >
+    update bs_ownnews
+    <set >
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null" >
+        userid = #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="personid != null" >
+        personid = #{personid,jdbcType=VARCHAR},
+      </if>
+      <if test="sendtime != null" >
+        sendtime = #{sendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sender != null" >
+        sender = #{sender,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null" >
+        score = #{score,jdbcType=INTEGER},
+      </if>
+      <if test="pageid != null" >
+        pageId = #{pageid,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        url = #{url,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="origin != null" >
+        origin = #{origin,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=LONGVARCHAR}
+      </if>
+      <if test="gongzhonghao != null" >
+        gongzhonghao = #{gongzhonghao,jdbcType=LONGVARCHAR}
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.bayside.app.opinion.war.mynews.model.OwnNews" >
+    update bs_ownnews
+    set type = #{type,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      userid = #{userid,jdbcType=VARCHAR},
+      personid = #{personid,jdbcType=VARCHAR},
+      sendtime = #{sendtime,jdbcType=TIMESTAMP},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      sender = #{sender,jdbcType=VARCHAR},
+      score = #{score,jdbcType=INTEGER},
+      pageId = #{pageid,jdbcType=VARCHAR},
+      url = #{url,jdbcType=LONGVARCHAR},
+      content = #{content,jdbcType=LONGVARCHAR},
+      origin = #{origin,jdbcType=LONGVARCHAR},
+      name = #{name,jdbcType=LONGVARCHAR},
+      gongzhonghao = #{gongzhonghao,jdbcType=LONGVARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bayside.app.opinion.war.mynews.model.OwnNews" >
+    update bs_ownnews
+    set type = #{type,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      userid = #{userid,jdbcType=VARCHAR},
+      personid = #{personid,jdbcType=VARCHAR},
+      sendtime = #{sendtime,jdbcType=TIMESTAMP},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      sender = #{sender,jdbcType=VARCHAR},
+      score = #{score,jdbcType=INTEGER},
+      pageId = #{pageid,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      origin = #{origin,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      gongzhonghao = #{gongzhonghao,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <!-- 获取最新负面信息- -->
+ <select id="getStatusLatestTime" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select 
+    <include refid="Base_Column_List" />
+    from bs_ownnews
+    WHERE updatetime = (SELECT MAX(updatetime) FROM bs_ownnews)
+  </select>
+  <!-- 查询最新10条记录 -->
+  <select id="getNewInfo" resultMap="BaseResultMap" parameterType="com.bayside.app.opinion.war.mynews.model.OwnNews">
+        select 
+        ID, type, title, userid, personid, sendtime, updatetime, sender, score, pageId, content, name, gongzhonghao, url, origin
+        from bs_ownnews where personid = #{personid,jdbcType=VARCHAR} and type = #{type,jdbcType=VARCHAR} order by updatetime desc limit 10
+  
+  </select>
+  
+   
+</mapper>

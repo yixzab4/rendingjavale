@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bayside.app.opinion.war.index.dao.MonitorallMapper">
+  <resultMap id="BaseResultMap" type="com.bayside.app.opinion.war.index.model.Monitorall">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="totalsite" jdbcType="INTEGER" property="totalsite" />
+    <result column="totaltieba" jdbcType="INTEGER" property="totaltieba" />
+    <result column="totalweibo" jdbcType="INTEGER" property="totalweibo" />
+    <result column="totalweixin" jdbcType="INTEGER" property="totalweixin" />
+    <result column="totalpc" jdbcType="INTEGER" property="totalpc" />
+    <result column="totalPingmei" jdbcType="INTEGER" property="totalPingmei" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, updatetime, totalsite, totaltieba, totalweibo, totalweixin, totalpc, totalPingmei
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from bs_monitorall
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from bs_monitorall
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.bayside.app.opinion.war.index.model.Monitorall">
+    insert into bs_monitorall (id, updatetime, totalsite, 
+      totaltieba, totalweibo, totalweixin, 
+      totalpc, totalPingmei)
+    values (#{id,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, #{totalsite,jdbcType=INTEGER}, 
+      #{totaltieba,jdbcType=INTEGER}, #{totalweibo,jdbcType=INTEGER}, #{totalweixin,jdbcType=INTEGER}, 
+      #{totalpc,jdbcType=INTEGER}, #{totalPingmei,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bayside.app.opinion.war.index.model.Monitorall">
+    insert into bs_monitorall
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="updatetime != null">
+        updatetime,
+      </if>
+      <if test="totalsite != null">
+        totalsite,
+      </if>
+      <if test="totaltieba != null">
+        totaltieba,
+      </if>
+      <if test="totalweibo != null">
+        totalweibo,
+      </if>
+      <if test="totalweixin != null">
+        totalweixin,
+      </if>
+      <if test="totalpc != null">
+        totalpc,
+      </if>
+      <if test="totalPingmei != null">
+        totalPingmei,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="totalsite != null">
+        #{totalsite,jdbcType=INTEGER},
+      </if>
+      <if test="totaltieba != null">
+        #{totaltieba,jdbcType=INTEGER},
+      </if>
+      <if test="totalweibo != null">
+        #{totalweibo,jdbcType=INTEGER},
+      </if>
+      <if test="totalweixin != null">
+        #{totalweixin,jdbcType=INTEGER},
+      </if>
+      <if test="totalpc != null">
+        #{totalpc,jdbcType=INTEGER},
+      </if>
+      <if test="totalPingmei != null">
+        #{totalPingmei,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bayside.app.opinion.war.index.model.Monitorall">
+    update bs_monitorall
+    <set>
+      <if test="updatetime != null">
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="totalsite != null">
+        totalsite = #{totalsite,jdbcType=INTEGER},
+      </if>
+      <if test="totaltieba != null">
+        totaltieba = #{totaltieba,jdbcType=INTEGER},
+      </if>
+      <if test="totalweibo != null">
+        totalweibo = #{totalweibo,jdbcType=INTEGER},
+      </if>
+      <if test="totalweixin != null">
+        totalweixin = #{totalweixin,jdbcType=INTEGER},
+      </if>
+      <if test="totalpc != null">
+        totalpc = #{totalpc,jdbcType=INTEGER},
+      </if>
+      <if test="totalPingmei != null">
+        totalPingmei = #{totalPingmei,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bayside.app.opinion.war.index.model.Monitorall">
+    update bs_monitorall
+    set updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      totalsite = #{totalsite,jdbcType=INTEGER},
+      totaltieba = #{totaltieba,jdbcType=INTEGER},
+      totalweibo = #{totalweibo,jdbcType=INTEGER},
+      totalweixin = #{totalweixin,jdbcType=INTEGER},
+      totalpc = #{totalpc,jdbcType=INTEGER},
+      totalPingmei = #{totalPingmei,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+   <!-- 获取最新时间的数据 -->
+  <select id="getNumberLatestTime" resultMap="BaseResultMap">
+      select 
+    <include refid="Base_Column_List" />
+    from bs_monitorall
+    where updatetime = (SELECT MAX(updatetime) FROM bs_monitorall)
+  </select>
+  <select id="getAllMonitorNumber" resultMap="BaseResultMap">
+      select sum(totalsite) totalsite,sum(totaltieba) totaltieba,sum(totalweibo) totalweibo,sum(totalweixin) totalweixin,sum(totalpc) totalpc,sum(totalPingmei) totalPingmei
+    from bs_monitorall
+  </select>
+</mapper>

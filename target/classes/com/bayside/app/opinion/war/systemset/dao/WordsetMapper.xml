@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bayside.app.opinion.war.systemset.dao.WordsetMapper" >
+  <resultMap id="BaseResultMap" type="com.bayside.app.opinion.war.systemset.model.Wordset" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="setword" property="setword" jdbcType="INTEGER" />
+    <result column="cansetword" property="cansetword" jdbcType="INTEGER" />
+    <result column="userid" property="userid" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, setword, cansetword, userid, status
+  </sql>
+   
+   <insert id="batchInsert" parameterType="com.bayside.app.opinion.war.myuser.model.WordSet">
+    insert into bs_wordset
+     (id, name, setword, cansetword, userid, status, endtime, isupdate)
+      values  
+     <foreach collection="list" item="item" index="index" separator="," > 
+      (#{item.id}, #{item.name}, #{item.setword}, #{item.cansetword},#{item.userid}, #{item.status}, #{item.endtime}, #{item.isupdate})
+     </foreach>  
+  </insert>
+  
+   <update id="updatePowerOrder" parameterType="com.bayside.app.opinion.war.myuser.model.WordSet">  
+    
+    update bs_wordset
+            set cansetword = case id
+            <foreach collection="listwordset" item="entity" separator=" ">  
+             when #{entity.id} then #{entity.cansetword}
+            </foreach>
+               END, 
+               status = case id
+            <foreach collection="listwordset" item="entity" separator=" ">  
+             when #{entity.id} then #{entity.status}
+            </foreach>
+               END, 
+                endtime = case id
+            <foreach collection="listwordset" item="entity" separator=" ">  
+             when #{entity.id} then #{entity.endtime}
+            </foreach>
+               END,
+                 isupdate = case id
+            <foreach collection="listwordset" item="entity" separator=" ">  
+             when #{entity.id} then #{entity.isupdate}
+            </foreach>
+            END
+        where id in 
+         <foreach collection="listwordset" index="index" item="item" open="(" separator="," close=")">  
+            #{item.id}
+            </foreach>  
+            
+    </update>  
+    <update id="bathupdatePower" parameterType="com.bayside.app.opinion.war.myuser.model.WordSet">  
+    
+    update bs_wordset
+            set setword = case id
+            <foreach collection="listwordset" item="entity" separator=" ">  
+             when #{entity.id} then #{entity.setword}
+            </foreach>
+            END
+        where id in 
+         <foreach collection="listwordset" index="index" item="item" open="(" separator="," close=")">  
+            #{item.id}
+            </foreach>  
+            
+    </update> 
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bs_wordset
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bs_wordset
+    where userid = #{userid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.bayside.app.opinion.war.systemset.model.Wordset" >
+    insert into bs_wordset (id, name, setword, 
+      cansetword, userid, status
+      )
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{setword,jdbcType=INTEGER}, 
+      #{cansetword,jdbcType=INTEGER}, #{userid,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bayside.app.opinion.war.systemset.model.Wordset" >
+    insert into bs_wordset
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="setword != null" >
+        setword,
+      </if>
+      <if test="cansetword != null" >
+        cansetword,
+      </if>
+      <if test="userid != null" >
+        userid,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="setword != null" >
+        #{setword,jdbcType=INTEGER},
+      </if>
+      <if test="cansetword != null" >
+        #{cansetword,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bayside.app.opinion.war.systemset.model.Wordset" >
+    update bs_wordset
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="setword != null" >
+        setword = #{setword,jdbcType=INTEGER},
+      </if>
+      <if test="cansetword != null" >
+        cansetword = #{cansetword,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null" >
+        userid = #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where 
+    1=1
+   <if test="id !=null and id!='' "> 
+      and id = #{id,jdbcType=VARCHAR}
+   </if>
+   <if test="name !=null and name!='' ">
+      and name = #{name,jdbcType=VARCHAR}
+   </if>
+   <if test="userid !=null and userid!='' ">
+       and userid = #{userid,jdbcType=VARCHAR}
+   </if>
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bayside.app.opinion.war.systemset.model.Wordset" >
+    update bs_wordset
+    set name = #{name,jdbcType=VARCHAR},
+      setword = #{setword,jdbcType=INTEGER},
+      cansetword = #{cansetword,jdbcType=INTEGER},
+      userid = #{userid,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+   <select id="selectAllWordset" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bs_wordset
+    where userid = #{userid,jdbcType=VARCHAR}
+  </select>
+   <select id="selectKeyWordByUserId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bs_wordset
+    where userid = #{userid,jdbcType=VARCHAR} and name = #{name,jdbcType=VARCHAR}
+  </select>
+</mapper>

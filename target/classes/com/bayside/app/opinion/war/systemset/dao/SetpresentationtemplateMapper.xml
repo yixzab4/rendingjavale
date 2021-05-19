@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bayside.app.opinion.war.systemset.dao.SetpresentationtemplateMapper" >
+  <resultMap id="BaseResultMap" type="com.bayside.app.opinion.war.systemset.model.Setpresentationtemplate" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="templateimgUrl" property="templateimgurl" jdbcType="VARCHAR" />
+    <result column="smalltemplateimgurl" property="smalltemplateimgurl" jdbcType="VARCHAR" />
+    <result column="templateimgName" property="templateimgname" jdbcType="VARCHAR" />
+    <result column="checked" property="checked" jdbcType="VARCHAR" />
+    <result column="reporthtml" property="reporthtml" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, templateimgUrl, smalltemplateimgurl, templateimgName, checked,reporthtml,type
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bs_reporttemplate
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bs_reporttemplate
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.bayside.app.opinion.war.systemset.model.Setpresentationtemplate" >
+    insert into bs_reporttemplate (id, templateimgUrl, smalltemplateimgurl, templateimgName, checked
+      )
+    values (#{id,jdbcType=VARCHAR}, #{templateimgurl,jdbcType=VARCHAR}, #{smalltemplateimgurl,jdbcType=VARCHAR}, #{templateimgname,jdbcType=VARCHAR}, #{checked,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bayside.app.opinion.war.systemset.model.Setpresentationtemplate" >
+    insert into bs_reporttemplate
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="templateimgurl != null" >
+        templateimgUrl,
+      </if>
+      <if test="templateimgname != null" >
+        templateimgName,
+      </if>
+      <if test="smalltemplateimgurl != null">
+      	smalltemplateimgurl,
+      </if>
+      <if test="checked != null" >
+        checked,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="templateimgurl != null" >
+        #{templateimgurl,jdbcType=VARCHAR},
+      </if>
+      <if test="smalltemplateimgurl != null">
+      	#{smalltemplateimgurl,jdbcType=VARCHAR},
+      </if>
+      <if test="templateimgname != null" >
+        #{templateimgname,jdbcType=VARCHAR},
+      </if>
+      <if test="checked != null" >
+        checked,
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bayside.app.opinion.war.systemset.model.Setpresentationtemplate" >
+    update bs_reporttemplate
+    <set >
+      <if test="templateimgurl != null" >
+        templateimgUrl = #{templateimgurl,jdbcType=VARCHAR},
+      </if>
+      <if test="smalltemplateimgurl != null">
+      	smalltemplateimgurl = #{smalltemplateimgurl,jdbcType=VARCHAR},
+      </if>
+      <if test="templateimgname != null" >
+        templateimgName = #{templateimgname,jdbcType=VARCHAR},
+      </if>
+      <if test="checked != null" >
+        checked = #{checked,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bayside.app.opinion.war.systemset.model.Setpresentationtemplate" >
+    update bs_reporttemplate
+    set templateimgUrl = #{templateimgurl,jdbcType=VARCHAR},
+    	smalltemplateimgurl = #{smalltemplateimgurl,jdbcType=VARCHAR},
+      templateimgName = #{templateimgname,jdbcType=VARCHAR},
+      checked = #{checked,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="selectAllSetpresentationtemplate" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select 
+    <include refid="Base_Column_List" />
+    from bs_reporttemplate
+    where type =#{type}
+  </select>
+</mapper>

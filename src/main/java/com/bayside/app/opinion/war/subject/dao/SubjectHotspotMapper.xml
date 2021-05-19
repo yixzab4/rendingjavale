@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bayside.app.opinion.war.subject.dao.SubjectHotspotMapper" >
+  <resultMap id="BaseResultMap" type="com.bayside.app.opinion.war.subject.model.SubjectHotspot" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="subjectid" property="subjectid" jdbcType="VARCHAR" />
+    <result column="updatetime" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="hotword" property="hotword" jdbcType="VARCHAR" />
+    <result column="score" property="score" jdbcType="VARCHAR" />
+    <result column="userid" property="userid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, subjectid, updatetime, hotword, score, userid
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bs_subject_hotspot
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bs_subject_hotspot
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.bayside.app.opinion.war.subject.model.SubjectHotspot" >
+    insert into bs_subject_hotspot (ID, subjectid, updatetime, 
+      hotword, score)
+    values (#{id,jdbcType=VARCHAR}, #{subjectid,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, 
+      #{hotword,jdbcType=VARCHAR}, #{score,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bayside.app.opinion.war.subject.model.SubjectHotspot" >
+    insert into bs_subject_hotspot
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="subjectid != null" >
+        subjectid,
+      </if>
+      <if test="updatetime != null" >
+        updatetime,
+      </if>
+      <if test="hotword != null" >
+        hotword,
+      </if>
+      <if test="score != null" >
+        score,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="subjectid != null" >
+        #{subjectid,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="hotword != null" >
+        #{hotword,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null" >
+        #{score,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bayside.app.opinion.war.subject.model.SubjectHotspot" >
+    update bs_subject_hotspot
+    <set >
+      <if test="subjectid != null" >
+        subjectid = #{subjectid,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="hotword != null" >
+        hotword = #{hotword,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null" >
+        score = #{score,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bayside.app.opinion.war.subject.model.SubjectHotspot" >
+    update bs_subject_hotspot
+    set subjectid = #{subjectid,jdbcType=VARCHAR},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      hotword = #{hotword,jdbcType=VARCHAR},
+      score = #{score,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="getHotTrendWord" parameterType="com.bayside.app.opinion.war.subject.bo.SubjectHotspotBo" resultMap="BaseResultMap">
+  	SELECT 
+  	<include refid="Base_Column_List" />
+  	FROM bs_subject_hotspot
+	WHERE subjectid=#{subjectid}
+	AND updatetime &gt;=#{startTime}
+	AND updatetime &lt;=#{endTime}
+  </select>
+  <select id="selectByInterval" parameterType="com.bayside.app.opinion.war.subject.bo.SubjectHotspotBo" resultMap="BaseResultMap">
+  	select DATE(updatetime) updatetime,IFNULL(SUM(score),0) score from bs_subject_hotspot b 
+	WHERE subjectid=#{subjectid}
+	AND updatetime &gt;=#{startTime}
+	AND updatetime &lt;=#{endTime}
+	<!-- AND Date(updatetime) &gt;=DATE_SUB(CURDATE(), INTERVAL 10 DAY) -->
+	GROUP BY updatetime
+	ORDER BY updatetime
+  </select>
+  <!--查询热点词  -->
+  <select id="selecthot" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select subjectid, hotword, id from bs_subject_hotspot where userid = #{userid,jdbcType=VARCHAR} and DATE(updatetime) &gt;= #{time,jdbcType=TIMESTAMP} 
+  </select>
+  
+  <!-- 首页自定义热词 -->
+  <select id="indexselecthot" parameterType="com.bayside.app.opinion.war.subject.bo.SubjectHotspotBo" resultMap="BaseResultMap">
+    select subjectid, hotword, id from bs_subject_hotspot where 
+    userid = #{userid,jdbcType=VARCHAR} 
+    <if test="startTime!=null and startTime!=''">
+       and DATE(updatetime) &gt;= #{startTime,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="endTime!=null and endTime!=''">
+        and DATE(updatetime) &lt;= #{endTime,jdbcType=TIMESTAMP} 
+    </if>
+     <if test="subjectlist!=null">
+        and subjectid in
+        <foreach collection="subjectlist" index="index" item="subid" open="(" separator="," close=")">
+            #{subid}
+          </foreach>
+         
+     </if>
+  </select>
+  
+  <delete id="deleteBySubjectId" parameterType="java.lang.String">
+  	delete from bs_subject_hotspot
+  	where subjectid = #{subjectid}
+  </delete>
+</mapper>

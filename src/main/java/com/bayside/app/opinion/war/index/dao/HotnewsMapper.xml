@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bayside.app.opinion.war.index.dao.HotnewsMapper" >
+  <resultMap id="BaseResultMap" type="com.bayside.app.opinion.war.index.model.Hotnews" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="userid" property="userid" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="updatetime" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="source" property="source" jdbcType="VARCHAR" />
+    <result column="author" property="author" jdbcType="VARCHAR" />
+    <result column="attention" property="attention" jdbcType="INTEGER" />
+    <result column="tag" property="attention" jdbcType="INTEGER" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
+    <result column="publishtime" property="publishtime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, userid, type, title, updatetime, url, source, author, attention, tag, city, publishtime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bs_hotnews
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bs_hotnews
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.bayside.app.opinion.war.index.model.Hotnews" >
+    insert into bs_hotnews (id, userid, type, 
+      title, updatetime, url, 
+      source, author,attention, tag, city, publishtime)
+    values (#{id,jdbcType=VARCHAR}, #{userid,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{title,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, #{url,jdbcType=VARCHAR}, 
+      #{source,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR}, #{attention,jdbcType=INTEGER}, #{tag,jdbcType=INTEGER}, #{city,jdbcType=VARCHAR}, #{publishtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bayside.app.opinion.war.index.model.Hotnews" >
+    insert into bs_hotnews
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userid != null" >
+        userid,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="updatetime != null" >
+        updatetime,
+      </if>
+      <if test="url != null" >
+        url,
+      </if>
+      <if test="source != null" >
+        source,
+      </if>
+      <if test="author != null" >
+        author,
+      </if>
+      <if test="attention != null" >
+        attention,
+      </if>
+      <if test="tag != null" >
+        tag,
+      </if>
+       <if test="city != null" >
+        city,
+      </if>
+       <if test="publishtime != null" >
+        publishtime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="source != null" >
+        #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null" >
+        #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="attention != null" >
+        #{attention,jdbcType=INTEGER},
+      </if>
+      <if test="tag != null" >
+        #{tag,jdbcType=INTEGER},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="publishtime != null" >
+        #{publishtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bayside.app.opinion.war.index.model.Hotnews" >
+    update bs_hotnews
+    <set >
+      <if test="userid != null" >
+        userid = #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="url != null" >
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="source != null" >
+        source = #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null" >
+        author = #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="attention != null" >
+       attention = #{attention,jdbcType=INTEGER},
+      </if>
+      <if test="tag != null" >
+       tag = #{tag,jdbcType=INTEGER}
+      </if>
+      <if test="city != null" >
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+       <if test="publishtime != null" >
+        publishtime = #{publishtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bayside.app.opinion.war.index.model.Hotnews" >
+    update bs_hotnews
+    set userid = #{userid,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      url = #{url,jdbcType=VARCHAR},
+      source = #{source,jdbcType=VARCHAR},
+      author = #{author,jdbcType=VARCHAR},
+      attention = #{attention,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="selectNewsByType" resultMap="BaseResultMap" parameterType="com.bayside.app.opinion.war.index.bo.Hotnewsbo" >
+    select 
+    <include refid="Base_Column_List" />
+    from bs_hotnews
+    where type = #{type,jdbcType=VARCHAR} 
+    <if test="city !=null and city!='' ">
+      and city = #{city,jdbcType=VARCHAR}
+    </if>
+    order by publishtime desc limit 4
+  </select>
+  <!--  删除-->
+  
+</mapper>

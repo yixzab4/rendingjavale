@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bayside.app.opinion.fources.dao.SweiboMapper" >
+  <resultMap id="BaseResultMap" type="com.bayside.app.opinion.fources.model.Sweibo" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="screen_name" property="screenname" jdbcType="VARCHAR" />
+    <result column="domain" property="domain" jdbcType="VARCHAR" />
+    <result column="followers_count" property="followerscount" jdbcType="VARCHAR" />
+  </resultMap>
+   <resultMap id="ResultMap" type="com.bayside.app.opinion.fources.bo.Sweibobo" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="screen_name" property="screenname" jdbcType="VARCHAR" />
+    <result column="domain" property="domain" jdbcType="VARCHAR" />
+    <result column="followers_count" property="followerscount" jdbcType="VARCHAR" />
+    <result column="searchid" property="searchid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, screen_name, domain, followers_count
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bs_weiboaccount
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+   <select id="selectSearchWeibo" resultMap="ResultMap" parameterType="com.bayside.app.opinion.fources.bo.Sweibobo">
+	   select s.id,s.screen_name name,s.domain url,f.searchid
+	   from (
+	    select id,screen_name,domain from bs_weiboaccount where INSTR(screen_name,#{name})>0  order by followers_count desc 
+	    limit 200
+	   )as s left join bs_datasource as f on s.id = f.searchid
+  </select>
+   <select id="selectSearchWeiboTotal" resultMap="ResultMap" parameterType="com.bayside.app.opinion.fources.bo.Sweixinbo">
+	    select count(id) total from bs_weiboaccount where INSTR(screen_name,#{name})>0 <!-- order by score desc -->
+	    limit 200
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bs_weiboaccount
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.bayside.app.opinion.fources.model.Sweibo" >
+    insert into bs_weiboaccount (id, screen_name, domain
+      )
+    values (#{id,jdbcType=VARCHAR}, #{screen_name,jdbcType=VARCHAR}, #{domain,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bayside.app.opinion.fources.model.Sweibo" >
+    insert into bs_weiboaccount
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="screen_name != null" >
+        screen_name,
+      </if>
+      <if test="domain != null" >
+        domain,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="screen_name != null" >
+        #{screen_name,jdbcType=VARCHAR},
+      </if>
+      <if test="domain != null" >
+        #{domain,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bayside.app.opinion.fources.model.Sweibo" >
+    update bs_weiboaccount
+    <set >
+      <if test="screen_name != null" >
+        screen_name = #{screen_name,jdbcType=VARCHAR},
+      </if>
+      <if test="domain != null" >
+        domain = #{domain,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bayside.app.opinion.fources.model.Sweibo" >
+    update bs_weiboaccount
+    set screen_name = #{screen_name,jdbcType=VARCHAR},
+      domain = #{domain,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

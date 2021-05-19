@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bayside.app.opinion.war.mynews.dao.PersonStatisticalMapper" >
+  <resultMap id="BaseResultMap" type="com.bayside.app.opinion.war.mynews.model.PersonStatistical" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="persionid" property="persionid" jdbcType="VARCHAR" />
+    <result column="personname" property="personname" jdbcType="VARCHAR" />
+    <result column="info_acount" property="infoAcount" jdbcType="INTEGER" />
+    <result column="news_acount" property="newsAcount" jdbcType="INTEGER" />
+    <result column="bbs_acount" property="bbsAcount" jdbcType="INTEGER" />
+    <result column="boke_acount" property="bokeAcount" jdbcType="INTEGER" />
+    <result column="weibo_acount" property="weiboAcount" jdbcType="INTEGER" />
+    <result column="pingmei_acount" property="pingmeiAcount" jdbcType="INTEGER" />
+    <result column="weixin_acount" property="weixinAcount" jdbcType="INTEGER" />
+    <result column="tieba_acount" property="tiebaAcount" jdbcType="INTEGER" />
+    <result column="shipin_acount" property="shipinAcount" jdbcType="INTEGER" />
+    <result column="app_acount" property="appAcount" jdbcType="INTEGER" />
+    <result column="pinglun_acount" property="pinglunAcount" jdbcType="INTEGER" />
+    <result column="other_acount" property="otherAcount" jdbcType="INTEGER" />
+    <result column="emotion" property="emotion" jdbcType="VARCHAR" />
+    <result column="updatetime" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="userid" property="userid" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMap" type="com.bayside.app.opinion.war.mynews.bo.PersonStatisticalBo" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="persionid" property="persionid" jdbcType="VARCHAR" />
+    <result column="personname" property="personname" jdbcType="VARCHAR" />
+    <result column="info_acount" property="infoAcount" jdbcType="INTEGER" />
+    <result column="news_acount" property="newsAcount" jdbcType="INTEGER" />
+    <result column="bbs_acount" property="bbsAcount" jdbcType="INTEGER" />
+    <result column="boke_acount" property="bokeAcount" jdbcType="INTEGER" />
+    <result column="weibo_acount" property="weiboAcount" jdbcType="INTEGER" />
+    <result column="pingmei_acount" property="pingmeiAcount" jdbcType="INTEGER" />
+    <result column="weixin_acount" property="weixinAcount" jdbcType="INTEGER" />
+    <result column="tieba_acount" property="tiebaAcount" jdbcType="INTEGER" />
+    <result column="shipin_acount" property="shipinAcount" jdbcType="INTEGER" />
+    <result column="app_acount" property="appAcount" jdbcType="INTEGER" />
+    <result column="pinglun_acount" property="pinglunAcount" jdbcType="INTEGER" />
+    <result column="other_acount" property="otherAcount" jdbcType="INTEGER" />
+    <result column="emotion" property="emotion" jdbcType="VARCHAR" />
+    <result column="updatetime" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="userid" property="userid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, persionid, personname, info_acount, news_acount, bbs_acount, boke_acount, weibo_acount, 
+    pingmei_acount, weixin_acount, tieba_acount, shipin_acount, app_acount, pinglun_acount, 
+    other_acount, emotion, updatetime, userid
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bs_person_statistical
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bs_person_statistical
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.bayside.app.opinion.war.mynews.model.PersonStatistical" >
+    insert into bs_person_statistical (id, persionid, personname, 
+      info_acount, news_acount, bbs_acount, 
+      boke_acount, weibo_acount, pingmei_acount, 
+      weixin_acount, tieba_acount, shipin_acount, 
+      app_acount, pinglun_acount, other_acount, 
+      emotion, updatetime, userid
+      )
+    values (#{id,jdbcType=VARCHAR}, #{persionid,jdbcType=VARCHAR}, #{personname,jdbcType=VARCHAR}, 
+      #{infoAcount,jdbcType=INTEGER}, #{newsAcount,jdbcType=INTEGER}, #{bbsAcount,jdbcType=INTEGER}, 
+      #{bokeAcount,jdbcType=INTEGER}, #{weiboAcount,jdbcType=INTEGER}, #{pingmeiAcount,jdbcType=INTEGER}, 
+      #{weixinAcount,jdbcType=INTEGER}, #{tiebaAcount,jdbcType=INTEGER}, #{shipinAcount,jdbcType=INTEGER}, 
+      #{appAcount,jdbcType=INTEGER}, #{pinglunAcount,jdbcType=INTEGER}, #{otherAcount,jdbcType=INTEGER}, 
+      #{emotion,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, #{userid,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bayside.app.opinion.war.mynews.model.PersonStatistical" >
+    insert into bs_person_statistical
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="persionid != null" >
+        persionid,
+      </if>
+      <if test="personname != null" >
+        personname,
+      </if>
+      <if test="infoAcount != null" >
+        info_acount,
+      </if>
+      <if test="newsAcount != null" >
+        news_acount,
+      </if>
+      <if test="bbsAcount != null" >
+        bbs_acount,
+      </if>
+      <if test="bokeAcount != null" >
+        boke_acount,
+      </if>
+      <if test="weiboAcount != null" >
+        weibo_acount,
+      </if>
+      <if test="pingmeiAcount != null" >
+        pingmei_acount,
+      </if>
+      <if test="weixinAcount != null" >
+        weixin_acount,
+      </if>
+      <if test="tiebaAcount != null" >
+        tieba_acount,
+      </if>
+      <if test="shipinAcount != null" >
+        shipin_acount,
+      </if>
+      <if test="appAcount != null" >
+        app_acount,
+      </if>
+      <if test="pinglunAcount != null" >
+        pinglun_acount,
+      </if>
+      <if test="otherAcount != null" >
+        other_acount,
+      </if>
+      <if test="emotion != null" >
+        emotion,
+      </if>
+      <if test="updatetime != null" >
+        updatetime,
+      </if>
+      <if test="userid != null" >
+        userid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="persionid != null" >
+        #{persionid,jdbcType=VARCHAR},
+      </if>
+      <if test="personname != null" >
+        #{personname,jdbcType=VARCHAR},
+      </if>
+      <if test="infoAcount != null" >
+        #{infoAcount,jdbcType=INTEGER},
+      </if>
+      <if test="newsAcount != null" >
+        #{newsAcount,jdbcType=INTEGER},
+      </if>
+      <if test="bbsAcount != null" >
+        #{bbsAcount,jdbcType=INTEGER},
+      </if>
+      <if test="bokeAcount != null" >
+        #{bokeAcount,jdbcType=INTEGER},
+      </if>
+      <if test="weiboAcount != null" >
+        #{weiboAcount,jdbcType=INTEGER},
+      </if>
+      <if test="pingmeiAcount != null" >
+        #{pingmeiAcount,jdbcType=INTEGER},
+      </if>
+      <if test="weixinAcount != null" >
+        #{weixinAcount,jdbcType=INTEGER},
+      </if>
+      <if test="tiebaAcount != null" >
+        #{tiebaAcount,jdbcType=INTEGER},
+      </if>
+      <if test="shipinAcount != null" >
+        #{shipinAcount,jdbcType=INTEGER},
+      </if>
+      <if test="appAcount != null" >
+        #{appAcount,jdbcType=INTEGER},
+      </if>
+      <if test="pinglunAcount != null" >
+        #{pinglunAcount,jdbcType=INTEGER},
+      </if>
+      <if test="otherAcount != null" >
+        #{otherAcount,jdbcType=INTEGER},
+      </if>
+      <if test="emotion != null" >
+        #{emotion,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bayside.app.opinion.war.mynews.model.PersonStatistical" >
+    update bs_person_statistical
+    <set >
+      <if test="persionid != null" >
+        persionid = #{persionid,jdbcType=VARCHAR},
+      </if>
+      <if test="personname != null" >
+        personname = #{personname,jdbcType=VARCHAR},
+      </if>
+      <if test="infoAcount != null" >
+        info_acount = #{infoAcount,jdbcType=INTEGER},
+      </if>
+      <if test="newsAcount != null" >
+        news_acount = #{newsAcount,jdbcType=INTEGER},
+      </if>
+      <if test="bbsAcount != null" >
+        bbs_acount = #{bbsAcount,jdbcType=INTEGER},
+      </if>
+      <if test="bokeAcount != null" >
+        boke_acount = #{bokeAcount,jdbcType=INTEGER},
+      </if>
+      <if test="weiboAcount != null" >
+        weibo_acount = #{weiboAcount,jdbcType=INTEGER},
+      </if>
+      <if test="pingmeiAcount != null" >
+        pingmei_acount = #{pingmeiAcount,jdbcType=INTEGER},
+      </if>
+      <if test="weixinAcount != null" >
+        weixin_acount = #{weixinAcount,jdbcType=INTEGER},
+      </if>
+      <if test="tiebaAcount != null" >
+        tieba_acount = #{tiebaAcount,jdbcType=INTEGER},
+      </if>
+      <if test="shipinAcount != null" >
+        shipin_acount = #{shipinAcount,jdbcType=INTEGER},
+      </if>
+      <if test="appAcount != null" >
+        app_acount = #{appAcount,jdbcType=INTEGER},
+      </if>
+      <if test="pinglunAcount != null" >
+        pinglun_acount = #{pinglunAcount,jdbcType=INTEGER},
+      </if>
+      <if test="otherAcount != null" >
+        other_acount = #{otherAcount,jdbcType=INTEGER},
+      </if>
+      <if test="emotion != null" >
+        emotion = #{emotion,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userid != null" >
+        userid = #{userid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bayside.app.opinion.war.mynews.model.PersonStatistical" >
+    update bs_person_statistical
+    set persionid = #{persionid,jdbcType=VARCHAR},
+      personname = #{personname,jdbcType=VARCHAR},
+      info_acount = #{infoAcount,jdbcType=INTEGER},
+      news_acount = #{newsAcount,jdbcType=INTEGER},
+      bbs_acount = #{bbsAcount,jdbcType=INTEGER},
+      boke_acount = #{bokeAcount,jdbcType=INTEGER},
+      weibo_acount = #{weiboAcount,jdbcType=INTEGER},
+      pingmei_acount = #{pingmeiAcount,jdbcType=INTEGER},
+      weixin_acount = #{weixinAcount,jdbcType=INTEGER},
+      tieba_acount = #{tiebaAcount,jdbcType=INTEGER},
+      shipin_acount = #{shipinAcount,jdbcType=INTEGER},
+      app_acount = #{appAcount,jdbcType=INTEGER},
+      pinglun_acount = #{pinglunAcount,jdbcType=INTEGER},
+      other_acount = #{otherAcount,jdbcType=INTEGER},
+      emotion = #{emotion,jdbcType=VARCHAR},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      userid = #{userid,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="selectPersonAcountByTime" parameterType="com.bayside.app.opinion.war.mynews.bo.PersonStatisticalBo" resultMap="BaseResultMap">
+  	select 
+		SUM(info_acount) info_acount,SUM(news_acount) news_acount,
+		SUM(bbs_acount) bbs_acount,sum(boke_acount) boke_acount,
+		SUM(weibo_acount) weibo_acount,SUM(pingmei_acount) pingmei_acount,
+		SUM(weixin_acount) weixin_acount,SUM(shipin_acount) shipin_acount,
+		SUM(app_acount) app_acount,SUM(pinglun_acount) pinglun_acount,
+		SUM(other_acount) other_acount,SUM(news_acount) tieba_acount, emotion
+ 	from bs_person_statistical
+  <where>
+  updatetime &gt;= #{updatetime,jdbcType=TIMESTAMP}
+  <if test="userid !=null and userid !=''">
+           and userid = #{userid,jdbcType=VARCHAR}
+   </if>
+   <if test="persionid !=null and persionid !=''">
+           and persionid = #{persionid,jdbcType=VARCHAR}
+   </if>
+  </where>  
+    group by emotion
+  </select>
+  <!--  载体趋势图-->
+  <select id="selectPersonzaitiByTime"  parameterType="com.bayside.app.opinion.war.mynews.bo.PersonStatisticalBo" resultMap="BaseResultMap">
+  	 SELECT t.updatetime,
+			IFNULL(SUM(formatsNum),0) info_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'news' THEN t.formatsNum ELSE 0 END),0) news_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'bbs' THEN t.formatsNum ELSE 0 END),0) bbs_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'blog' THEN t.formatsNum ELSE 0 END),0) boke_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'weibo' THEN t.formatsNum ELSE 0 END),0) weibo_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'print_media' THEN t.formatsNum ELSE 0 END),0) pingmei_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'weixin' THEN t.formatsNum ELSE 0 END),0) weixin_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'tieba' THEN t.formatsNum ELSE 0 END),0) tieba_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'video' THEN t.formatsNum ELSE 0 END),0) shipin_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'app' THEN t.formatsNum ELSE 0 END),0) app_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'comment' THEN t.formatsNum ELSE 0 END),0) pinglun_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'other' THEN t.formatsNum ELSE 0 END),0) other_acount
+			FROM (
+			SELECT DATE(pubdate) updatetime,formats ,COUNT(formats) formatsNum FROM bs_personmanage_m_article 
+			WHERE userid = #{userid}
+			  <if test="persionid !=null and persionid !=''">
+                    and persionid = #{persionid,jdbcType=VARCHAR}
+              </if>
+              <if test="updatetime !=null and updatetime!=''">
+	             AND DATE(pubdate) &gt;=#{updatetime,jdbcType=TIMESTAMP}
+              </if>
+			GROUP BY DATE(pubdate),formats
+			)t
+			GROUP BY t.updatetime
+
+  </select>
+  <select id="selectPersonzaitiToday"  parameterType="com.bayside.app.opinion.war.mynews.bo.PersonStatisticalBo" resultMap="ResultMap">
+  	 SELECT DATE_FORMAT(pubdate,'%Y-%m-%d %H') updatetime,
+			IFNULL(SUM(formatsNum),0) info_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'news' THEN t.formatsNum ELSE 0 END),0) news_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'bbs' THEN t.formatsNum ELSE 0 END),0) bbs_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'blog' THEN t.formatsNum ELSE 0 END),0) boke_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'weibo' THEN t.formatsNum ELSE 0 END),0) weibo_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'print_media' THEN t.formatsNum ELSE 0 END),0) pingmei_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'weixin' THEN t.formatsNum ELSE 0 END),0) weixin_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'tieba' THEN t.formatsNum ELSE 0 END),0) tieba_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'video' THEN t.formatsNum ELSE 0 END),0) shipin_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'app' THEN t.formatsNum ELSE 0 END),0) app_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'comment' THEN t.formatsNum ELSE 0 END),0) pinglun_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'other' THEN t.formatsNum ELSE 0 END),0) other_acount
+			FROM (
+			SELECT DATE_FORMAT(pubdate,'%Y-%m-%d %H') pubdate,formats,COUNT(formats) formatsNum FROM bs_personmanage_m_article 
+			WHERE userid = #{userid} 
+			  <if test="persionid !=null and persionid !=''">
+                    and persionid = #{persionid,jdbcType=VARCHAR}
+              </if>
+              <if test="updatetime !=null and updatetime!=''">
+	             AND pubdate &gt;=#{updatetime,jdbcType=TIMESTAMP}
+              </if>
+			GROUP BY DATE_FORMAT(pubdate,'%Y-%m-%d %H'),formats
+			)t
+			GROUP BY t.pubdate
+  </select>
+</mapper>

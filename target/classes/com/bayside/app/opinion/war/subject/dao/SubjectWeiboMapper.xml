@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bayside.app.opinion.war.subject.dao.SubjectWeiboMapper" >
+  <resultMap id="BaseResultMap" type="com.bayside.app.opinion.war.subject.model.SubjectWeibo" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="pubdate" property="pubdate" jdbcType="TIMESTAMP" />
+    <result column="totalblogger" property="totalblogger" jdbcType="INTEGER" />
+    <result column="subjectid" property="subjectid" jdbcType="VARCHAR" />
+    <result column="totalfemale" property="totalfemale" jdbcType="INTEGER" />
+    <result column="totalmale" property="totalmale" jdbcType="INTEGER" />
+    <result column="province" property="province" jdbcType="VARCHAR" />
+    <result column="blogger" property="blogger" jdbcType="VARCHAR" />
+    <result column="userImg" property="userImg" jdbcType="VARCHAR" />
+    <result column="domainUrl" property="domainUrl" jdbcType="VARCHAR" />
+    <result column="emotion" property="emotion" jdbcType="VARCHAR" />
+    <result column="totalEmotion" property="totalEmotion" jdbcType="INTEGER" />
+    <result column="totalactive" property="totalactive" jdbcType="INTEGER" />
+    <result column="totalauth" property="totalauth" jdbcType="INTEGER" />
+    <result column="totalOverseas" property="totalOverseas" jdbcType="INTEGER" />
+    <result column="totalpositive" property="totalpositive" jdbcType="INTEGER" />
+    <result column="totalnegative" property="totalnegative" jdbcType="INTEGER" />
+    <result column="totalneutral" property="totalneutral" jdbcType="INTEGER" />
+    <result column="totalcomment" property="totalcomment" jdbcType="INTEGER" />
+    <result column="totalrepeat" property="totalrepeat" jdbcType="INTEGER" />
+  </resultMap>
+ <!-- 微博趋势 -->
+  <select id="getWeiboTrend" parameterType="com.bayside.app.opinion.war.subject.bo.SubjectWeiboBo" resultMap="BaseResultMap">
+	SELECT  DATE(ma.pubdate) pubdate,COUNT(DISTINCT a.`author`) totalblogger FROM bs_subject_m_article ma,
+	bs_subject_article a
+	WHERE ma.`articleid` = a.`ID`
+	 and ma.subjectid=#{subjectid}
+	 AND ma.`formats`='weibo'
+	AND ma.pubdate &gt;= #{startTime}
+	AND ma.pubdate &lt;=#{endTime}
+	GROUP BY DATE(ma.pubdate)
+	ORDER BY pubdate DESC
+	LIMIT 20 
+<!-- 	SELECT  DATE(ma.pubdate) pubdate,COUNT(DISTINCT a.`author`) totalblogger FROM
+	(SELECT pubdate,articleid from bs_subject_m_article
+    where 
+		subjectid=#{subjectid}
+        AND pubdate &gt;= #{startTime}
+	    AND pubdate &lt;=#{endTime}
+	    AND `formats`='weibo' GROUP BY pubdate
+	    ORDER BY pubdate DESC
+	    LIMIT 20
+     ) as ma left join bs_subject_article a on ma.articleid = a.id GROUP BY ma.pubdate -->
+	
+  </select>
+  <select id="getBloggerTop" parameterType="com.bayside.app.opinion.war.subject.bo.SubjectWeiboBo" resultMap="BaseResultMap">
+  <!-- 	SELECT t.author blogger,w.image_url userImg,w.domain domainUrl FROM(
+	SELECT a.author,COUNT(a.author) authorAcount FROM bs_subject_m_article ma,
+	bs_subject_article a
+	WHERE ma.articleid = a.`ID`
+	AND DATE(ma.pubdate) &gt;= #{startTime}
+	AND DATE(ma.pubdate) &lt;=#{endTime}	
+	AND a.formats='weibo'
+	AND ma.subjectid=#{subjectid}
+	GROUP BY a.author
+	ORDER BY authorAcount DESC
+	LIMIT 10
+	)t
+	LEFT JOIN bs_weiboaccount w
+	ON t.author = w.screen_name -->
+	
+	
+	SELECT t.author blogger,w.image_url userImg,w.domain domainUrl FROM(
+     SELECT a.author,COUNT(a.author) authorAcount FROM (
+         select articleid from bs_subject_m_article 
+         where subjectid=#{subjectid} and pubdate &gt;= #{startTime}
+				AND pubdate &lt;=#{endTime}
+				AND formats='weibo'
+				
+       ) as m INNER join bs_subject_article as a on  m.articleid = a.id GROUP BY a.author ORDER BY authorAcount DESC
+      LIMIT 10
+  ) as t LEFT JOIN bs_weiboaccount w
+	ON t.author = w.screen_name
+	
+  </select>
+  <!-- 微博统计结果 博主总数，男总数，海外总数，活跃总数，认证总数 -->
+  <select id="getSubWeiboStat" parameterType="com.bayside.app.opinion.war.subject.bo.SubjectWeiboBo" resultMap="BaseResultMap">
+	  SELECT count(w.screen_name) totalblogger,count(w1.screen_name) totalmale,count(w2.screen_name) totalOverseas,count(w3.screen_name) totalActive,
+	count(w4.screen_name) totalauth 
+	FROM(
+	SELECT distinct a.`author` author FROM bs_subject_m_article ma,
+	bs_subject_article a
+	WHERE ma.articleid = a.ID
+	AND DATE(ma.pubdate) &gt;= #{startTime}
+	AND DATE(ma.pubdate) &lt;=#{endTime}	
+	AND ma.formats = 'weibo'
+	AND ma.subjectid=#{subjectid}
+	)t
+	left join bs_weiboaccount w
+	on t.author = w.screen_name
+	left join 
+	bs_weiboaccount w1 
+	ON t.author = w1.screen_name AND w1.gender ='男'
+	 left join 
+	bs_weiboaccount w2
+	on t.author = w2.screen_name  AND w2.province ='海外'
+	LEFT join 
+	bs_weiboaccount w3
+	ON t.author = w3.screen_name and w3.vip != ''
+	LEFT join 
+	bs_weiboaccount w4
+	ON t.author = w4.screen_name and w4.verified != ''
+  </select>
+  <!-- 微博 统计总数 -->
+   <select id="getSubWeiboTotal" parameterType="com.bayside.app.opinion.war.subject.bo.SubjectWeiboBo" resultMap="BaseResultMap">
+	  SELECT count(w.screen_name) totalblogger
+	FROM(
+	SELECT distinct a.`author` author FROM bs_subject_m_article ma,
+	bs_subject_article a
+	WHERE ma.articleid = a.ID
+	AND ma.pubdate &gt;= #{startTime}
+	AND ma.pubdate &lt;=#{endTime}	
+	AND ma.formats = 'weibo'
+	AND ma.subjectid=#{subjectid}
+	)t
+	left join bs_weiboaccount w
+	on t.author = w.screen_name
+  </select>
+  <!--微博 统计男女  -->
+  <select id="getSubWeiboGender" parameterType="com.bayside.app.opinion.war.subject.bo.SubjectWeiboBo" resultMap="BaseResultMap">
+	  SELECT count(w1.screen_name) totalmale
+	FROM(
+	SELECT distinct a.`author` author FROM bs_subject_m_article ma,
+	bs_subject_article a
+	WHERE ma.articleid = a.ID
+	AND ma.pubdate &gt;= #{startTime}
+	AND ma.pubdate &lt;=#{endTime}	
+	AND ma.formats = 'weibo'
+	AND ma.subjectid=#{subjectid}
+	)t
+	left join 
+	bs_weiboaccount w1 
+	ON t.author = w1.screen_name AND w1.gender ='男'
+  </select>
+  <!-- 微博统计 活跃-->
+  <select id="getSubWeiboActive" parameterType="com.bayside.app.opinion.war.subject.bo.SubjectWeiboBo" resultMap="BaseResultMap">
+	  SELECT count(w3.screen_name) totalActive
+
+	FROM(
+	SELECT distinct a.`author` author FROM bs_subject_m_article ma,
+	bs_subject_article a
+	WHERE ma.articleid = a.ID
+	AND ma.pubdate &gt;= #{startTime}
+	AND ma.pubdate &lt;=#{endTime}	
+	AND ma.formats = 'weibo'
+	AND ma.subjectid=#{subjectid}
+	)t
+    LEFT join 
+	bs_weiboaccount w3
+	ON t.author = w3.screen_name and w3.vip != ''
+  </select>
+  <!-- 微博 统计认证 -->
+   <select id="getSubWeiboRenzheng" parameterType="com.bayside.app.opinion.war.subject.bo.SubjectWeiboBo" resultMap="BaseResultMap">
+	  SELECT count(w4.screen_name) totalauth 
+
+	FROM(
+	SELECT distinct a.`author` author FROM bs_subject_m_article ma,
+	bs_subject_article a
+	WHERE ma.articleid = a.ID
+	AND ma.pubdate &gt;= #{startTime}
+	AND ma.pubdate &lt;=#{endTime}	
+	AND ma.formats = 'weibo'
+	AND ma.subjectid=#{subjectid}
+	)t
+    LEFT join 
+	bs_weiboaccount w4
+	ON t.author = w4.screen_name and w4.verified != ''
+  </select>
+    <!-- 微博 统计境内 境外-->
+   <select id="getSubWeiboRepublic" parameterType="com.bayside.app.opinion.war.subject.bo.SubjectWeiboBo" resultMap="BaseResultMap">
+	  SELECT count(w2.screen_name) totalOverseas
+
+	FROM(
+	SELECT distinct a.`author` author FROM bs_subject_m_article ma,
+	bs_subject_article a
+	WHERE ma.articleid = a.ID
+	AND ma.pubdate &gt;= #{startTime}
+	AND ma.pubdate &lt;=#{endTime}	
+	AND ma.formats = 'weibo'
+	AND ma.subjectid=#{subjectid}
+	)t
+    left join 
+	bs_weiboaccount w2
+	on t.author = w2.screen_name  AND w2.province ='海外'
+  </select>
+  
+  
+  <!-- #微博地域 -->
+  <select id="getBloggerProvince" parameterType="com.bayside.app.opinion.war.subject.bo.SubjectWeiboBo" resultMap="BaseResultMap">
+     SELECT w.province,COUNT(w.screen_name) totalblogger FROM (
+	   SELECT DISTINCT a.`author` author FROM(
+	     select articleid from bs_subject_m_article
+	   where subjectid=#{subjectid}
+	    and `formats`='weibo'
+		AND pubdate &gt;= #{startTime}
+		AND pubdate &lt;=#{endTime}
+	
+	  )as m inner join bs_subject_article a on m.articleid = a.id 
+	  ) as t inner join bs_weiboaccount w
+		on t.author = w.screen_name
+	  GROUP BY w.province
+  </select>
+  <select id="getWeiboEmotion"  parameterType="com.bayside.app.opinion.war.subject.bo.SubjectWeiboBo" resultMap="BaseResultMap">
+  	SELECT emotion,COUNT(emotion) totalEmotion FROM bs_subject_m_article ma
+	WHERE  ma.`formats`='weibo'
+	AND DATE(ma.pubdate) &gt;= #{startTime}
+	AND DATE(ma.pubdate) &lt;=#{endTime}	
+	AND ma.subjectid=#{subjectid}
+	GROUP BY emotion
+  </select>
+  <select id="getCommentRepeat" parameterType="com.bayside.app.opinion.war.subject.bo.SubjectWeiboBo" resultMap="BaseResultMap">
+  	SELECT IFNULL(SUM(commtcount),0) totalcomment,
+  	IFNULL(SUM(repeatcount),0) totalrepeat 
+  	FROM bs_subject_m_article ma,
+	bs_subject_article a
+	WHERE ma.`articleid` = a.`ID`
+	AND DATE(ma.pubdate) &gt;= #{startTime}
+	AND DATE(ma.pubdate) &lt;=#{endTime}	
+	AND ma.`formats`='weibo'
+	AND ma.subjectid=#{subjectid}
+	and a.commtcount!=-1 and a.repeatcount!=-1
+  </select>
+
+</mapper>

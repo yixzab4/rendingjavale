@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+  
+  <generatorConfiguration>
+  	<!-- 数据库驱动 -->
+  	<context id="mysqlTables" targetRuntime="MyBatis3">
+  		<commentGenerator>
+  		<property name="suppressDate" value="true"/>    
+            <!-- 是否去除自动生成的注释 true：是 ： false:否 -->    
+         <property name="suppressAllComments" value="true"/>
+         </commentGenerator>
+         <jdbcConnection driverClass="com.mysql.jdbc.Driver" 
+         	connectionURL="jdbc:mysql://192.168.1.88:3306/baysidedevelop"
+         	userId="root"
+         	password="abc123"
+         ></jdbcConnection>
+         <!-- 默认false，把JDBC DECIMAL 和 NUMERIC 类型解析为 Integer，为 true时把JDBC DECIMAL 和 
+			NUMERIC 类型解析为java.math.BigDecimal -->
+         <javaTypeResolver>
+         	<property name="forceBigDecimals" value="false"/>
+         </javaTypeResolver>
+         <!-- targetProject:生成PO类的位置 -->
+
+		<javaModelGenerator targetPackage="com.bayside.app.opinion.war.myuser.model"
+
+		<javaModelGenerator targetPackage="com.bayside.app.opinion.war.opinionMonitor.model"
+
+		<javaModelGenerator targetPackage="com.bayside.app.opinion.war.systemset.model"
+
+	<javaModelGenerator targetPackage="com.bayside.app.opinion.war.opinionMonitor.model"
+
+		<javaModelGenerator targetPackage="com.bayside.app.opinion.war.systemset.model"
+
+
+			targetProject=".\src\main\java">
+			<!-- enableSubPackages:是否让schema作为包的后缀 -->
+			<property name="enableSubPackages" value="true" />
+			<!-- 从数据库返回的值被清理前后的空格 -->
+			<property name="trimStrings" value="true" />
+		</javaModelGenerator>
+        <!-- targetProject:mapper映射文件生成的位置 -->
+
+		<sqlMapGenerator targetPackage="com.bayside.app.opinion.war.myuser.dao" 
+
+		<sqlMapGenerator targetPackage="com.bayside.app.opinion.war.opinionMonitor.dao" 
+
+		<sqlMapGenerator targetPackage="com.bayside.app.opinion.war.systemset.dao" 
+
+
+
+		<sqlMapGenerator targetPackage="com.bayside.app.opinion.war.opinionMonitor.dao" 
+
+		<sqlMapGenerator targetPackage="com.bayside.app.opinion.war.systemset.dao" 
+
+
+			targetProject=".\src\main\java">
+			<!-- enableSubPackages:是否让schema作为包的后缀 -->
+			<property name="enableSubPackages" value="true" />
+		</sqlMapGenerator>
+		<!-- targetPackage：mapper接口生成的位置 -->
+		<javaClientGenerator type="XMLMAPPER"
+
+			targetPackage="com.bayside.app.opinion.war.myuser.dao" 
+
+
+
+
+
+
+
+
+			targetProject=".\src\main\java">
+			<!-- enableSubPackages:是否让schema作为包的后缀 -->
+			<property name="enableSubPackages" value="true" />
+		</javaClientGenerator>
+
+
+		
+		<table tableName="bs_subject_article" domainObjectName="SubjectArticle" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+		
+		<!-- 
+		<table tableName="bs_focuscount" domainObjectName="FocusCount" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+		<table tableName="bs_hotopinion" domainObjectName="HotOpinion" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+		<table tableName="bs_dayhotwords" domainObjectName="HotWords" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+		<table tableName="bs_daycount" domainObjectName="DayCount" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+		<!-- table tableName="bs_weibo_commentrank" domainObjectName="WeiboCommentrank" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+
+		<!-- table tableName="bs_weibo_commentrank" domainObjectName="WeiboCommentrank" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+
+
+
+		
+		<table tableName="bs_subject_article" domainObjectName="SubjectArticle" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+		
+		<!-- 
+		<table tableName="bs_focuscount" domainObjectName="FocusCount" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+		<table tableName="bs_hotopinion" domainObjectName="HotOpinion" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+		<table tableName="bs_dayhotwords" domainObjectName="HotWords" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+		<table tableName="bs_daycount" domainObjectName="DayCount" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+		<table tableName="bs_weibo_commentrank" domainObjectName="WeiboCommentrank" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+
+
+		<!-- table tableName="bs_weibo_commentrank" domainObjectName="WeiboCommentrank" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+
+		<table tableName="bs_weibo_topnick" domainObjectName="WeiboTopnick" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+		<table tableName="bs_weibo_company" domainObjectName="WeiboCompany" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+		<table tableName="bs_weibo_custom" domainObjectName="WeiboCustom" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+		<table tableName="bs_weibo_hotdata" domainObjectName="WeiboHotdata" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+		<table tableName="bs_weibo_hotword" domainObjectName="WeiboHotword" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+		<table tableName="bs_weibo_map" domainObjectName="WeiboMap" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+		<table tableName="bs_weibo_negativedata" domainObjectName="WeiboNegativedata" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+		<table tableName="bs_weibo_readrank" domainObjectName="WeiboReadrank" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+		<table tableName="bs_weibo_relatedata" domainObjectName="WeiboRelatedata" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+		<table tableName="bs_weibo_repeatrank" domainObjectName="WeiboRepeatrank" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+
+		<table tableName="bs_weibo_status" domainObjectName="WeiboStatus" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table-->
+		<table tableName="bs_user" domainObjectName="User" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+
+		<table tableName="bs_weibo_status" domainObjectName="WeiboStatus" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table> -->
+
+		<table tableName="bs_weibo_status" domainObjectName="WeiboStatus" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table-->
+		<table tableName="bs_setIndexModal" domainObjectName="SetIndexModal" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+
+
+
+		<table tableName="bs_weibo_status" domainObjectName="WeiboStatus" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table> -->
+
+		<table tableName="bs_weibo_status" domainObjectName="WeiboStatus" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table-->
+		<table tableName="bs_setIndexModal" domainObjectName="SetIndexModal" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+
+
+		<!-- 指定数据库表 -->
+		<!--  <table tableName="weixin_company" domainObjectName="WeixinCompany" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+		<table tableName="weixin_customnick" domainObjectName="WeixinCustomnick" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table> 
+		<table tableName="weixin_hotdata" domainObjectName="WeixinHotdata" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+		<table tableName="weixin_negativedata" domainObjectName="WeixinNegativedata" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+		<table tableName="weixin_pushdata" domainObjectName="WeixinPushdata" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+		<table tableName="weixin_relatedata" domainObjectName="WeixinRelatedata" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+		 <table tableName="weixin_status" domainObjectName="WeixinStatus" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+		<table tableName="weixin_topnick" domainObjectName="WeixinTopnick" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>  -->
+		<!--<table schema="dgs" tableName="t_tbp_menu"></table>
+		-->
+		<!--<table tableName="t_repairwrijh"></table>
+		<table tableName="t_project_zyxf_tree"></table>
+		
+		<table schema="" tableName="sys_role"></table>
+		<table schema="" tableName="sys_permission"></table>
+		<table schema="" tableName="sys_user_role"></table>
+		<table schema="" tableName="sys_role_permission"></table> -->
+		
+		<!-- 有些表的字段需要指定java类型
+		 <table schema="" tableName="">
+			<columnOverride column="" javaType="" />
+		</table> -->
+  	</context>
+  </generatorConfiguration>

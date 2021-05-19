@@ -1,0 +1,1344 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bayside.app.opinion.war.subject.dao.SubjectStatisticalMapper">
+  <resultMap id="BaseResultMap" type="com.bayside.app.opinion.war.subject.model.SubjectStatistical">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="subjectid" jdbcType="VARCHAR" property="subjectid" />
+    <result column="subjectname" jdbcType="VARCHAR" property="subjectname" />
+    <result column="info_acount" jdbcType="INTEGER" property="infoAcount" />
+    <result column="news_acount" jdbcType="INTEGER" property="newsAcount" />
+    <result column="bbs_acount" jdbcType="INTEGER" property="bbsAcount" />
+    <result column="boke_acount" jdbcType="INTEGER" property="bokeAcount" />
+    <result column="weibo_acount" jdbcType="INTEGER" property="weiboAcount" />
+    <result column="pingmei_acount" jdbcType="INTEGER" property="pingmeiAcount" />
+    <result column="weixin_acount" jdbcType="INTEGER" property="weixinAcount" />
+    <result column="tieba_acount" jdbcType="INTEGER" property="tiebaAcount" />
+    <result column="shipin_acount" jdbcType="INTEGER" property="shipinAcount" />
+    <result column="app_acount" jdbcType="INTEGER" property="appAcount" />
+    <result column="pinglun_acount" jdbcType="INTEGER" property="pinglunAcount" />
+    <result column="other_acount" jdbcType="INTEGER" property="otherAcount" />
+    <result column="negative_acount" jdbcType="INTEGER" property="negativeAcount" />
+    <result column="emotion" jdbcType="VARCHAR" property="emotion" />
+    <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="pubdate" jdbcType="TIMESTAMP" property="pubdate" />
+    <result column="userid" jdbcType="VARCHAR" property="userid" />
+    <result column="abroad_acount" jdbcType="INTEGER" property="abroadAcount" />
+    <result column="trade_acount" jdbcType="INTEGER" property="tradeAcount" />
+    <result column="tv_acount" jdbcType="INTEGER" property="tvAcount" />
+    <result column="bt_acount" jdbcType="INTEGER" property="btAcount" />
+  </resultMap>
+  <resultMap id="ResultMap" type="com.bayside.app.opinion.war.subject.bo.SubjectStatisticalBo">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="subjectid" jdbcType="VARCHAR" property="subjectid" />
+    <result column="subjectname" jdbcType="VARCHAR" property="subjectname" />
+    <result column="info_acount" jdbcType="INTEGER" property="infoAcount" />
+    <result column="news_acount" jdbcType="INTEGER" property="newsAcount" />
+    <result column="bbs_acount" jdbcType="INTEGER" property="bbsAcount" />
+    <result column="boke_acount" jdbcType="INTEGER" property="bokeAcount" />
+    <result column="weibo_acount" jdbcType="INTEGER" property="weiboAcount" />
+    <result column="pingmei_acount" jdbcType="INTEGER" property="pingmeiAcount" />
+    <result column="tieba_acount" jdbcType="INTEGER" property="tiebaAcount" />
+    <result column="shipin_acount" jdbcType="INTEGER" property="shipinAcount" />
+    <result column="weixin_acount" jdbcType="INTEGER" property="weixinAcount" />
+    <result column="app_acount" jdbcType="INTEGER" property="appAcount" />
+    <result column="pinglun_acount" jdbcType="INTEGER" property="pinglunAcount" />
+    <result column="other_acount" jdbcType="INTEGER" property="otherAcount" />
+    <result column="trade_acount" jdbcType="INTEGER" property="tradeAcount" />
+    <result column="tv_acount" jdbcType="INTEGER" property="tvAcount" />
+    <result column="bt_acount" jdbcType="INTEGER" property="btAcount" />
+    <result column="emotion" jdbcType="VARCHAR" property="emotion" />
+    <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="userid" jdbcType="VARCHAR" property="userid" />
+    <result column="formats" jdbcType="VARCHAR" property="formats" />
+  </resultMap>
+  <resultMap id="opinionResultMap" type="com.bayside.app.opinion.war.subject.bo.SubjectStatisticalBo">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="subjectid" jdbcType="VARCHAR" property="subjectid" />
+    <result column="viewPoint" jdbcType="VARCHAR" property="viewPoint" />
+    <result column="formatsNum" jdbcType="VARCHAR" property="formatsNum" />
+   
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, subjectid,subjectname, info_acount, news_acount, bbs_acount, boke_acount, weibo_acount, pingmei_acount, 
+    weixin_acount, tieba_acount,shipin_acount, app_acount, pinglun_acount, other_acount,emotion, updatetime, userid，
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from bs_subject_statistical
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from bs_subject_statistical
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.bayside.app.opinion.war.subject.model.SubjectStatistical">
+    insert into bs_subject_statistical (ID, subjectid,subjectname, info_acount, 
+      news_acount, bbs_acount, boke_acount, 
+      weibo_acount, pingmei_acount, weixin_acount, tieba_acount,
+      shipin_acount, app_acount, pinglun_acount, 
+      other_acount,emotion, updatetime, userid)
+    values (#{id,jdbcType=VARCHAR}, #{subjectid,jdbcType=VARCHAR}, #{subjectname,jdbcType=VARCHAR}, #{infoAcount,jdbcType=INTEGER}, 
+      #{newsAcount,jdbcType=INTEGER}, #{bbsAcount,jdbcType=INTEGER}, #{bokeAcount,jdbcType=INTEGER}, 
+      #{weiboAcount,jdbcType=INTEGER}, #{pingmeiAcount,jdbcType=INTEGER}, #{weixinAcount,jdbcType=INTEGER},  #{tiebaAcount,jdbcType=INTEGER},
+      #{shipinAcount,jdbcType=INTEGER}, #{appAcount,jdbcType=INTEGER}, #{pinglunAcount,jdbcType=INTEGER}, 
+      #{otherAcount,jdbcType=INTEGER},#{emotion,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, #{userid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bayside.app.opinion.war.subject.model.SubjectStatistical">
+    insert into bs_subject_statistical
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="subjectid != null">
+        subjectid,
+      </if>
+      <if test="subjectname != null">
+        subjectname,
+      </if>
+      <if test="infoAcount != null">
+        info_acount,
+      </if>
+      <if test="newsAcount != null">
+        news_acount,
+      </if>
+      <if test="bbsAcount != null">
+        bbs_acount,
+      </if>
+      <if test="bokeAcount != null">
+        boke_acount,
+      </if>
+      <if test="weiboAcount != null">
+        weibo_acount,
+      </if>
+      <if test="pingmeiAcount != null">
+        pingmei_acount,
+      </if>
+      <if test="weixinAcount != null">
+        weixin_acount,
+      </if>
+      <if test="tiebaAcount != null">
+        tieba_acount,
+      </if>
+      <if test="shipinAcount != null">
+        shipin_acount,
+      </if>
+      <if test="appAcount != null">
+        app_acount,
+      </if>
+      <if test="pinglunAcount != null">
+        pinglun_acount,
+      </if>
+      <if test="otherAcount != null">
+        other_acount,
+      </if>
+      <if test="emotion != null">
+        emotion,
+      </if>
+      <if test="updatetime != null">
+        updatetime,
+      </if>
+      <if test="userid !=null">
+        userid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="subjectid != null">
+        #{subjectid,jdbcType=VARCHAR},
+      </if>
+      <if test="subjectname != null">
+        #{subjectname,jdbcType=VARCHAR},
+      </if>
+      <if test="infoAcount != null">
+        #{infoAcount,jdbcType=INTEGER},
+      </if>
+      <if test="newsAcount != null">
+        #{newsAcount,jdbcType=INTEGER},
+      </if>
+      <if test="bbsAcount != null">
+        #{bbsAcount,jdbcType=INTEGER},
+      </if>
+      <if test="bokeAcount != null">
+        #{bokeAcount,jdbcType=INTEGER},
+      </if>
+      <if test="weiboAcount != null">
+        #{weiboAcount,jdbcType=INTEGER},
+      </if>
+      <if test="pingmeiAcount != null">
+        #{pingmeiAcount,jdbcType=INTEGER},
+      </if>
+      <if test="weixinAcount != null">
+        #{weixinAcount,jdbcType=INTEGER},
+      </if>
+      <if test="tiebaAcount != null">
+        #{tiebaAcount,jdbcType=INTEGER},
+      </if>
+      <if test="shipinAcount != null">
+        #{shipinAcount,jdbcType=INTEGER},
+      </if>
+      <if test="appAcount != null">
+        #{appAcount,jdbcType=INTEGER},
+      </if>
+      <if test="pinglunAcount != null">
+        #{pinglunAcount,jdbcType=INTEGER},
+      </if>
+      <if test="otherAcount != null">
+        #{otherAcount,jdbcType=INTEGER},
+      </if>
+      <if test="emotion != null">
+      	#{emotion,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userid !=null">
+        #{userid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bayside.app.opinion.war.subject.model.SubjectStatistical">
+    update bs_subject_statistical
+    <set>
+      <if test="subjectid != null">
+        subjectid = #{subjectid,jdbcType=VARCHAR},
+      </if>
+      <if test="subjectname != null">
+        subjectname = #{subjectname,jdbcType=VARCHAR},
+      </if>
+      <if test="infoAcount != null">
+        info_acount = #{infoAcount,jdbcType=INTEGER},
+      </if>
+      <if test="newsAcount != null">
+        news_acount = #{newsAcount,jdbcType=INTEGER},
+      </if>
+      <if test="bbsAcount != null">
+        bbs_acount = #{bbsAcount,jdbcType=INTEGER},
+      </if>
+      <if test="bokeAcount != null">
+        boke_acount = #{bokeAcount,jdbcType=INTEGER},
+      </if>
+      <if test="weiboAcount != null">
+        weibo_acount = #{weiboAcount,jdbcType=INTEGER},
+      </if>
+      <if test="pingmeiAcount != null">
+        pingmei_acount = #{pingmeiAcount,jdbcType=INTEGER},
+      </if>
+      <if test="weixinAcount != null">
+        weixin_acount = #{weixinAcount,jdbcType=INTEGER},
+      </if>
+      <if test="tiebaAcount != null">
+        tieba_acount = #{tiebaAcount,jdbcType=INTEGER},
+      </if>
+      <if test="shipinAcount != null">
+        shipin_acount = #{shipinAcount,jdbcType=INTEGER},
+      </if>
+      <if test="appAcount != null">
+        app_acount = #{appAcount,jdbcType=INTEGER},
+      </if>
+      <if test="pinglunAcount != null">
+        pinglun_acount = #{pinglunAcount,jdbcType=INTEGER},
+      </if>
+      <if test="otherAcount != null">
+        other_acount = #{otherAcount,jdbcType=INTEGER},
+      </if>
+       <if test="emotion != null">
+        emotion = #{emotion,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userid !=null">
+        userid = #{userid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bayside.app.opinion.war.subject.model.SubjectStatistical">
+    update bs_subject_statistical
+    set subjectid = #{subjectid,jdbcType=VARCHAR},
+      subjectname = #{subjectname,jdbcType=VARCHAR},
+      info_acount = #{infoAcount,jdbcType=INTEGER},
+      news_acount = #{newsAcount,jdbcType=INTEGER},
+      bbs_acount = #{bbsAcount,jdbcType=INTEGER},
+      boke_acount = #{bokeAcount,jdbcType=INTEGER},
+      weibo_acount = #{weiboAcount,jdbcType=INTEGER},
+      pingmei_acount = #{pingmeiAcount,jdbcType=INTEGER},
+      weixin_acount = #{weixinAcount,jdbcType=INTEGER},
+      tieba_acount = #{tiebaAcount,jdbcType=INTEGER},
+      shipin_acount = #{shipinAcount,jdbcType=INTEGER},
+      app_acount = #{appAcount,jdbcType=INTEGER},
+      pinglun_acount = #{pinglunAcount,jdbcType=INTEGER},
+      other_acount = #{otherAcount,jdbcType=INTEGER},
+      emotion = #{emotion,jdbcType=VARCHAR},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="selectNewest" parameterType="String" resultMap="BaseResultMap">
+  	select 
+  <include refid="Base_Column_List" />
+  	from bs_subject_statistical
+  	where subjectid = #{subjectid,jdbcType=VARCHAR}
+  	ORDER BY updatetime LIMIT 1
+  </select>
+  <!-- 根据时间间隔查询该时间段的数据总量 -->
+   <select id="getSubjectStatistical" parameterType="com.bayside.app.opinion.war.subject.bo.SubjectStatisticalBo" resultMap="BaseResultMap">
+	  select 
+			IFNULL(SUM(formatsNum),0) info_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'news' THEN t.formatsNum ELSE 0 END),0) news_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'bbs' THEN t.formatsNum ELSE 0 END),0) bbs_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'blog' THEN t.formatsNum ELSE 0 END),0) boke_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'weibo' THEN t.formatsNum ELSE 0 END),0) weibo_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'print_media' THEN t.formatsNum ELSE 0 END),0) pingmei_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'weixin' THEN t.formatsNum ELSE 0 END),0) weixin_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'tieba' THEN t.formatsNum ELSE 0 END),0) tieba_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'video' THEN t.formatsNum ELSE 0 END),0) shipin_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'app' THEN t.formatsNum ELSE 0 END),0) app_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'comment' THEN t.formatsNum ELSE 0 END),0) pinglun_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'other' THEN t.formatsNum ELSE 0 END),0) other_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'abroad' THEN t.formatsNum ELSE 0 END),0) abroad_acount,
+            IFNULL(MAX(CASE t.formats WHEN 'trade' THEN t.formatsNum ELSE 0 END),0) trade_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'tv' THEN t.formatsNum ELSE 0 END),0) tv_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'bt' THEN t.formatsNum ELSE 0 END),0) bt_acount
+		from (
+			SELECT formats ,COUNT(formats) formatsNum FROM bs_subject_m_article 
+			WHERE subjectid =#{subjectid}
+			<if test="startTime!=null and startTime!=''">
+				AND pubdate &gt;=#{startTime} 
+	        </if> 
+	        <if test="endTime!=null and endTime!=''">
+	       	 AND pubdate &lt;=#{endTime} 
+	        </if> 
+			GROUP BY formats
+	 )t
+  
+  </select>
+  <!--观点分析  -->
+   <select id="newopinion" parameterType="com.bayside.app.opinion.war.subject.bo.SubjectStatisticalBo" resultMap="opinionResultMap">
+
+		<!-- 
+			SELECT a.view_point viewPoint, count(a.view_point) formatsNum
+			from (
+			select subjectid,articleid from bs_subject_m_article
+			where subjectid =#{subjectid}
+			<if test="startTime!=null and startTime!=''">
+			   AND pubdate &gt;=#{startTime} 
+			 </if> 
+			 <if test="endTime!=null and endTime!=''">
+			   AND pubdate &lt;=#{endTime} 
+			  </if> 
+			)as m left join bs_subject_article as a on m.articleid = a.id where a.view_point!='' GROUP BY a.view_point order by formatsNum desc  -->
+		
+			
+			select c.subjectid,c.articleid,c.viewpoint viewPoint,count(c.viewpoint) formatsNum from(
+			select subjectid,articleid,viewpoint from bs_subject_m_article
+			where subjectid =#{subjectid} and viewpoint!=''
+			
+			  <if test="startTime!=null and startTime!=''">
+			   AND pubdate &gt;=#{startTime} 
+			 </if> 
+			 <if test="endTime!=null and endTime!=''">
+			   AND pubdate &lt;=#{endTime} 
+			  </if> 
+			  <if test="setTrade ==null">
+			    and formats not in ('trade')
+			  </if>
+			 
+			 ) as c group by c.viewpoint order by formatsNum desc
+  </select>
+  <!-- 专题综述 -->
+  <select id="getSubjectTrackingDesc"  parameterType="com.bayside.app.opinion.war.subject.bo.SubjectStatisticalBo" resultMap="BaseResultMap">
+		 SELECT tt.pubdate,SUM(tt.infoAcount) info_acount,
+			MAX(CASE tt.emotion WHEN "-2" THEN tt.infoAcount ELSE 0 END) negative_acount
+			FROM (
+			SELECT t.pubdate,t.emotion,IFNULL(SUM(emotionNum),0) infoAcount
+			FROM (
+			SELECT DATE(pubdate) pubdate,emotion,IFNULL(COUNT(1),0) emotionNum FROM bs_subject_m_article 
+			WHERE subjectid = #{subjectid}
+	            AND  
+	            pubdate &gt;=#{startTime}  
+	            AND  
+	            pubdate &lt;=#{endTime}  
+	            <if test="medialist !=null">
+	              and formats not in ('trade')
+                 
+              </if>
+	           <!--  AND
+	            Date(pubdate) &gt;=DATE_SUB(CURDATE(), INTERVAL 15 DAY) -->
+			GROUP BY pubdate,emotion
+			)t
+			GROUP BY t.pubdate,t.emotion
+			)tt
+			GROUP BY tt.pubdate
+			
+  </select>
+  <!-- 载体趋势分布 -->
+  <select id="getMediatrend"  parameterType="com.bayside.app.opinion.war.subject.bo.SubjectStatisticalBo" resultMap="BaseResultMap">
+		  SELECT t.pubdate,
+			IFNULL(SUM(formatsNum),0) info_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'news' THEN t.formatsNum ELSE 0 END),0) news_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'bbs' THEN t.formatsNum ELSE 0 END),0) bbs_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'blog' THEN t.formatsNum ELSE 0 END),0) boke_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'weibo' THEN t.formatsNum ELSE 0 END),0) weibo_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'print_media' THEN t.formatsNum ELSE 0 END),0) pingmei_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'weixin' THEN t.formatsNum ELSE 0 END),0) weixin_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'tieba' THEN t.formatsNum ELSE 0 END),0) tieba_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'video' THEN t.formatsNum ELSE 0 END),0) shipin_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'app' THEN t.formatsNum ELSE 0 END),0) app_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'comment' THEN t.formatsNum ELSE 0 END),0) pinglun_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'other' THEN t.formatsNum ELSE 0 END),0) other_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'tieba' THEN t.formatsNum ELSE 0 END),0) tieba_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'abroad' THEN t.formatsNum ELSE 0 END),0) abroad_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'trade' THEN t.formatsNum ELSE 0 END),0) trade_acount
+			FROM (
+			SELECT DATE(pubdate) pubdate,formats ,COUNT(formats) formatsNum FROM bs_subject_m_article 
+			WHERE subjectid = #{subjectid}
+	            AND  
+	            pubdate &gt;=#{startTime}  
+	            AND  
+	            pubdate &lt;=#{endTime}  
+	          <!--   AND
+	            Date(pubdate) &gt;=DATE_SUB(CURDATE(), INTERVAL 15 DAY) -->
+			GROUP BY date(pubdate),formats
+			)t
+			GROUP BY t.pubdate
+  </select>
+   <!-- 查询近30天媒体类型文章数量 -->
+   <select id="selectMediaArticleNumber" resultMap="BaseResultMap" parameterType="java.lang.String">
+      	select 
+		SUM(news_acount) news_acount,
+		SUM(bbs_acount) bbs_acount,sum(boke_acount) boke_acount,
+		SUM(weibo_acount) weibo_acount,SUM(pingmei_acount) pingmei_acount,
+		SUM(weixin_acount) weixin_acount,SUM(tieba_acount) tieba_acount,SUM(shipin_acount) shipin_acount,
+		SUM(app_acount) app_acount,SUM(pinglun_acount) pinglun_acount,
+		SUM(other_acount) other_acount
+ 	from bs_subject_statistical where DATE_SUB(CURDATE(), INTERVAL 30 DAY) &lt;= date(updatetime) and emotion!="全部" 
+ 	 <if test="userid != null and userid != '' ">  
+            AND  
+            userid =#{userid}  
+     </if>  
+   </select>
+   <!-- 近10天 媒体正面数量 -->
+    <select id="selectMediaArticlePositive" resultMap="BaseResultMap" parameterType="java.lang.String">
+      	select 
+		SUM(news_acount) news_acount,
+		SUM(bbs_acount) bbs_acount,sum(boke_acount) boke_acount,
+		SUM(weibo_acount) weibo_acount,SUM(pingmei_acount) pingmei_acount,
+		SUM(weixin_acount) weixin_acount,SUM(shipin_acount) shipin_acount,
+		SUM(app_acount) app_acount,SUM(pinglun_acount) pinglun_acount,
+		SUM(other_acount) other_acount
+ 	from bs_subject_statistical where DATE_SUB(CURDATE(), INTERVAL 10 DAY) &lt;= date(updatetime) and userid =#{userid} and emotion="正面"
+   </select>
+   <!-- 负面-->
+    <select id="selectMediaArticleNegative" resultMap="BaseResultMap" parameterType="java.lang.String">
+      	select 
+		SUM(news_acount) news_acount,
+		SUM(bbs_acount) bbs_acount,sum(boke_acount) boke_acount,
+		SUM(weibo_acount) weibo_acount,SUM(pingmei_acount) pingmei_acount,
+		SUM(weixin_acount) weixin_acount,SUM(shipin_acount) shipin_acount,
+		SUM(app_acount) app_acount,SUM(pinglun_acount) pinglun_acount,
+		SUM(other_acount) other_acount
+ 	from bs_subject_statistical where DATE_SUB(CURDATE(), INTERVAL 10 DAY) &lt;= date(updatetime) and userid =#{userid,jdbcType=VARCHAR} and emotion="负面"
+   </select>
+   <!-- 中性 -->
+    <select id="selectMediaArticleneutral" resultMap="BaseResultMap" parameterType="java.lang.String">
+      	select 
+		SUM(news_acount) newsAcount,
+		SUM(bbs_acount) bbs_acount,sum(boke_acount) boke_acount,
+		SUM(weibo_acount) weibo_acount,SUM(pingmei_acount) pingmei_acount,
+		SUM(weixin_acount) weixin_acount,SUM(tieba_acount) tieba_acount,SUM(shipin_acount) shipin_acount,
+		SUM(app_acount) app_acount,SUM(pinglun_acount) pinglun_acount,
+		SUM(other_acount) other_acount
+ 	from bs_subject_statistical where DATE_SUB(CURDATE(), INTERVAL 10 DAY) &lt;= date(updatetime) and userid =#{userid,jdbcType=VARCHAR} and emotion="中性"
+   </select>
+   <!--  dangtian-->
+   <select id="selectBydayArticleNumber" resultMap="BaseResultMap" parameterType="java.lang.String">
+      	select 
+		SUM(news_acount) news_acount,
+		SUM(bbs_acount) bbs_acount,sum(boke_acount) boke_acount,
+		SUM(weibo_acount) weibo_acount,SUM(pingmei_acount) pingmei_acount,
+		SUM(weixin_acount) weixin_acount,SUM(tieba_acount) tieba_acount,SUM(shipin_acount) shipin_acount,
+		SUM(app_acount) app_acount,SUM(pinglun_acount) pinglun_acount,
+		SUM(other_acount) other_acount
+ 	from bs_subject_statistical
+ 	 where emotion!="全部"
+      <if test="subjectid !=null and subjectid !=''">
+          and subjectid = #{subjectid,jdbcType=VARCHAR}
+      </if>
+      <if test="userid !=null and userid !=''">
+           and userid = #{userid,jdbcType=VARCHAR}
+      </if>
+ 	  and DATE(updatetime) = DATE(now())
+   </select>
+   <!-- yizhounei -->
+   <select id="selectByWeekArticleNumber" resultMap="BaseResultMap" parameterType="java.lang.String">
+      	select 
+		SUM(news_acount) news_acount,
+		SUM(bbs_acount) bbs_acount,sum(boke_acount) boke_acount,
+		SUM(weibo_acount) weibo_acount,SUM(pingmei_acount) pingmei_acount,
+		SUM(weixin_acount) weixin_acount,SUM(tieba_acount) tieba_acount,SUM(shipin_acount) shipin_acount,
+		SUM(app_acount) app_acount,SUM(pinglun_acount) pinglun_acount,
+		SUM(other_acount) other_acount
+ 	from bs_subject_statistical
+ 	 where  DATE_SUB(CURDATE(), INTERVAL 7 DAY) &lt;= date(updatetime) and emotion!="全部"
+      <if test="subjectid !=null and subjectid !=''">
+          and subjectid = #{subjectid,jdbcType=VARCHAR}
+      </if>
+      <if test="userid != null and userid != '' ">
+          AND  userid =#{userid}
+        </if>	
+   </select>
+   <!--自定义  -->
+   <select id="selectByDefinedArticleNumber" resultMap="BaseResultMap" parameterType="java.lang.String">
+      	select 
+		SUM(news_acount) news_acount,
+		SUM(bbs_acount) bbs_acount,sum(boke_acount) boke_acount,
+		SUM(weibo_acount) weibo_acount,SUM(pingmei_acount) pingmei_acount,
+		SUM(weixin_acount) weixin_acount,SUM(tieba_acount) tieba_acount,SUM(shipin_acount) shipin_acount,
+		SUM(app_acount) app_acount,SUM(pinglun_acount) pinglun_acount,
+		SUM(other_acount) other_acount
+ 	from bs_subject_statistical
+ 	 <where>
+ 	  emotion!="全部"
+      <if test="subjectid !=null and subjectid !=''">
+          and subjectid = #{subjectid,jdbcType=VARCHAR}
+      </if>
+      <if test="startTime != null and startTime != '' ">  
+            AND  
+            updatetime &gt;=#{startTime}  
+        </if>  
+        <if test="endTime != null and endTime != '' ">  
+            AND  
+            updatetime &lt;=#{endTime}  
+        </if>  
+        <if test="userid != null and userid != '' ">
+          AND  userid =#{userid}
+        </if>		
+     
+       </where>
+   </select>
+   <!-- 当天正面数量 -->
+   <select id="selectByTodayMediaArticlePositive" resultMap="BaseResultMap" parameterType="java.lang.String">
+      	select 
+		SUM(news_acount) news_acount,
+		SUM(bbs_acount) bbs_acount,sum(boke_acount) boke_acount,
+		SUM(weibo_acount) weibo_acount,SUM(pingmei_acount) pingmei_acount,
+		SUM(weixin_acount) weixin_acount,SUM(tieba_acount) tieba_acount,SUM(shipin_acount) shipin_acount,
+		SUM(app_acount) app_acount,SUM(pinglun_acount) pinglun_acount,
+		SUM(other_acount) other_acount
+ 	from bs_subject_statistical where DATE(updatetime) = DATE(now()) and emotion="正面"
+ 	 <if test="subjectid !=null and subjectid !=''">
+          and subjectid = #{subjectid,jdbcType=VARCHAR}
+      </if>
+      <if test="userid != null and userid != '' ">
+          AND  userid =#{userid}
+        </if>
+ 	
+   </select>
+   <!-- 当天负面数量 -->
+   <select id="selectByTodayMediaArticleNegative" resultMap="BaseResultMap" parameterType="java.lang.String">
+      	select 
+		SUM(news_acount) news_acount,
+		SUM(bbs_acount) bbs_acount,sum(boke_acount) boke_acount,
+		SUM(weibo_acount) weibo_acount,SUM(pingmei_acount) pingmei_acount,
+		SUM(weixin_acount) weixin_acount,SUM(tieba_acount) tieba_acount,SUM(shipin_acount) shipin_acount,
+		SUM(app_acount) app_acount,SUM(pinglun_acount) pinglun_acount,
+		SUM(other_acount) other_acount
+ 	from bs_subject_statistical where  DATE(updatetime) = DATE(now()) and emotion="负面"
+ 	 <if test="subjectid !=null and subjectid !=''">
+          and subjectid = #{subjectid,jdbcType=VARCHAR}
+      </if>
+      <if test="userid != null and userid != '' ">
+          AND  userid =#{userid}
+        </if>
+ 	
+   </select>
+   <!-- 当天中性数量 -->
+   <select id="selectByTodayMediaArticleneutral" resultMap="BaseResultMap" parameterType="java.lang.String">
+      	select 
+		SUM(news_acount) newsAcount,
+		SUM(bbs_acount) bbs_acount,sum(boke_acount) boke_acount,
+		SUM(weibo_acount) weibo_acount,SUM(pingmei_acount) pingmei_acount,
+		SUM(weixin_acount) weixin_acount,SUM(tieba_acount) tieba_acount,SUM(shipin_acount) shipin_acount,
+		SUM(app_acount) app_acount,SUM(pinglun_acount) pinglun_acount,
+		SUM(other_acount) other_acount
+ 	from bs_subject_statistical where DATE(updatetime) = DATE(now()) and emotion="中性"
+ 	 <if test="subjectid !=null and subjectid !=''">
+          and subjectid = #{subjectid,jdbcType=VARCHAR}
+      </if>
+       <if test="userid != null and userid != '' ">
+          AND  userid =#{userid}
+        </if>
+   </select>
+   <!--yizhounei  -->
+   <select id="selectByWeekMediaArticlePositive" resultMap="BaseResultMap" parameterType="java.lang.String">
+      	select 
+		SUM(news_acount) news_acount,
+		SUM(bbs_acount) bbs_acount,sum(boke_acount) boke_acount,
+		SUM(weibo_acount) weibo_acount,SUM(pingmei_acount) pingmei_acount,
+		SUM(weixin_acount) weixin_acount,SUM(tieba_acount) weixin_acount,SUM(shipin_acount) shipin_acount,
+		SUM(app_acount) app_acount,SUM(pinglun_acount) pinglun_acount,
+		SUM(other_acount) other_acount
+ 	from bs_subject_statistical where DATE_SUB(CURDATE(), INTERVAL 7 DAY) &lt;= date(updatetime)  and emotion="正面"
+ 	 <if test="subjectid !=null and subjectid !=''">
+        and subjectid = #{subjectid,jdbcType=VARCHAR}
+      </if>
+       <if test="userid != null and userid != '' ">
+          AND  userid =#{userid}
+        </if>
+   </select>
+    <select id="selectByWeekMediaArticleNegative" resultMap="BaseResultMap" parameterType="java.lang.String">
+      	select 
+		SUM(news_acount) news_acount,
+		SUM(bbs_acount) bbs_acount,sum(boke_acount) boke_acount,
+		SUM(weibo_acount) weibo_acount,SUM(pingmei_acount) pingmei_acount,
+		SUM(weixin_acount) weixin_acount,SUM(tieba_acount) tieba_acount,SUM(shipin_acount) shipin_acount,
+		SUM(app_acount) app_acount,SUM(pinglun_acount) pinglun_acount,
+		SUM(other_acount) other_acount
+ 	from bs_subject_statistical where DATE_SUB(CURDATE(), INTERVAL 7 DAY) &lt;= date(updatetime) and emotion="负面"
+ 	 <if test="subjectid !=null and subjectid !=''">
+           and subjectid = #{subjectid,jdbcType=VARCHAR}
+      </if>
+       <if test="userid != null and userid != '' ">
+          AND  userid =#{userid}
+        </if>
+   </select>
+   <select id="selectByWeekMediaArticleneutral" resultMap="BaseResultMap" parameterType="java.lang.String">
+      	select 
+		SUM(news_acount) newsAcount,
+		SUM(bbs_acount) bbs_acount,sum(boke_acount) boke_acount,
+		SUM(weibo_acount) weibo_acount,SUM(pingmei_acount) pingmei_acount,
+		SUM(weixin_acount) weixin_acount,SUM(tieba_acount) tieba_acount,SUM(shipin_acount) shipin_acount,
+		SUM(app_acount) app_acount,SUM(pinglun_acount) pinglun_acount,
+		SUM(other_acount) other_acount
+ 	from bs_subject_statistical where DATE_SUB(CURDATE(), INTERVAL 7 DAY) &lt;= date(updatetime) and emotion="中性"
+ 	 <if test="subjectid !=null and subjectid !=''">
+          and subjectid = #{subjectid,jdbcType=VARCHAR}
+      </if>
+       <if test="userid != null and userid != '' ">
+          AND  userid =#{userid}
+        </if>
+   </select>
+   <!--  自定义时间-->
+   <select id="selectByDefinedMediaArticlePositive" resultMap="BaseResultMap" parameterType="java.lang.String">
+      	select 
+		SUM(news_acount) news_acount,
+		SUM(bbs_acount) bbs_acount,sum(boke_acount) boke_acount,
+		SUM(weibo_acount) weibo_acount,SUM(pingmei_acount) pingmei_acount,
+		SUM(weixin_acount) weixin_acount,SUM(tieba_acount) tieba_acount,SUM(shipin_acount) shipin_acount,
+		SUM(app_acount) app_acount,SUM(pinglun_acount) pinglun_acount,
+		SUM(other_acount) other_acount
+ 	from bs_subject_statistical where emotion="正面"
+ 	 <if test="subjectid !=null and subjectid !=''">
+          and subjectid = #{subjectid,jdbcType=VARCHAR}
+      </if>
+ 	   <if test="startTime != null and startTime != '' ">  
+            AND  
+            updatetime &gt;=#{startTime}  
+        </if>  
+        <if test="endTime != null and endTime != '' ">  
+            AND  
+            updatetime &lt;=#{endTime}  
+        </if>  	
+         <if test="userid != null and userid != '' ">
+          AND  userid =#{userid}
+        </if>	
+   </select>
+    <select id="selectByDefinedMediaArticleNegative" resultMap="BaseResultMap" parameterType="java.lang.String">
+      	select 
+		SUM(news_acount) news_acount,
+		SUM(bbs_acount) bbs_acount,sum(boke_acount) boke_acount,
+		SUM(weibo_acount) weibo_acount,SUM(pingmei_acount) pingmei_acount,
+		SUM(weixin_acount) weixin_acount,SUM(tieba_acount) tieba_acount,SUM(shipin_acount) shipin_acount,
+		SUM(app_acount) app_acount,SUM(pinglun_acount) pinglun_acount,
+		SUM(other_acount) other_acount
+ 	from bs_subject_statistical where  emotion="负面"
+ 	   <if test="subjectid !=null and subjectid !=''">
+           and subjectid = #{subjectid,jdbcType=VARCHAR}
+      </if>
+ 	   <if test="startTime != null and startTime != '' ">  
+            AND  
+            updatetime &gt;=#{startTime}  
+        </if>  
+        <if test="endTime != null and endTime != '' ">  
+            AND  
+            updatetime &lt;=#{endTime}  
+        </if>  	
+         <if test="userid != null and userid != '' ">
+          AND  userid =#{userid}
+        </if>	
+   </select>
+   <select id="selectByDefinedMediaArticleneutral" resultMap="BaseResultMap" parameterType="java.lang.String">
+      	select 
+		SUM(news_acount) newsAcount,
+		SUM(bbs_acount) bbs_acount,sum(boke_acount) boke_acount,
+		SUM(weibo_acount) weibo_acount,SUM(pingmei_acount) pingmei_acount,
+		SUM(weixin_acount) weixin_acount,SUM(tieba_acount) tieba_acount,SUM(shipin_acount) shipin_acount,
+		SUM(app_acount) app_acount,SUM(pinglun_acount) pinglun_acount,
+		SUM(other_acount) other_acount
+ 	from bs_subject_statistical where emotion="中性"
+ 	 <if test="subjectid !=null and subjectid !=''">
+          and subjectid = #{subjectid,jdbcType=VARCHAR}
+      </if>
+ 	 <if test="startTime != null and startTime != '' ">  
+            AND  
+            updatetime &gt;=#{startTime}  
+        </if>  
+        <if test="endTime != null and endTime != '' ">  
+            AND  
+           updatetime &lt;=#{endTime}  
+        </if>  	
+         <if test="userid != null and userid != '' ">
+          AND  userid =#{userid}
+        </if>	
+   </select>
+   <!-- 时间为空  正面数量 -->
+   <select id="selectNoTimeMediaArticlePositive" resultMap="BaseResultMap" parameterType="java.lang.String">
+      	select 
+		SUM(news_acount) news_acount,
+		SUM(bbs_acount) bbs_acount,sum(boke_acount) boke_acount,
+		SUM(weibo_acount) weibo_acount,SUM(pingmei_acount) pingmei_acount,
+		SUM(weixin_acount) weixin_acount,SUM(tieba_acount) tieba_acount,SUM(shipin_acount) shipin_acount,
+		SUM(app_acount) app_acount,SUM(pinglun_acount) pinglun_acount,
+		SUM(other_acount) other_acount
+ 	from bs_subject_statistical where emotion="正面"
+ 	 <if test="subjectid !=null and subjectid !=''">
+          and subjectid = #{subjectid,jdbcType=VARCHAR}
+      </if>
+      <if test="userid != null and userid != '' ">
+          AND  userid =#{userid}
+        </if>
+ 	
+   </select>
+   <!-- 时间为空 当负面数量 -->
+   <select id="selectNoTimeMediaArticleNegative" resultMap="BaseResultMap" parameterType="java.lang.String">
+      	select 
+		SUM(news_acount) news_acount,
+		SUM(bbs_acount) bbs_acount,sum(boke_acount) boke_acount,
+		SUM(weibo_acount) weibo_acount,SUM(pingmei_acount) pingmei_acount,
+		SUM(weixin_acount) weixin_acount,SUM(tieba_acount) tieba_acount,SUM(shipin_acount) shipin_acount,
+		SUM(app_acount) app_acount,SUM(pinglun_acount) pinglun_acount,
+		SUM(other_acount) other_acount
+ 	from bs_subject_statistical where emotion="负面"
+ 	 <if test="subjectid !=null and subjectid !=''">
+          and subjectid = #{subjectid,jdbcType=VARCHAR}
+      </if>
+      <if test="userid != null and userid != '' ">
+          AND  userid =#{userid}
+        </if>
+ 	
+   </select>
+   <!-- 时间为空 中性数量 -->
+   <select id="selectNoTimeMediaArticleneutral" resultMap="BaseResultMap" parameterType="java.lang.String">
+      	select 
+		SUM(news_acount) newsAcount,
+		SUM(bbs_acount) bbs_acount,sum(boke_acount) boke_acount,
+		SUM(weibo_acount) weibo_acount,SUM(pingmei_acount) pingmei_acount,
+		SUM(weixin_acount) weixin_acount,SUM(tieba_acount) tieba_acount,SUM(shipin_acount) shipin_acount,
+		SUM(app_acount) app_acount,SUM(pinglun_acount) pinglun_acount,
+		SUM(other_acount) other_acount
+ 	from bs_subject_statistical where emotion="中性"
+ 	 <if test="subjectid !=null and subjectid !=''">
+          and subjectid = #{subjectid,jdbcType=VARCHAR}
+      </if>
+       <if test="userid != null and userid != '' ">
+          AND  userid =#{userid}
+        </if>
+   </select>
+   <!--时间为空-->
+   <select id="selectNoTimeArticleNumber" resultMap="BaseResultMap" parameterType="java.lang.String">
+      	select 
+		SUM(news_acount) news_acount,
+		SUM(bbs_acount) bbs_acount,sum(boke_acount) boke_acount,
+		SUM(weibo_acount) weibo_acount,SUM(pingmei_acount) pingmei_acount,
+		SUM(weixin_acount) weixin_acount,SUM(tieba_acount) tieba_acount,SUM(shipin_acount) shipin_acount,
+		SUM(app_acount) app_acount,SUM(pinglun_acount) pinglun_acount,
+		SUM(other_acount) other_acount
+ 	from bs_subject_statistical
+ 	 where emotion!="全部"
+      <if test="subjectid !=null and subjectid !=''">
+          and subjectid = #{subjectid,jdbcType=VARCHAR}
+      </if>
+      <if test="userid !=null and userid !=''">
+           and userid = #{userid,jdbcType=VARCHAR}
+      </if>
+   </select>
+  <select id="selectByTimeAcount" parameterType="com.bayside.app.opinion.war.subject.bo.SubjectStatisticalBo" resultMap="ResultMap">
+  	SELECT t.emotion,DATE(t.pubdate),
+		IFNULL(SUM(formatsNum),0) info_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'news' THEN t.formatsNum ELSE 0 END),0) news_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'bbs' THEN t.formatsNum ELSE 0 END),0) bbs_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'blog' THEN t.formatsNum ELSE 0 END),0) boke_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'weibo' THEN t.formatsNum ELSE 0 END),0) weibo_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'print_media' THEN t.formatsNum ELSE 0 END),0) pingmei_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'weixin' THEN t.formatsNum ELSE 0 END),0) weixin_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'tieba' THEN t.formatsNum ELSE 0 END),0) tieba_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'video' THEN t.formatsNum ELSE 0 END),0) shipin_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'app' THEN t.formatsNum ELSE 0 END),0) app_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'comment' THEN t.formatsNum ELSE 0 END),0) pinglun_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'other' THEN t.formatsNum ELSE 0 END),0) other_acount
+		FROM (
+		SELECT formats , emotion ,COUNT(formats) formatsNum ,DATE(pubdate) pubdate FROM bs_subject_m_article 
+		WHERE userid=#{userid,jdbcType=VARCHAR} and pubdate &gt;= #{updatetime,jdbcType=TIMESTAMP} AND (emotion ='-2' OR emotion ='1')
+		GROUP BY emotion,formats
+		) t
+		 where t.pubdate &gt;= #{updatetime,jdbcType=TIMESTAMP} GROUP BY t.emotion 
+  </select>
+  <select id="selectMediaAcountByTime" parameterType="com.bayside.app.opinion.war.subject.bo.SubjectStatisticalBo" resultMap="BaseResultMap">
+  	select 
+		SUM(info_acount) info_acount,SUM(news_acount) news_acount,
+		SUM(bbs_acount) bbs_acount,sum(boke_acount) boke_acount,
+		SUM(weibo_acount) weibo_acount,SUM(tieba_acount) tieba_acount,SUM(pingmei_acount) pingmei_acount,
+		SUM(weixin_acount) weixin_acount,SUM(shipin_acount) shipin_acount,
+		SUM(app_acount) app_acount,SUM(pinglun_acount) pinglun_acount,
+		SUM(other_acount) other_acount
+ 	from bs_subject_statistical
+  <where>
+  updatetime &gt;= #{time,jdbcType=TIMESTAMP} and userid = #{userid,jdbcType=VARCHAR}
+  
+  </where>
+  </select>
+   <!--载体趋势图-->
+  <select id="selectzaitiByTime"  parameterType="com.bayside.app.opinion.war.subject.bo.SubjectStatisticalBo" resultMap="BaseResultMap">
+  	SELECT DATE(t.updatetime) updatetime,t.userid,
+    IFNULL(SUM(formatsNum),0) info_acount,
+    t.formats,
+    IFNULL(MAX(CASE t.formats WHEN 'news' THEN t.formatsNum ELSE 0 END),0) news_acount,
+    IFNULL(MAX(CASE t.formats WHEN 'bbs' THEN t.formatsNum ELSE 0 END),0) bbs_acount,
+    IFNULL(MAX(CASE t.formats WHEN 'blog' THEN t.formatsNum ELSE 0 END),0) boke_acount,
+    IFNULL(MAX(CASE t.formats WHEN 'weibo' THEN t.formatsNum ELSE 0 END),0) weibo_acount,
+    IFNULL(MAX(CASE t.formats WHEN 'print_media' THEN t.formatsNum ELSE 0 END),0) pingmei_acount,
+    IFNULL(MAX(CASE t.formats WHEN 'weixin' THEN t.formatsNum ELSE 0 END),0) weixin_acount,
+	IFNULL(MAX(CASE t.formats WHEN 'tieba' THEN t.formatsNum ELSE 0 END),0) tieba_acount,
+	IFNULL(MAX(CASE t.formats WHEN 'video' THEN t.formatsNum ELSE 0 END),0) shipin_acount,
+	IFNULL(MAX(CASE t.formats WHEN 'app' THEN t.formatsNum ELSE 0 END),0) app_acount,
+	IFNULL(MAX(CASE t.formats WHEN 'comment' THEN t.formatsNum ELSE 0 END),0) pinglun_acount,
+	IFNULL(MAX(CASE t.formats WHEN 'other' THEN t.formatsNum ELSE 0 END),0) other_acount
+	FROM (
+	SELECT formats ,COUNT(formats) formatsNum ,DATE(updatetime) UPDATETIME,userid FROM bs_subject_m_article 
+	WHERE userid=#{userid,jdbcType=VARCHAR} and UPDATETIME &gt;= #{updatetime,jdbcType=TIMESTAMP}
+	  
+	GROUP BY formats,Date(UPDATETIME)
+	)t
+    GROUP BY UPDATETIME order by UPDATETIME desc
+  </select>
+  <!-- 首页载体趋势图 -->
+   <select id="indexselectzaitiByTime"  parameterType="com.bayside.app.opinion.war.subject.bo.SubjectStatisticalBo" resultMap="ResultMap">
+  	SELECT DATE(t.updatetime) updatetime,t.userid,
+    IFNULL(SUM(formatsNum),0) info_acount,
+        t.formats,
+    IFNULL(MAX(CASE t.formats WHEN 'news' THEN t.formatsNum ELSE 0 END),0) news_acount,
+    IFNULL(MAX(CASE t.formats WHEN 'bbs' THEN t.formatsNum ELSE 0 END),0) bbs_acount,
+    IFNULL(MAX(CASE t.formats WHEN 'blog' THEN t.formatsNum ELSE 0 END),0) boke_acount,
+    IFNULL(MAX(CASE t.formats WHEN 'weibo' THEN t.formatsNum ELSE 0 END),0) weibo_acount,
+    IFNULL(MAX(CASE t.formats WHEN 'print_media' THEN t.formatsNum ELSE 0 END),0) pingmei_acount,
+    IFNULL(MAX(CASE t.formats WHEN 'weixin' THEN t.formatsNum ELSE 0 END),0) weixin_acount,
+	IFNULL(MAX(CASE t.formats WHEN 'tieba' THEN t.formatsNum ELSE 0 END),0) tieba_acount,
+	IFNULL(MAX(CASE t.formats WHEN 'video' THEN t.formatsNum ELSE 0 END),0) shipin_acount,
+	IFNULL(MAX(CASE t.formats WHEN 'app' THEN t.formatsNum ELSE 0 END),0) app_acount,
+	IFNULL(MAX(CASE t.formats WHEN 'comment' THEN t.formatsNum ELSE 0 END),0) pinglun_acount,
+	IFNULL(MAX(CASE t.formats WHEN 'other' THEN t.formatsNum ELSE 0 END),0) other_acount
+	FROM (
+	SELECT formats ,COUNT(formats) formatsNum ,DATE(pubdate) UPDATETIME,userid FROM bs_subject_m_article 
+	WHERE userid=#{userid,jdbcType=VARCHAR} 
+   <if test="startTime!=null and startTime!=''">
+      and pubdate &gt;= #{startTime,jdbcType=TIMESTAMP}
+	</if>
+	<if test="endTime!=null and endTime!=''">
+      and pubdate &lt;= #{endTime,jdbcType=TIMESTAMP}
+	</if>
+	<if test="subjectlist !=null">
+	   and subjectid in 
+          <foreach collection="subjectlist" index="index" item="subid" open="(" separator="," close=")">
+            #{subid}
+          </foreach>
+	  </if>
+	GROUP BY formats,DATE(UPDATETIME)
+	)t GROUP BY updatetime
+   </select>
+  <select id="selectTodayzaitiByTime"  parameterType="com.bayside.app.opinion.war.subject.bo.SubjectStatisticalBo" resultMap="ResultMap">
+   SELECT DATE_FORMAT(pubdate,'%Y-%m-%d %H') updatetime,
+			IFNULL(SUM(formatsNum),0) info_acount,
+			    t.formats,
+			IFNULL(MAX(CASE t.formats WHEN 'news' THEN t.formatsNum ELSE 0 END),0) news_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'bbs' THEN t.formatsNum ELSE 0 END),0) bbs_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'blog' THEN t.formatsNum ELSE 0 END),0) boke_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'weibo' THEN t.formatsNum ELSE 0 END),0) weibo_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'print_media' THEN t.formatsNum ELSE 0 END),0) pingmei_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'weixin' THEN t.formatsNum ELSE 0 END),0) weixin_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'tieba' THEN t.formatsNum ELSE 0 END),0) tieba_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'video' THEN t.formatsNum ELSE 0 END),0) shipin_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'app' THEN t.formatsNum ELSE 0 END),0) app_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'comment' THEN t.formatsNum ELSE 0 END),0) pinglun_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'other' THEN t.formatsNum ELSE 0 END),0) other_acount
+			FROM (
+			SELECT DATE_FORMAT(pubdate,'%Y-%m-%d %H') pubdate,formats ,COUNT(formats) formatsNum FROM bs_subject_m_article 
+			WHERE Date(pubdate) &gt;=#{updatetime,jdbcType=TIMESTAMP} 
+			AND userid = #{userid}
+			GROUP BY DATE_FORMAT(pubdate,'%Y-%m-%d %H'),formats
+			)t
+			GROUP BY pubdate
+  </select>
+  <!-- 首页自定义载体趋势分析 -->
+  <select id="indexTodayzaitiByTime"  parameterType="com.bayside.app.opinion.war.subject.bo.SubjectStatisticalBo" resultMap="ResultMap">
+   SELECT DATE_FORMAT(pubdate,'%Y-%m-%d %H') updatetime,
+			IFNULL(SUM(formatsNum),0) info_acount,
+			t.formats,
+			IFNULL(MAX(CASE t.formats WHEN 'news' THEN t.formatsNum ELSE 0 END),0) news_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'bbs' THEN t.formatsNum ELSE 0 END),0) bbs_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'blog' THEN t.formatsNum ELSE 0 END),0) boke_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'weibo' THEN t.formatsNum ELSE 0 END),0) weibo_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'print_media' THEN t.formatsNum ELSE 0 END),0) pingmei_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'weixin' THEN t.formatsNum ELSE 0 END),0) weixin_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'tieba' THEN t.formatsNum ELSE 0 END),0) tieba_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'video' THEN t.formatsNum ELSE 0 END),0) shipin_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'app' THEN t.formatsNum ELSE 0 END),0) app_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'comment' THEN t.formatsNum ELSE 0 END),0) pinglun_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'other' THEN t.formatsNum ELSE 0 END),0) other_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'tieba' THEN t.formatsNum ELSE 0 END),0) tieba_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'abroad' THEN t.formatsNum ELSE 0 END),0) abroad_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'trade' THEN t.formatsNum ELSE 0 END),0) trade_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'tv' THEN t.formatsNum ELSE 0 END),0) tv_acount,
+			IFNULL(MAX(CASE t.formats WHEN 'bt' THEN t.formatsNum ELSE 0 END),0) bt_acount
+			FROM (
+			SELECT DATE_FORMAT(pubdate,'%Y-%m-%d %H') pubdate,formats ,COUNT(formats) formatsNum FROM bs_subject_m_article 
+			WHERE pubdate &gt;=#{updatetime,jdbcType=TIMESTAMP}
+			
+			AND userid = #{userid}
+			<if test="subjectlist !=null">
+			  and subjectid in 
+            <foreach collection="subjectlist" index="index" item="subid" open="(" separator="," close=")">
+              #{subid}
+            </foreach>
+		  </if>	
+			GROUP BY DATE_FORMAT(pubdate,'%Y-%m-%d %H'),formats
+			)t
+			GROUP BY pubdate
+  </select>
+  <select id="selectSumAcountByTime" parameterType="com.bayside.app.opinion.war.subject.bo.SubjectStatisticalBo" resultMap="BaseResultMap">
+  	select 
+		SUM(info_acount) info_acount,SUM(news_acount) news_acount,
+		SUM(bbs_acount) bbs_acount,sum(boke_acount) boke_acount,
+		SUM(weibo_acount) weibo_acount,SUM(pingmei_acount) pingmei_acount,
+		SUM(weixin_acount) weixin_acount,SUM(tieba_acount) tieba_acount,SUM(shipin_acount) shipin_acount,
+		SUM(app_acount) app_acount,SUM(pinglun_acount) pinglun_acount,
+		SUM(other_acount) other_acount
+ 	from bs_subject_statistical
+  <where>
+  updatetime &gt;= #{time,jdbcType=TIMESTAMP}
+  <if test="userid !=null and userid !=''">
+           and userid = #{userid,jdbcType=VARCHAR}
+   </if>
+   <if test="emotion !=null and emotion !=''">
+           and emotion = #{emotion,jdbcType=VARCHAR}
+   </if>
+  </where>
+  </select>
+<select id="newselectSumAcountByTime" parameterType="com.bayside.app.opinion.war.subject.bo.SubjectStatisticalBo" resultMap="BaseResultMap">
+  	select 
+		SUM(info_acount) info_acount,SUM(news_acount) news_acount,
+		SUM(bbs_acount) bbs_acount,sum(boke_acount) boke_acount,
+		SUM(weibo_acount) weibo_acount,SUM(pingmei_acount) pingmei_acount,
+		SUM(weixin_acount) weixin_acount,SUM(tieba_acount) tieba_acount,SUM(shipin_acount) shipin_acount,
+		SUM(app_acount) app_acount,SUM(pinglun_acount) pinglun_acount,
+		SUM(other_acount) other_acount
+ 	from bs_subject_statistical
+  <where>
+  updatetime &gt;= #{time,jdbcType=TIMESTAMP}
+  <if test="userid !=null and userid !=''">
+           and userid = #{userid,jdbcType=VARCHAR}
+   </if>
+  </where>
+   group by emotion
+  </select>
+  <!--专题统计  -->
+  <select id="selectNoTimeMediaNumber" resultMap="BaseResultMap" parameterType="java.lang.String">
+      	select 
+		SUM(news_acount) news_acount,
+		SUM(bbs_acount) bbs_acount,sum(boke_acount) boke_acount,
+		SUM(weibo_acount) weibo_acount,SUM(pingmei_acount) pingmei_acount,
+		SUM(weixin_acount) weixin_acount,SUM(shipin_acount) shipin_acount,
+		SUM(app_acount) app_acount,SUM(pinglun_acount) pinglun_acount,
+		SUM(other_acount) other_acount,emotion
+ 	from bs_subject_statistical
+ 	 where emotion!="全部"
+      <if test="subjectid !=null and subjectid !=''">
+          and subjectid = #{subjectid,jdbcType=VARCHAR}
+      </if>
+      <if test="userid !=null and userid !=''">
+           and userid = #{userid,jdbcType=VARCHAR}
+      </if>
+      group by emotion
+   </select>
+
+  <delete id="deleteBySubjectId" parameterType="java.lang.String">
+  	delete from bs_subject_statistical 
+  	where subjectid = #{subjectid}
+  </delete>
+
+<select id="inittongjiemotion" parameterType="com.bayside.app.opinion.war.subject.bo.SubjectStatisticalBo" resultMap="BaseResultMap">
+  	  SELECT tt.updatetime,SUM(tt.infoAcount) infoAcount,
+			MAX(CASE tt.emotion WHEN "-2" THEN tt.infoAcount ELSE 0 END) negativeAcount,
+			MAX(CASE tt.emotion WHEN "0" THEN tt.infoAcount ELSE 0 END) neutralAcount,
+			MAX(CASE tt.emotion WHEN "1" THEN tt.infoAcount ELSE 0 END) positiveAcount
+			FROM (
+			SELECT t.updatetime,t.emotion,IFNULL(SUM(emotionNum),0) infoAcount
+			FROM (
+			SELECT DATE(pubdate) updatetime,emotion,IFNULL(COUNT(1),0) emotionNum FROM bs_subject_m_article 
+			WHERE userid = #{userid} and pubdate &gt;= #{updatetime} 
+			<if test="medialist !=null">
+               and formats not in ('trade')
+            </if>
+			GROUP BY pubdate,emotion 
+			)t
+			GROUP BY t.updatetime,t.emotion
+			)tt
+			GROUP BY tt.updatetime 
+  </select> 
+  <select id="tiaojiantongjiemotion" parameterType="com.bayside.app.opinion.war.opinionMonitor.bo.SubJectArticleBo" resultMap="BaseResultMap">
+  	  SELECT tt.updatetime,SUM(tt.infoAcount) infoAcount,
+			MAX(CASE tt.emotion WHEN "-2" THEN tt.infoAcount ELSE 0 END) negativeAcount,
+			MAX(CASE tt.emotion WHEN "0" THEN tt.infoAcount ELSE 0 END) neutralAcount,
+			MAX(CASE tt.emotion WHEN "1" THEN tt.infoAcount ELSE 0 END) positiveAcount
+			FROM (
+			SELECT t.updatetime,t.emotion,IFNULL(SUM(emotionNum),0) infoAcount
+			FROM (
+			SELECT DATE(pubdate) updatetime,emotion,IFNULL(COUNT(1),0) emotionNum FROM bs_subject_m_article 
+			WHERE userid = #{userid}
+			<if test="trade == 0">
+               and formats not in ('trade')
+            </if>
+            <if test="medialist !=null">
+               and formats in 
+               <foreach collection="medialist" index="index" item="fm" open="(" separator="," close=")">  
+              #{fm} 
+            </foreach>
+            </if>
+            <if test="startTime != null and startTime !=''" >
+               and pubdate &gt;= #{startTime}
+            </if>
+            <if test="endTime != null and endTime !=''" >
+              and pubdate &lt;= #{endTime}
+             </if>
+	         <if test="subjectid != null and subjectid !=''" >
+	           and subjectid = #{subjectid,jdbcType=VARCHAR}
+	          </if>
+				GROUP BY pubdate,emotion
+				)t
+				GROUP BY t.updatetime,t.emotion
+				)tt
+				GROUP BY tt.updatetime
+			
+  </select>
+  <select id="daytiaojiantongjiemotion" parameterType="com.bayside.app.opinion.war.opinionMonitor.bo.SubJectArticleBo" resultMap="ResultMap">
+  	  SELECT tt.updatetime,SUM(tt.infoAcount) infoAcount,
+			MAX(CASE tt.emotion WHEN "-2" THEN tt.infoAcount ELSE 0 END) negativeAcount,
+			MAX(CASE tt.emotion WHEN "0" THEN tt.infoAcount ELSE 0 END) neutralAcount,
+			MAX(CASE tt.emotion WHEN "1" THEN tt.infoAcount ELSE 0 END) positiveAcount
+			FROM (
+			SELECT t.updatetime,t.emotion,IFNULL(SUM(emotionNum),0) infoAcount
+			FROM (
+			SELECT DATE_FORMAT(pubdate,'%Y-%m-%d %H') updatetime,emotion,IFNULL(COUNT(1),0) emotionNum FROM bs_subject_m_article 
+			WHERE userid = #{userid}
+				<if test="trade == 0">
+               and formats not in ('trade')
+            </if>
+            <if test="medialist !=null">
+               and formats in 
+               <foreach collection="medialist" index="index" item="fm" open="(" separator="," close=")">  
+              #{fm} 
+            </foreach>
+            </if>
+            <if test="startTime != null and startTime !=''" >
+               and DATE_FORMAT(pubdate,'%Y-%m-%d %H') &gt;= #{startTime}
+            </if>
+            <if test="endTime != null and endTime !=''" >
+              and DATE_FORMAT(pubdate,'%Y-%m-%d') &lt;= #{endTime}
+             </if>
+	         <if test="subjectid != null and subjectid !=''" >
+	           and subjectid = #{subjectid,jdbcType=VARCHAR}
+	          </if>
+				GROUP BY DATE_FORMAT(pubdate,'%Y-%m-%d %H'), emotion
+				)t
+				GROUP BY t.updatetime,t.emotion
+				)tt
+				GROUP BY tt.updatetime
+			
+  </select>  
+  <!--统计分析 所有分类 正负面信息   -->
+<!-- <select id="inittongjiemotion" parameterType="com.bayside.app.opinion.war.subject.bo.SubjectStatisticalBo" resultMap="BaseResultMap">
+  	select 
+		SUM(info_acount) info_acount,SUM(news_acount) news_acount,
+		SUM(bbs_acount) bbs_acount,sum(boke_acount) boke_acount,
+		SUM(weibo_acount) weibo_acount,SUM(pingmei_acount) pingmei_acount,
+		SUM(weixin_acount) weixin_acount,SUM(tieba_acount) tieba_acount,SUM(shipin_acount) shipin_acount,
+		SUM(app_acount) app_acount,SUM(pinglun_acount) pinglun_acount,
+		SUM(other_acount) other_acount,DATE(updatetime) updatetime,emotion
+ 	from bs_subject_statistical as st,
+ 	(select * from bs_subject where classifyid!='') as fb
+  <where>
+    st.updatetime &gt;= #{updatetime,jdbcType=TIMESTAMP}
+    and fb.id =st.subjectid
+    and st.userid = #{userid,jdbcType=VARCHAR}
+   <if test="emotion !=null and emotion !=''">
+      and st.`emotion` = #{emotion,jdbcType=VARCHAR}
+   </if>
+   group by DATE(st.updatetime)
+  </where>
+  </select> -->
+  <select id="inittongjifumian" parameterType="com.bayside.app.opinion.war.subject.bo.SubjectStatisticalBo" resultMap="BaseResultMap">
+  	select 
+		SUM(info_acount) info_acount,SUM(news_acount) news_acount,
+		SUM(bbs_acount) bbs_acount,sum(boke_acount) boke_acount,
+		SUM(weibo_acount) weibo_acount,SUM(pingmei_acount) pingmei_acount,
+		SUM(weixin_acount) weixin_acount,SUM(tieba_acount) tieba_acount,SUM(shipin_acount) shipin_acount,
+		SUM(app_acount) app_acount,SUM(pinglun_acount) pinglun_acount,
+		SUM(other_acount) other_acount,DATE(updatetime) updatetime,emotion
+ 	from bs_subject_statistical
+  <where>
+    DATE(updatetime) &gt;= #{updatetime,jdbcType=TIMESTAMP}
+   
+   
+  <if test="userid !=null and userid !=''">
+           and userid = #{userid,jdbcType=VARCHAR}
+   </if>
+   <if test="emotion !=null and emotion !=''">
+           and emotion = #{emotion,jdbcType=VARCHAR}
+   </if>
+    
+  </where>
+  </select>
+  <!--统计分析初始化 media  -->
+   <select id="tongjimedia" parameterType="com.bayside.app.opinion.war.subject.bo.SubjectStatisticalBo" resultMap="BaseResultMap">
+   SELECT t.emotion,
+		IFNULL(SUM(formatsNum),0) info_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'news' THEN t.formatsNum ELSE 0 END),0) news_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'bbs' THEN t.formatsNum ELSE 0 END),0) bbs_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'blog' THEN t.formatsNum ELSE 0 END),0) boke_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'weibo' THEN t.formatsNum ELSE 0 END),0) weibo_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'print_media' THEN t.formatsNum ELSE 0 END),0) pingmei_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'weixin' THEN t.formatsNum ELSE 0 END),0) weixin_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'tieba' THEN t.formatsNum ELSE 0 END),0) tieba_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'video' THEN t.formatsNum ELSE 0 END),0) shipin_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'app' THEN t.formatsNum ELSE 0 END),0) app_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'comment' THEN t.formatsNum ELSE 0 END),0) pinglun_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'other' THEN t.formatsNum ELSE 0 END),0) other_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'tieba' THEN t.formatsNum ELSE 0 END),0) tieba_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'abroad' THEN t.formatsNum ELSE 0 END),0) abroad_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'trade' THEN t.formatsNum ELSE 0 END),0) trade_acount, 
+		IFNULL(MAX(CASE t.formats WHEN 'tv' THEN t.formatsNum ELSE 0 END),0) tv_acount, 
+		IFNULL(MAX(CASE t.formats WHEN 'bt' THEN t.formatsNum ELSE 0 END),0) bt_acount 
+		FROM (
+		SELECT formats , emotion ,COUNT(formats) formatsNum  FROM bs_subject_m_article 
+		WHERE userid=#{userid,jdbcType=VARCHAR} and pubdate &gt;= #{updatetime,jdbcType=TIMESTAMP} <!-- and Date(pubdate) >=DATE_SUB(CURDATE(), INTERVAL 7 DAY) -->
+		GROUP BY emotion,formats
+		) t
+		  GROUP BY t.emotion 
+	 
+  </select>
+  <select id="indextongjimedia" parameterType="com.bayside.app.opinion.war.subject.bo.SubjectStatisticalBo" resultMap="BaseResultMap">
+      SELECT t.emotion,DATE(t.updatetime),
+		IFNULL(SUM(formatsNum),0) info_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'news' THEN t.formatsNum ELSE 0 END),0) news_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'bbs' THEN t.formatsNum ELSE 0 END),0) bbs_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'blog' THEN t.formatsNum ELSE 0 END),0) boke_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'weibo' THEN t.formatsNum ELSE 0 END),0) weibo_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'print_media' THEN t.formatsNum ELSE 0 END),0) pingmei_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'weixin' THEN t.formatsNum ELSE 0 END),0) weixin_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'tieba' THEN t.formatsNum ELSE 0 END),0) tieba_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'video' THEN t.formatsNum ELSE 0 END),0) shipin_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'app' THEN t.formatsNum ELSE 0 END),0) app_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'comment' THEN t.formatsNum ELSE 0 END),0) pinglun_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'other' THEN t.formatsNum ELSE 0 END),0) other_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'tieba' THEN t.formatsNum ELSE 0 END),0) tieba_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'abroad' THEN t.formatsNum ELSE 0 END),0) abroad_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'trade' THEN t.formatsNum ELSE 0 END),0) trade_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'tv' THEN t.formatsNum ELSE 0 END),0) tv_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'bt' THEN t.formatsNum ELSE 0 END),0) bt_acount
+		
+		FROM (
+		SELECT formats , emotion ,COUNT(formats) formatsNum ,DATE(pubdate) updatetime FROM bs_subject_m_article 
+		WHERE userid=#{userid,jdbcType=VARCHAR} and pubdate &gt;= #{updatetime,jdbcType=TIMESTAMP}
+		GROUP BY emotion,formats
+		) t
+		 GROUP BY t.emotion 
+  </select>
+  
+  <!-- 自定义首页载体分布 -->
+  <select id="definedmedia" parameterType="com.bayside.app.opinion.war.subject.bo.SubjectStatisticalBo" resultMap="BaseResultMap">
+      SELECT t.emotion,DATE(t.updatetime),
+		IFNULL(SUM(formatsNum),0) info_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'news' THEN t.formatsNum ELSE 0 END),0) news_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'bbs' THEN t.formatsNum ELSE 0 END),0) bbs_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'blog' THEN t.formatsNum ELSE 0 END),0) boke_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'weibo' THEN t.formatsNum ELSE 0 END),0) weibo_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'print_media' THEN t.formatsNum ELSE 0 END),0) pingmei_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'weixin' THEN t.formatsNum ELSE 0 END),0) weixin_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'tieba' THEN t.formatsNum ELSE 0 END),0) tieba_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'video' THEN t.formatsNum ELSE 0 END),0) shipin_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'app' THEN t.formatsNum ELSE 0 END),0) app_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'comment' THEN t.formatsNum ELSE 0 END),0) pinglun_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'other' THEN t.formatsNum ELSE 0 END),0) other_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'tieba' THEN t.formatsNum ELSE 0 END),0) tieba_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'abroad' THEN t.formatsNum ELSE 0 END),0) abroad_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'trade' THEN t.formatsNum ELSE 0 END),0) trade_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'tv' THEN t.formatsNum ELSE 0 END),0) tv_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'bt' THEN t.formatsNum ELSE 0 END),0) bt_acount
+		FROM (
+		SELECT formats , emotion ,COUNT(formats) formatsNum ,DATE(pubdate) updatetime FROM bs_subject_m_article 
+		WHERE userid=#{userid,jdbcType=VARCHAR} 
+		<if test="subjectlist !=null">
+		    and subjectid in 
+           <foreach collection="subjectlist" index="index" item="subid" open="(" separator="," close=")">
+            #{subid}
+          </foreach>
+		</if>
+		<if test="startTime!=null and startTime!=''">
+		 and pubdate &gt;= #{startTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="endTime!=null and endTime!=''">
+		and pubdate &lt;= #{endTime,jdbcType=TIMESTAMP}
+		</if>
+		
+		GROUP BY emotion,formats
+		) t
+		
+		 GROUP BY t.emotion 
+  </select>
+  
+   <select id="timetongjimedia" parameterType="com.bayside.app.opinion.war.subject.bo.SubjectStatisticalBo" resultMap="BaseResultMap">
+     SELECT t.emotion,
+		IFNULL(SUM(formatsNum),0) info_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'news' THEN t.formatsNum ELSE 0 END),0) news_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'bbs' THEN t.formatsNum ELSE 0 END),0) bbs_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'blog' THEN t.formatsNum ELSE 0 END),0) boke_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'weibo' THEN t.formatsNum ELSE 0 END),0) weibo_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'print_media' THEN t.formatsNum ELSE 0 END),0) pingmei_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'weixin' THEN t.formatsNum ELSE 0 END),0) weixin_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'tieba' THEN t.formatsNum ELSE 0 END),0) tieba_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'video' THEN t.formatsNum ELSE 0 END),0) shipin_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'app' THEN t.formatsNum ELSE 0 END),0) app_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'comment' THEN t.formatsNum ELSE 0 END),0) pinglun_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'other' THEN t.formatsNum ELSE 0 END),0) other_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'abroad' THEN t.formatsNum ELSE 0 END),0) abroad_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'trade' THEN t.formatsNum ELSE 0 END),0) trade_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'tv' THEN t.formatsNum ELSE 0 END),0) tv_acount,
+		IFNULL(MAX(CASE t.formats WHEN 'bt' THEN t.formatsNum ELSE 0 END),0) bt_acount
+		FROM (
+		SELECT formats , emotion ,COUNT(formats) formatsNum  FROM bs_subject_m_article 
+		WHERE userid=#{userid,jdbcType=VARCHAR}
+		<if test="startTime != null and startTime !=''" >
+        and DATE_FORMAT(pubdate,'%Y-%m-%d') &gt;= #{startTime}
+     </if>
+       <if test="endTime != null and endTime !=''" >
+        and DATE_FORMAT(pubdate,'%Y-%m-%d') &lt;= #{endTime}
+       </if>
+	  
+	   <if test="subjectid !=null and subjectid !=''">
+	           and subjectid = #{subjectid,jdbcType=VARCHAR}
+	   </if>
+	   
+<!--          <if test="classifyid!='' and classifyid !=null and subjectid == ''">
+            and subjectid in (select y.id from bs_subject as y where classifyid=#{classifyid,jdbcType=VARCHAR})
+         </if>
+          <if test="classifyid!='' and classifyid !=null and subjectid == null">
+            and subjectid in (select y.id from bs_subject as y where classifyid=#{classifyid,jdbcType=VARCHAR})
+         </if> -->
+		GROUP BY emotion,formats
+		) t
+		  GROUP BY t.emotion 
+  
+  </select>
+  <!-- 查询某一时间段的最大的专题信息总量 -->
+  <select id="selectMaxSubjectInfo" parameterType="com.bayside.app.opinion.war.subject.bo.SubjectStatisticalBo" resultMap="BaseResultMap">
+  	
+		SELECT subjectid,subjectname,SUM(info_acount) info_acount FROM bs_subject_statistical 
+		
+		WHERE userid = #{userid} AND emotion = #{emotion}
+		
+		AND updatetime &gt;= #{startTime} AND updatetime &lt; #{endTime}
+		GROUP BY subjectid 
+		ORDER BY SUM(info_acount) DESC LIMIT 1
+  </select>
+  <!-- 查询某一时间段数据总量 -->
+  <select id="selectAcount" parameterType="com.bayside.app.opinion.war.subject.bo.SubjectStatisticalBo" resultMap="BaseResultMap">
+  	select 
+		SUM(info_acount) info_acount,SUM(news_acount) news_acount,
+		SUM(bbs_acount) bbs_acount,sum(boke_acount) boke_acount,
+		SUM(weibo_acount) weibo_acount,SUM(pingmei_acount) pingmei_acount,
+		SUM(weixin_acount) weixin_acount,SUM(tieba_acount) tieba_acount,SUM(shipin_acount) shipin_acount,
+		SUM(app_acount) app_acount,SUM(pinglun_acount) pinglun_acount,
+		SUM(other_acount) other_acount,emotion
+ 	from bs_subject_statistical
+ 	WHERE userid = #{userid} 
+	AND updatetime &gt;= #{startTime} AND updatetime &lt; #{endTime}
+	GROUP BY emotion
+	ORDER BY info_acount DESC
+  </select>
+  <!-- 查询日报趋势图 -->
+  <select id="selectDayReportTrend" parameterType="com.bayside.app.opinion.war.subject.bo.SubjectStatisticalBo" resultMap="BaseResultMap">
+  	SELECT 
+		UPDATETIME updatetime,
+		SUM(INFO_ACOUNT) info_acount,SUM(NEWS_ACOUNT) news_acount,
+		SUM(BBS_ACOUNT) bbs_acount,SUM(BOKE_ACOUNT) boke_acount,
+		SUM(WEIBO_ACOUNT) weibo_acount,SUM(PINGMEI_ACOUNT) pingmei_acount,
+		SUM(WEIXIN_ACOUNT) weixin_acount,SUM(TIEBA_ACOUNT) tieba_acount,SUM(SHIPIN_ACOUNT) shipin_acount,
+		SUM(APP_ACOUNT) app_acount,SUM(PINGLUN_ACOUNT) pinglun_acount,
+		SUM(OTHER_ACOUNT) other_acount
+ 	FROM BS_SUBJECT_STATISTICAL
+ 	WHERE USERID = #{userid} AND EMOTION = #{emotion}
+	AND UPDATETIME &gt;= #{startTime} AND UPDATETIME &lt; #{endTime}
+	GROUP BY UPDATETIME 
+  </select>
+  <!-- 查询周报或者月报趋势图 -->
+  <select id="selectReportTrend" parameterType="com.bayside.app.opinion.war.subject.bo.SubjectStatisticalBo" resultMap="BaseResultMap">
+  	SELECT 
+		DATE(UPDATETIME)updatetime,
+		SUM(INFO_ACOUNT) info_acount,SUM(NEWS_ACOUNT) news_acount,
+		SUM(BBS_ACOUNT) bbs_acount,SUM(BOKE_ACOUNT) boke_acount,
+		SUM(WEIBO_ACOUNT) weibo_acount,SUM(PINGMEI_ACOUNT) pingmei_acount,
+		SUM(WEIXIN_ACOUNT) weixin_acount,SUM(TIEBA_ACOUNT) tieba_acount,SUM(SHIPIN_ACOUNT) shipin_acount,
+		SUM(APP_ACOUNT) app_acount,SUM(PINGLUN_ACOUNT) pinglun_acount,
+		SUM(OTHER_ACOUNT) other_acount
+ 	FROM BS_SUBJECT_STATISTICAL
+ 	WHERE USERID = #{userid} AND EMOTION = #{emotion}
+	AND UPDATETIME &gt;= #{startTime} AND UPDATETIME &lt; #{endTime}
+	GROUP BY DATE(UPDATETIME) 
+  </select>
+  <select id="selectOpinionMediaType" parameterType="com.bayside.app.opinion.war.subject.bo.SubjectStatisticalBo" resultMap="BaseResultMap">
+  		SELECT 
+		SUM(info_acount) info_acount,SUM(news_acount) news_acount,
+		SUM(bbs_acount) bbs_acount,SUM(boke_acount) boke_acount,
+		SUM(weibo_acount) weibo_acount,SUM(pingmei_acount) pingmei_acount,
+		SUM(weixin_acount) weixin_acount,SUM(tieba_acount) tieba_acount,SUM(shipin_acount) shipin_acount,
+		SUM(app_acount) app_acount,SUM(pinglun_acount) pinglun_acount,
+		SUM(other_acount) other_acount
+ 	FROM bs_subject_statistical
+ 	WHERE userid = #{userid} AND emotion = #{emotion}
+	AND updatetime &gt;=  #{startTime} AND updatetime &lt; #{endTime}
+  </select>
+  <select id="selectEmotionAnaly" parameterType="com.bayside.app.opinion.war.subject.bo.SubjectStatisticalBo" resultType="hashMap">
+  SELECT 
+	(SELECT SUM(info_acount) AS totalInfo FROM bs_subject_statistical  WHERE userid = #{userid} AND updatetime &gt;=  #{startTime} AND updatetime &lt; #{endTime} AND emotion ='全部') totalInfo,
+	(SELECT SUM(info_acount) AS totalpositive FROM bs_subject_statistical  WHERE userid = #{userid} AND updatetime &gt;=  #{startTime} AND updatetime &lt; #{endTime} AND emotion ='正面') totalpositive,
+	(SELECT SUM(info_acount) AS totalpositive FROM bs_subject_statistical  WHERE userid = #{userid} AND updatetime &gt;=  #{startTime} AND updatetime &lt; #{endTime} AND emotion ='中性') totalneutral,
+	(SELECT SUM(info_acount) AS totalpositive FROM bs_subject_statistical  WHERE userid = #{userid} AND updatetime &gt;=  #{startTime} AND updatetime &lt; #{endTime} AND emotion ='负面') totalnegative
+  </select>
+   <!-- 根据时间 情感的数据总量 -->
+  <select id="selectByEmotionAcount" parameterType="com.bayside.app.opinion.war.subject.bo.SubjectStatisticalBo" resultMap="BaseResultMap">
+  	select 
+		SUM(info_acount) info_acount,SUM(news_acount) news_acount,
+		SUM(bbs_acount) bbs_acount,sum(boke_acount) boke_acount,
+		SUM(weibo_acount) weibo_acount,SUM(pingmei_acount) pingmei_acount,
+		SUM(weixin_acount) weixin_acount,SUM(tieba_acount) tieba_acount,SUM(shipin_acount) shipin_acount,
+		SUM(app_acount) app_acount,SUM(pinglun_acount) pinglun_acount,
+		SUM(other_acount) other_acount,emotion
+ 	from bs_subject_statistical
+  <where>
+         updatetime &gt;= #{time,jdbcType=TIMESTAMP}
+  </where>
+    group by emotion 
+  </select>
+</mapper>

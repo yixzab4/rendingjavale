@@ -1,0 +1,2699 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bayside.app.opinion.war.opinionMonitor.dao.SubjectArticleBoMapper" >
+  <resultMap id="BaseResultMap" type="com.bayside.app.opinion.war.opinionMonitor.model.SubjectArticle" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="tittle" property="tittle" jdbcType="VARCHAR" />
+    <result column="pubdate" property="pubdate" jdbcType="TIMESTAMP" />
+    <result column="data_source" property="dataSource" jdbcType="VARCHAR" />
+    <result column="author" property="author" jdbcType="VARCHAR" />
+    <result column="emotion" property="emotion" jdbcType="VARCHAR" />
+    <result column="content_type" property="contentType" jdbcType="VARCHAR" />
+    <result column="formats" property="formats" jdbcType="VARCHAR" />
+    <result column="readcount" property="readcount" jdbcType="INTEGER" />
+    <result column="commtcount" property="commtcount" jdbcType="INTEGER" />
+    <result column="repeatcount" property="repeatcount" jdbcType="INTEGER" />
+    <result column="aggreecount" property="aggreecount" jdbcType="INTEGER" />
+    <result column="score" property="score" jdbcType="INTEGER" />
+    <result column="similarnum" property="similarnum" jdbcType="INTEGER" />
+    <result column="relate_word" property="relateWord" jdbcType="INTEGER" />
+    <result column="opinion_word" property="opinionWord" jdbcType="INTEGER" />
+    <result column="negative_word" property="negativeWord" jdbcType="INTEGER" />
+    <result column="positive_word" property="positiveWord" jdbcType="INTEGER" />
+    <result column="warning_word" property="warningWord" jdbcType="INTEGER" />
+    <result column="newsindex" property="newsindex" jdbcType="INTEGER" />
+    <result column="search_num" property="searchNum" jdbcType="INTEGER" />
+    <result column="updatetime" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+    <result column="url" property="url" jdbcType="LONGVARCHAR" />
+    <result column="simhashcode" property="simhashcode" jdbcType="VARCHAR" />
+     <result column="noquery" property="noquery" jdbcType="INTEGER" />
+     <result column="simids" property="simids" jdbcType="LONGVARCHAR" />
+     <result column="simnum" property="simnum" jdbcType="INTEGER" />
+      <result column="html" property="html" jdbcType="VARCHAR" />
+  </resultMap>
+   <resultMap id="ResultMapAll" type="com.bayside.app.opinion.war.opinionMonitor.bo.SubJectArticleBo" extends="BaseResultMap">
+    <result column="subjectid" property="subjectid" jdbcType="VARCHAR" />
+    <result column="articleid" property="articleid" jdbcType="VARCHAR" />
+    <result column="userid" property="userid" jdbcType="VARCHAR" />
+    <result column="keyword_rule" property="keywordRule" jdbcType="VARCHAR" />
+    <result column="reportinfo" property="reportinfo" jdbcType="BIT" />
+    <result column="attention" property="attention" jdbcType="BIT" />
+    <result column="warning" property="warning" jdbcType="BIT" />
+    <result column="readsign" property="readsign" jdbcType="BIT" />
+    <result column="briefing" property="briefing" jdbcType="BIT" />
+    <result column="briefing" property="briefing" jdbcType="BIT" />
+    <result column="updatetime" property="updatetime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, tittle, pubdate, data_source, author, emotion, content_type, formats, readcount, 
+    commtcount, repeatcount, aggreecount, score, similarnum, relate_word, opinion_word, 
+    negative_word, positive_word, warning_word, newsindex, search_num, updatetime, content, 
+    url, subjectid, articleid, userid, keyword_rule, reportinfo, attention, warning, readsign, 
+    briefing
+  </sql>
+    <select id="selectAllId" resultMap="BaseResultMap">
+    select 
+    id,emotion
+    from bs_subject_article
+ 
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bs_subject_article
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+   <select id="filter" resultMap="BaseResultMap" parameterType="com.bayside.app.opinion.war.opinionMonitor.model.SubjectArticle" >
+    select 
+    <include refid="Base_Column_List" />
+    from bs_subject_article
+    <where>
+     id in 
+    <foreach collection="ids" index="index" item="item" open="(" separator="," close=")">  
+       #{ids[${index}]}
+    </foreach> 
+    <if test="startTime != null and startTime !=''">
+     and pubdate &gt;= #{startTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="endTime != null and endTime !=''">
+     and pubdate &lt;= #{endTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="emotion != null and emotion !=''">
+     and emotion = #{emotion,jdbcType=VARCHAR} 
+    </if>
+    <if test="contentType != null and contentType!=''">
+     and content_type = #{contentType,jdbcType=VARCHAR}
+    </if>
+    <if test="formats != null and formats !=''">
+     and formats = #{formats,jdbcType=VARCHAR}
+    </if>
+    </where> 
+  </select>
+   <select id="subjectArtileAllInfo" resultMap="BaseResultMap" parameterType="com.bayside.app.opinion.war.opinionMonitor.bo.SubJectArticleBo" >
+    select tittle, url
+    from bs_subject_article
+    <where>
+     id in 
+    <foreach collection="ids" index="index" item="item" open="(" separator="," close=")">  
+       #{ids[${index}]}
+    </foreach> 
+   </where>
+   </select>
+   <select id="subjectArtileInsertMess" resultMap="ResultMapAll" parameterType="com.bayside.app.opinion.war.opinionMonitor.bo.SubJectArticleBo">
+       SELECT a.`ID`, a.tittle, a.pubdate, a.data_source, a.author, a.content_type, a.formats, a.readcount, 
+    a.commtcount, a.repeatcount, a.aggreecount, a.score, a.similarnum, a.relate_word, a.opinion_word, 
+    a.negative_word, a.positive_word, a.warning_word, a.newsindex, a.search_num, a.updatetime, a.content, 
+    a.url, m.ID mid,m.subjectid, m.articleid, m.userid, m.keyword_rule, m.reportinfo, m.attention, m.warning, m.readsign, m.emotion, 
+    briefing, m.dependency FROM bs_subject_article AS a,
+    (select * from bs_subject_m_article as bs
+    	<where>
+    		 bs.`userid`= #{userid,jdbcType=VARCHAR}
+    		 <if test="subjectid != null and subjectid !=''" >
+       		 and bs.subjectid = #{subjectid,jdbcType=VARCHAR}
+    	     </if>
+    	     and bs.articleid in 
+            <foreach collection="ids" index="index" item="item" open="(" separator="," close=")">  
+            #{ids[${index}]}
+            </foreach> 
+    	</where>
+    ) AS m
+    where
+      m.`articleid` = a.`ID`
+   </select>
+ 
+  <select id="selectBydate" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	select 
+    <include refid="Base_Column_List" />
+    from bs_subject_article
+    WHERE pubdate &gt;= #{0} and pubdate &lt;= #{1} and id in
+    <foreach collection="list" index="index" item="id" open="(" separator="," close=")">  
+       #{id} 
+    </foreach> 
+  </select>
+  <select id="filterCom" resultMap="ResultMapAll" parameterType="com.bayside.app.opinion.war.opinionMonitor.bo.SubJectArticleBo" >
+  select p.articleid,p.emotion,p.id mid,p.subjectid,p.simnum,
+	    p.userid,
+		p.keyword_rule,
+		p.attention,
+		p.warning,
+		p.readsign,
+	 	s.ID,
+		s.tittle,
+		p.pubdate,
+		s.data_source,
+		s.author,
+		s.formats,
+		s.updatetime,
+		s.content content,
+		s.url
+		 from (
+
+  SELECT a.articleid,emotion,id,subjectid,simnum,
+	    userid,
+		keyword_rule,
+		attention,
+		warning,
+		readsign,
+		attentiontime,pubdate
+		FROM bs_subject_m_article a
+		  WHERE 1=1 and noquery='0'
+		   <if test="subjectid == null or subjectid ==''" >
+		       and `userid`= #{userid,jdbcType=VARCHAR}
+           </if>
+          <if test="subjectid != null and subjectid !=''" >
+           and subjectid = #{subjectid,jdbcType=VARCHAR}
+          </if>
+          <if test="warning != null" >
+           and warning = #{warning,jdbcType=BIT}
+          </if>
+          <if test="readsign != null" >
+           and readsign = #{readsign,jdbcType=BIT}
+          </if>
+          <if test="emotion != null and emotion!=''" >
+           and emotion = #{emotion,jdbcType=VARCHAR}
+          </if>
+           <if test="startTime != null and startTime !=''">
+		     and pubdate &gt;= #{startTime,jdbcType=TIMESTAMP}
+	      </if>
+		  <if test="edtime != null and edtime !=''">
+			 and pubdate &lt;= #{edtime,jdbcType=TIMESTAMP}
+		  </if>
+		 <if test="weidu != null and weidu!=''">
+			and weidu = #{weidu,jdbcType=VARCHAR}
+		 </if>
+		 <if test="medialist !=null">
+            and formats not in ('trade')
+          </if>
+          <if test ="trade !=null and formats == 'trade'">
+              and (
+             formats = #{formats,jdbcType=VARCHAR}
+              <if test ="dependency !=null">
+               or dependency &lt; #{dependency,jdbcType = DOUBLE}
+              </if>
+              
+              )        
+             </if>
+              <if test ="trade !=null and formats != 'trade'">
+              and 
+             formats = #{formats,jdbcType=VARCHAR}
+              and dependency &lt; #{dependency,jdbcType = DOUBLE}
+                     
+             </if>
+          <if test =" trade == null">
+            <if test="formats != null and formats !=''">
+		      and formats = #{formats,jdbcType=VARCHAR}
+		    </if>
+              <if test="dependency !=null">
+              and dependency &lt; #{dependency,jdbcType = DOUBLE}
+             </if>
+          </if>
+         
+        
+          AND  NOT EXISTS
+          (
+		SELECT 1 FROM bs_subject_m_article b WHERE b.articleid = a.articleid AND b.id &lt; a.id 
+	
+         and noquery='0'
+           <if test="subjectid == null or subjectid ==''" >
+		       and `userid`= #{userid,jdbcType=VARCHAR}
+           </if>
+          <if test="subjectid != null and subjectid !=''" >
+           and subjectid = #{subjectid,jdbcType=VARCHAR}
+          </if>
+          <if test="warning != null" >
+           and warning = #{warning,jdbcType=BIT}
+          </if>
+          <if test="readsign != null" >
+           and readsign = #{readsign,jdbcType=BIT}
+          </if>
+          <if test="emotion != null and emotion!=''" >
+           and emotion = #{emotion,jdbcType=VARCHAR}
+          </if>
+           <if test="startTime != null and startTime !=''">
+		     and pubdate &gt;= #{startTime,jdbcType=TIMESTAMP}
+	      </if>
+		  <if test="edtime != null and edtime !=''">
+			 and pubdate &lt;= #{edtime,jdbcType=TIMESTAMP}
+		  </if>
+		 <if test="weidu != null and weidu!=''">
+			and weidu = #{weidu,jdbcType=VARCHAR}
+		 </if>
+           
+         
+		 <if test="medialist !=null">
+            and formats not in ('trade')
+          </if>
+           <if test ="trade !=null">
+              and (
+             formats = #{formats,jdbcType=VARCHAR}
+               <if test ="dependency !=null">
+                 or dependency &lt; #{dependency,jdbcType = DOUBLE}
+              </if>
+              
+              )        
+             </if>
+          <if test =" trade == null">
+            <if test="formats != null and formats !=''">
+		      and formats = #{formats,jdbcType=VARCHAR}
+		    </if>
+              <if test="dependency !=null">
+              and dependency &lt; #{dependency,jdbcType = DOUBLE}
+             </if>
+          </if>
+          )
+	   <if test="uptime !=null and uptime !=''">
+	      order by dependency desc
+	    </if>
+	    <if test="pubtime !=null and pubtime !=''">
+	       order by pubdate desc
+	    </if> 
+	    <if test="simnumorder != null and simnumorder!=''">
+            order by simnum desc
+          </if>
+    limit #{start},#{size}
+	
+	)
+ as p inner JOIN bs_subject_article as s on p.articleid =s.id
+ 
+  </select>
+  
+  <select id="repeatfilterCom" resultMap="ResultMapAll" parameterType="com.bayside.app.opinion.war.opinionMonitor.bo.SubJectArticleBo" >
+  select p.articleid,p.emotion,p.id mid,p.subjectid,p.simnum,
+	    p.userid,
+		p.keyword_rule,
+		p.attention,
+		p.warning,
+		p.readsign,
+	 	s.ID,
+		s.tittle,
+		p.pubdate,
+		s.data_source,
+		s.author,
+		s.formats,
+		s.updatetime,
+		s.content content,
+		s.url
+		 from (
+
+  SELECT a.articleid,emotion,id,subjectid,simnum,
+	    userid,
+		keyword_rule,
+		attention,
+		warning,
+		readsign,
+		attentiontime,pubdate
+		FROM bs_subject_m_article a
+		  WHERE 1=1 
+		   <if test="subjectid == null or subjectid ==''" >
+		       and `userid`= #{userid,jdbcType=VARCHAR}
+           </if>
+          <if test="subjectid != null and subjectid !=''" >
+           and subjectid = #{subjectid,jdbcType=VARCHAR}
+          </if>
+          <if test="warning != null" >
+           and warning = #{warning,jdbcType=BIT}
+          </if>
+          <if test="readsign != null" >
+           and readsign = #{readsign,jdbcType=BIT}
+          </if>
+          <if test="emotion != null and emotion!=''" >
+           and emotion = #{emotion,jdbcType=VARCHAR}
+          </if>
+           <if test="startTime != null and startTime !=''">
+		     and pubdate &gt;= #{startTime,jdbcType=TIMESTAMP}
+	      </if>
+		  <if test="edtime != null and edtime !=''">
+			 and pubdate &lt;= #{edtime,jdbcType=TIMESTAMP}
+		  </if>
+		 <if test="weidu != null and weidu!=''">
+			and weidu = #{weidu,jdbcType=VARCHAR}
+		 </if>
+		 <if test="medialist !=null">
+            and formats not in ('trade')
+          </if>
+          <if test ="trade !=null and formats == 'trade'">
+              and (
+             formats = #{formats,jdbcType=VARCHAR}
+              <if test ="dependency !=null">
+               or dependency &lt; #{dependency,jdbcType = DOUBLE}
+              </if>
+              
+              )        
+             </if>
+              <if test ="trade !=null and formats != 'trade'">
+              and 
+             formats = #{formats,jdbcType=VARCHAR}
+              and dependency &lt; #{dependency,jdbcType = DOUBLE}
+                     
+             </if>
+          <if test =" trade == null">
+            <if test="formats != null and formats !=''">
+		      and formats = #{formats,jdbcType=VARCHAR}
+		    </if>
+              <if test="dependency !=null">
+              and dependency &lt; #{dependency,jdbcType = DOUBLE}
+             </if>
+          </if>
+         
+        
+        	   <if test="uptime !=null and uptime !=''">
+	      order by dependency desc
+	    </if>
+	    <if test="pubtime !=null and pubtime !=''">
+	       order by pubdate desc
+	    </if> 
+	    <if test="simnumorder != null and simnumorder!=''">
+            order by simnum desc
+          </if>
+    limit #{start},#{size}
+	
+	)
+ as p inner JOIN bs_subject_article as s on p.articleid =s.id
+ 
+  </select>
+  
+  
+  
+  
+  <select id="filterSimlarArticle" resultMap="ResultMapAll" parameterType="com.bayside.app.opinion.war.opinionMonitor.bo.SubJectArticleBo" >
+       select p.articleid,p.emotion,p.id mid,p.subjectid,p.simnum,
+	    p.userid,
+	 	s.ID,
+		s.tittle,
+		p.pubdate,
+		s.data_source,
+		s.author,
+		s.url from (
+		 select articleid,emotion,id,subjectid,simnum,pubdate,
+	    userid from bs_subject_m_article
+		 <where>
+            id in 
+	         <foreach collection="mids" index="index" item="mid" open="(" separator="," close=")">  
+	             #{mid} 
+	          </foreach>
+          </where>
+       order by pubdate desc
+      
+		) as p inner JOIN bs_subject_article as s on p.articleid =s.id 
+		
+
+  </select>
+  
+  <select id="outSimlarArticle" resultMap="ResultMapAll" parameterType="com.bayside.app.opinion.war.opinionMonitor.bo.SubJectArticleBo" >
+       select 
+		s.tittle,
+		p.pubdate,
+		s.data_source,
+		s.author,
+		s.url from (
+		 select articleid,pubdate,
+	    userid from bs_subject_m_article
+		 <where>
+            id in 
+	         <foreach collection="mids" index="index" item="mid" open="(" separator="," close=")">  
+	             #{mid} 
+	          </foreach>
+          </where>
+       order by pubdate desc
+      
+		) as p inner JOIN bs_subject_article as s on p.articleid =s.id 
+  </select>
+  
+  <!-- 观点分析 -->
+   <select id="opinionArticleList" resultMap="ResultMapAll" parameterType="com.bayside.app.opinion.war.opinionMonitor.bo.SubJectArticleBo" >
+        select p.articleid,p.emotion,p.id mid,p.subjectid,
+	    p.userid,
+		p.attention,
+		p.warning,
+	 	s.ID,
+		s.tittle,
+		s.pubdate,
+		s.data_source,
+		s.author,
+		s.formats,
+		s.updatetime,
+		REPLACE(left(s.content,200),'##B##','') content,
+		s.url
+       from (
+        select articleid,emotion,id,subjectid,
+	    userid,
+		attention,
+		warning,
+		readsign
+		from bs_subject_m_article 
+		<where> 
+      `userid`= #{userid,jdbcType=VARCHAR} and viewpoint = #{viewPoint,jdbcType=VARCHAR}
+    	 <if test="subjectid != null and subjectid !=''" >
+       		and subjectid = #{subjectid,jdbcType=VARCHAR}
+		 </if>
+		 <if test="startTime != null and startTime !=''">
+			and pubdate &gt;= #{startTime,jdbcType=TIMESTAMP}
+		 </if>
+		 <if test="endTime != null and endTime !=''">
+			and pubdate &lt;= #{endTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="medialist !=null">
+	          and formats not in ('trade')
+             
+         </if>
+         
+		</where>
+        <if test="uptime !=null and uptime !=''">
+          order by dependency desc
+        </if>
+       <if test="pubtime !=null and pubtime !=''">
+         order by pubdate desc
+       </if> 
+	    limit #{start}, #{size}
+       )as p inner JOIN bs_subject_article as s on p.articleid =s.id 
+      
+       
+  </select>
+     <select id="opinionTotal" resultMap="ResultMapAll" parameterType="com.bayside.app.opinion.war.opinionMonitor.bo.SubJectArticleBo" >
+        select count(p.id) total
+	 
+       from (
+        select articleid,emotion,id,subjectid,
+	    userid,
+		attention,
+		warning,
+		readsign
+		from bs_subject_m_article 
+		<where> 
+      `userid`= #{userid,jdbcType=VARCHAR} and viewpoint = #{viewPoint,jdbcType=VARCHAR}
+    	 <if test="subjectid != null and subjectid !=''" >
+       		and subjectid = #{subjectid,jdbcType=VARCHAR}
+		 </if>
+		 <if test="startTime != null and startTime !=''">
+			and DATE(pubdate) &gt;= #{startTime,jdbcType=TIMESTAMP}
+		 </if>
+		 <if test="endTime != null and endTime !=''">
+			and DATE(pubdate) &lt;= #{endTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="medialist !=null">
+	          and formats not in ('trade')
+             
+         </if>
+         
+		</where>
+        <if test="uptime !=null and uptime !=''">
+          order by dependency desc
+        </if>
+       <if test="pubtime !=null and pubtime !=''">
+         order by pubdate desc
+       </if> 
+	   
+       )as p inner JOIN bs_subject_article as s on p.articleid =s.id 
+  </select>
+   <select id="selectPageDetail" resultMap="ResultMapAll" parameterType="java.lang.String" >
+        select p.articleid,p.emotion,p.id mid,p.subjectid,
+	    p.userid,
+		p.attention,
+		p.warning,
+		s.html,
+	 	s.ID,
+		s.tittle,
+		s.pubdate,
+		s.data_source,
+		s.author,
+		s.formats,
+		s.updatetime,
+	    s.content,
+		s.url,
+		s.repeatcount,
+		s.positive_word,
+		s.commtcount,
+		s.readcount
+       from (
+        select articleid,emotion,id,subjectid,
+	    userid,
+		attention,
+		warning,
+		readsign
+		from bs_subject_m_article 
+		where
+         id = #{id,jdbcType=VARCHAR}
+		
+       )as p inner JOIN bs_subject_article as s on p.articleid =s.id
+       
+       
+  </select>
+  <!-- 我的关注 -->
+  <select id="myconcern" resultMap="ResultMapAll" parameterType="com.bayside.app.opinion.war.opinionMonitor.bo.SubJectArticleBo" >
+             select p.articleid,p.emotion,p.id mid,p.subjectid,
+			    p.userid,
+				p.attention,
+				p.attentiontime,
+			 	s.ID,
+				s.tittle,
+				s.pubdate,
+				s.data_source,
+				s.author,
+				s.formats,
+				s.updatetime,
+				left(s.content,350) content,
+				s.url
+		       from(
+		        select articleid,emotion,id,subjectid,
+			    userid,
+				attention,
+				attentiontime
+				from bs_subject_m_article
+				 <where>
+		    		 `userid`= #{userid,jdbcType=VARCHAR} and pubdate &lt; NOW() 
+		    		 <if test="attention != null" >
+		       		 and attention = #{attention,jdbcType=VARCHAR}
+		    	     </if>
+		    	     </where>
+		    	     <if test="attentiontime !=null and attentiontime != ''" >
+		             order by attentiontime desc
+		            </if>
+		              <if test="time !=null and time != ''" >
+		            order by pubdate desc
+		            </if> 
+		            limit #{start},#{size}
+		     ) as p
+		     inner JOIN bs_subject_article as s on p.articleid =s.id 
+            
+   </select>
+   <select id="myconcernTotal" resultMap="ResultMapAll" parameterType="com.bayside.app.opinion.war.opinionMonitor.bo.SubJectArticleBo" >
+     select count(id) total
+				from bs_subject_m_article
+				 <where>
+		    		 `userid`= #{userid,jdbcType=VARCHAR} and pubdate &lt; NOW() 
+		    		 <if test="attention != null" >
+		       		 and attention = #{attention,jdbcType=VARCHAR}
+		    	     </if>
+		    	  </where>
+   </select>
+  <select id="myPaperTotal" resultMap="ResultMapAll" parameterType="com.bayside.app.opinion.war.opinionMonitor.bo.SubJectArticleBo" >
+     select count(id) total
+		from bs_personmanage_m_article 
+		<where>
+    		 `userid`= #{userid,jdbcType=VARCHAR} and pubdate &lt; NOW() 
+    		 <if test="attention != null" >
+       		 and attention = #{attention,jdbcType=VARCHAR}
+    	     </if>
+    	</where>
+  </select>
+  <select id="myPersonconcern" resultMap="ResultMapAll" parameterType="com.bayside.app.opinion.war.opinionMonitor.bo.SubJectArticleBo" >
+       select p.articleid,p.emotion,p.id mid,
+	    p.userid,
+		p.keyword_rule,
+		p.attention,
+		p.attentiontime,
+	 	s.ID,
+		s.tittle,
+		s.pubdate,
+		s.data_source,
+		s.author,
+		s.formats,
+		s.updatetime,
+		left(s.content,350) content,
+		s.url
+     from (
+       select articleid,emotion,id,
+	    userid,
+		keyword_rule,
+	    attention,
+		attentiontime
+		from bs_personmanage_m_article 
+		<where>
+    		 `userid`= #{userid,jdbcType=VARCHAR} and pubdate &lt; NOW() 
+    		 <if test="attention != null" >
+       		 and attention = #{attention,jdbcType=VARCHAR}
+    	     </if>
+    	     </where>
+    	     <if test="attentiontime !=null and attentiontime != ''" >
+             order by attentiontime desc
+            </if>
+              <if test="time !=null and time != ''" >
+            order by pubdate desc
+            </if>
+            limit #{start},#{size}
+     ) as p inner JOIN bs_subject_article as s on p.articleid =s.id 
+            
+
+  </select>
+  <!-- 我的报纸列表页 -->
+   <select id="myPaperListInfo" resultMap="ResultMapAll" parameterType="com.bayside.app.opinion.war.mynews.bo.PersonmanagemarticleBo" >
+       select p.articleid,p.emotion,p.id mid,
+	    p.userid,p.attention,
+	 	s.ID,
+		s.tittle,
+		s.pubdate,
+		s.data_source,
+		s.author,
+		s.formats,
+		s.updatetime,
+		left(s.content,250) content,
+		s.url
+     from (
+      select articleid,emotion,id,userid,attention
+		from bs_personmanage_m_article
+		 <where> 1=1
+		 <if test="persionid ==null or persionid == ''" >
+           and userid = #{userid,jdbcType=VARCHAR}
+         </if> 
+         <if test="persionid !=null and persionid != ''" >
+            and persionid = #{persionid,jdbcType=VARCHAR}
+         </if>
+      </where>
+      group by articleid
+      order by pubdate desc limit #{start,jdbcType=INTEGER},#{size,jdbcType=INTEGER}
+     ) as p inner JOIN bs_subject_article as s on p.articleid =s.id 
+     
+  </select>
+     <select id="selectTotalPaperList" resultMap="ResultMapAll" parameterType="com.bayside.app.opinion.war.mynews.bo.PersonmanagemarticleBo" >
+    <!--        select count(id) total 
+           from bs_personmanage_m_article 
+		<where> 
+		 userid = #{userid,jdbcType=VARCHAR}
+         <if test="persionid !=null and persionid != ''" >
+            and persionid = #{persionid,jdbcType=VARCHAR}
+         </if>
+         <if test="medialist !=null">
+            and formats in 
+            <foreach collection="medialist" index="index" item="formats" open="(" separator="," close=")">  
+              #{formats} 
+             </foreach>
+         </if>
+      </where> -->
+      
+      select count(f.id) total 
+      from (
+       select id from bs_personmanage_m_article 
+       <where> 1=1
+        <if test="persionid ==null or persionid == ''" >
+            and userid = #{userid,jdbcType=VARCHAR}
+         </if>
+		
+         <if test="persionid !=null and persionid != ''" >
+            and persionid = #{persionid,jdbcType=VARCHAR}
+         </if>
+         <if test="medialist !=null">
+            and formats in 
+            <foreach collection="medialist" index="index" item="formats" open="(" separator="," close=")">  
+              #{formats} 
+             </foreach>
+         </if>
+      </where>
+      group by articleid
+      ) as f
+  </select>
+  <select id="selectAllByUserId" resultMap="ResultMapAll" parameterType="com.bayside.app.opinion.war.opinionMonitor.bo.SubJectArticleBo" >
+ select p.articleid,p.emotion,p.id mid,p.subjectid,p.simnum,
+	    p.userid,
+		p.keyword_rule,
+		p.attention,
+		p.warning,
+		p.readsign,
+	 	s.ID,
+		s.tittle,
+		p.pubdate,
+		s.data_source,
+		s.author,
+		s.formats,
+		s.updatetime,
+		s.content content,
+		s.url
+		 from (
+
+  SELECT a.articleid,emotion,id,subjectid,simids,simnum,
+	    userid,
+		keyword_rule,
+		attention,
+		warning,
+		readsign,
+		attentiontime,pubdate
+		FROM bs_subject_m_article a
+		  WHERE 1=1 and noquery = '0'
+		   <if test="subjectid == null or subjectid ==''" >
+            and `userid`= #{userid,jdbcType=VARCHAR}
+          </if>
+          <if test="subjectid != null and subjectid !=''" >
+           and subjectid = #{subjectid,jdbcType=VARCHAR}
+          </if>
+          <if test="startTime != null and startTime !=''">
+			and pubdate &gt;= #{startTime,jdbcType=TIMESTAMP}
+		  </if>
+		    <if test="edtime != null and edtime !=''">
+			 and pubdate &lt;= #{edtime,jdbcType=TIMESTAMP}
+		  </if>
+           <if test="warning != null" >
+           and warning = #{warning,jdbcType=BIT}
+          </if>
+          <if test="readsign != null" >
+           and readsign = #{readsign,jdbcType=BIT}
+          </if>
+          <if test="emotion != null and emotion!=''" >
+           and emotion = #{emotion,jdbcType=VARCHAR}
+          </if>
+		 <if test="weidu != null and weidu!=''">
+			and weidu = #{weidu,jdbcType=VARCHAR}
+		 </if>
+           
+         <if test="formats != null and formats !=''">
+		   and formats = #{formats,jdbcType=VARCHAR}
+		</if>
+          <if test="medialist !=null">
+              and formats not in ('trade')
+          </if>
+           <if test="dependency !=null">
+              and dependency &lt; #{dependency,jdbcType = DOUBLE}
+          </if>
+          AND  NOT EXISTS
+          (
+		SELECT 1 FROM bs_subject_m_article b WHERE b.articleid = a.articleid AND b.id &lt; a.id 
+	   and noquery = '0'
+		 <if test="subjectid == null or subjectid ==''" >
+            and b.`userid`= #{userid,jdbcType=VARCHAR}
+          </if>
+          <if test="subjectid != null and subjectid !=''" >
+           and subjectid = #{subjectid,jdbcType=VARCHAR}
+          </if>
+          <if test="startTime != null and startTime !=''">
+			and pubdate &gt;= #{startTime,jdbcType=TIMESTAMP}
+		  </if>
+		    <if test="edtime != null and edtime !=''">
+			 and pubdate &lt;= #{edtime,jdbcType=TIMESTAMP}
+		  </if>
+           <if test="warning != null" >
+           and warning = #{warning,jdbcType=BIT}
+          </if>
+          <if test="readsign != null" >
+           and readsign = #{readsign,jdbcType=BIT}
+          </if>
+          <if test="emotion != null and emotion!=''" >
+           and emotion = #{emotion,jdbcType=VARCHAR}
+          </if>
+          <if test="weidu != null and weidu!=''">
+			and weidu = #{weidu,jdbcType=VARCHAR}
+		 </if>
+		 <if test="formats != null and formats !=''">
+		   and formats = #{formats,jdbcType=VARCHAR}
+		 </if>
+		 <if test="dependency !=null">
+              and dependency &lt; #{dependency,jdbcType = DOUBLE}
+          </if>
+          <if test="medialist !=null">
+              and formats not in ('trade')
+          </if>
+		
+		
+          )
+	    <if test="uptime !=null and uptime !=''">
+	      order by dependency desc
+	    </if>
+	    <if test="pubtime !=null and pubtime !=''">
+	       order by pubdate desc
+	    </if> 
+	    <if test="simnumorder != null and simnumorder!=''">
+            order by simnum desc
+        </if>
+        limit #{start},#{size}
+	
+	)
+ as p inner JOIN bs_subject_article as s on p.articleid =s.id
+ 
+  </select>
+  
+  <select id="repeatselectAllByUserId" resultMap="ResultMapAll" parameterType="com.bayside.app.opinion.war.opinionMonitor.bo.SubJectArticleBo" >
+ select p.articleid,p.emotion,p.id mid,p.subjectid,p.simnum,
+	    p.userid,
+		p.keyword_rule,
+		p.attention,
+		p.warning,
+		p.readsign,
+	 	s.ID,
+		s.tittle,
+		p.pubdate,
+		s.data_source,
+		s.author,
+		s.formats,
+		s.updatetime,
+		s.content content,
+		s.url
+		 from (
+
+  SELECT a.articleid,emotion,id,subjectid,simids,simnum,
+	    userid,
+		keyword_rule,
+		attention,
+		warning,
+		readsign,
+		attentiontime,pubdate
+		FROM bs_subject_m_article a
+		  WHERE 1=1 
+		   <if test="subjectid == null or subjectid ==''" >
+            and `userid`= #{userid,jdbcType=VARCHAR}
+          </if>
+          <if test="subjectid != null and subjectid !=''" >
+           and subjectid = #{subjectid,jdbcType=VARCHAR}
+          </if>
+          <if test="startTime != null and startTime !=''">
+			and pubdate &gt;= #{startTime,jdbcType=TIMESTAMP}
+		  </if>
+		    <if test="edtime != null and edtime !=''">
+			 and pubdate &lt;= #{edtime,jdbcType=TIMESTAMP}
+		  </if>
+           <if test="warning != null" >
+           and warning = #{warning,jdbcType=BIT}
+          </if>
+          <if test="readsign != null" >
+           and readsign = #{readsign,jdbcType=BIT}
+          </if>
+          <if test="emotion != null and emotion!=''" >
+           and emotion = #{emotion,jdbcType=VARCHAR}
+          </if>
+		 <if test="weidu != null and weidu!=''">
+			and weidu = #{weidu,jdbcType=VARCHAR}
+		 </if>
+           
+         <if test="formats != null and formats !=''">
+		   and formats = #{formats,jdbcType=VARCHAR}
+		</if>
+          <if test="medialist !=null">
+              and formats not in ('trade')
+          </if>
+           <if test="dependency !=null">
+              and dependency &lt; #{dependency,jdbcType = DOUBLE}
+          </if>
+          
+	    <if test="uptime !=null and uptime !=''">
+	      order by dependency desc
+	    </if>
+	    <if test="pubtime !=null and pubtime !=''">
+	       order by pubdate desc
+	    </if> 
+	    <if test="simnumorder != null and simnumorder!=''">
+            order by simnum desc
+        </if>
+        limit #{start},#{size}
+	
+	)
+ as p inner JOIN bs_subject_article as s on p.articleid =s.id
+ 
+  </select>
+  
+   <select id="selectAllBYSS" resultMap="ResultMapAll" parameterType="com.bayside.app.opinion.war.opinionMonitor.bo.SubJectArticleBo" >
+	
+      SELECT  ID,
+		tittle,
+		pubdate,
+		data_source,
+		author,
+		formats,
+		updatetime,
+		content content,
+		url,emotion
+		FROM bs_subject_article where id in  
+		<foreach collection="articlesid" index="index" item="id" open="(" separator="," close=")">  
+             #{id} 
+           </foreach>
+           <if test="tittle != null and tittle!='' and content != null and content!=''" >
+           and (INSTR(tittle,#{tittle})>0 or INSTR(content,#{content})>0)
+          </if>
+          <if test="searchtitle != null and searchtitle!=''">
+            and INSTR(tittle,#{searchtitle})>0 
+          </if>
+             <if test="author != null and author!=''" >
+           and INSTR(author,#{author})>0
+          </if>
+           order by pubdate  desc
+  </select>
+   <select id="selectPageInfoSM" resultMap="ResultMapAll" parameterType="com.bayside.app.opinion.war.opinionMonitor.bo.SubJectArticleBo" >
+      
+		  select articleid,emotion,id,subjectid,simids,simnum,
+	    userid,
+		keyword_rule,
+		attention,
+		warning,
+		readsign
+		from bs_subject_m_article
+		 <where>
+         `userid`= #{userid,jdbcType=VARCHAR} and pubdate &lt; NOW() and noquery = '0'
+          <if test="subjectid != null and subjectid !=''" >
+           and subjectid = #{subjectid,jdbcType=VARCHAR}
+          </if>
+           <if test="warning != null" >
+           and warning = #{warning,jdbcType=BIT}
+          </if>
+          <if test="readsign != null" >
+           and readsign = #{readsign,jdbcType=BIT}
+          </if>
+          <if test="emotion != null and emotion!=''" >
+           and emotion = #{emotion,jdbcType=VARCHAR}
+          </if>
+            and formats in 
+           <foreach collection="medialist" index="index" item="formats" open="(" separator="," close=")">  
+             #{formats} 
+           </foreach>
+          </where>
+          group by articleid
+         order by pubdate desc
+		
+  </select>
+  <select id="selectAllByPage" resultMap="ResultMapAll" parameterType="com.bayside.app.opinion.war.opinionMonitor.bo.SubJectArticleBo" >
+        
+          select COUNT(DISTINCt articleid) total from bs_subject_m_article 
+          <where>
+          1=1
+         and noquery='0'
+          <if test="subjectid == null or subjectid ==''" >
+           and `userid`= #{userid,jdbcType=VARCHAR}
+          </if>
+          <if test="subjectid != null and subjectid !=''" >
+           and subjectid = #{subjectid,jdbcType=VARCHAR}
+          </if>
+          <if test="warning != null" >
+           and warning = #{warning,jdbcType=BIT}
+          </if>
+          <if test="readsign != null" >
+           and readsign = #{readsign,jdbcType=BIT}
+          </if>
+          <if test="emotion != null and emotion!=''" >
+           and emotion = #{emotion,jdbcType=VARCHAR}
+          </if>
+           <if test="startTime != null and startTime !=''">
+		     and DATE(pubdate) &gt;= #{startTime,jdbcType=TIMESTAMP}
+	      </if>
+		  <if test="edtime != null and edtime !=''">
+			 and DATE(pubdate) &lt;= #{edtime,jdbcType=TIMESTAMP}
+		  </if>
+		 <if test="weidu != null and weidu!=''">
+			and weidu = #{weidu,jdbcType=VARCHAR}
+		 </if>
+           
+       
+		<if test="medialist !=null">
+            and formats not in ('trade') 
+         </if>
+          <if test ="trade !=null and formats == 'trade'">
+              and (
+             formats = #{formats,jdbcType=VARCHAR}
+             <if test ="dependency !=null">
+              or dependency &lt; #{dependency,jdbcType = DOUBLE}
+              </if>
+              )        
+             </if>
+              <if test ="trade !=null and formats != 'trade'">
+              and 
+             formats = #{formats,jdbcType=VARCHAR}
+              and dependency &lt; #{dependency,jdbcType = DOUBLE}
+                     
+             </if>
+          <if test ="trade == null">
+            <if test="formats != null and formats !=''">
+		      and formats = #{formats,jdbcType=VARCHAR}
+		    </if>
+              <if test="dependency !=null">
+              and dependency &lt; #{dependency,jdbcType = DOUBLE}
+             </if>
+          </if>
+          </where>
+  </select>
+  <select id="repeatselectAllByPage" resultMap="ResultMapAll" parameterType="com.bayside.app.opinion.war.opinionMonitor.bo.SubJectArticleBo" >
+        
+          select COUNT(articleid) total from bs_subject_m_article 
+          <where>
+          1=1
+        
+          <if test="subjectid == null or subjectid ==''" >
+           and `userid`= #{userid,jdbcType=VARCHAR}
+          </if>
+          <if test="subjectid != null and subjectid !=''" >
+           and subjectid = #{subjectid,jdbcType=VARCHAR}
+          </if>
+          <if test="warning != null" >
+           and warning = #{warning,jdbcType=BIT}
+          </if>
+          <if test="readsign != null" >
+           and readsign = #{readsign,jdbcType=BIT}
+          </if>
+          <if test="emotion != null and emotion!=''" >
+           and emotion = #{emotion,jdbcType=VARCHAR}
+          </if>
+           <if test="startTime != null and startTime !=''">
+		     and DATE(pubdate) &gt;= #{startTime,jdbcType=TIMESTAMP}
+	      </if>
+		  <if test="edtime != null and edtime !=''">
+			 and DATE(pubdate) &lt;= #{edtime,jdbcType=TIMESTAMP}
+		  </if>
+		 <if test="weidu != null and weidu!=''">
+			and weidu = #{weidu,jdbcType=VARCHAR}
+		 </if>
+           
+       
+		<if test="medialist !=null">
+            and formats not in ('trade') 
+         </if>
+          <if test ="trade !=null and formats == 'trade'">
+              and (
+             formats = #{formats,jdbcType=VARCHAR}
+             <if test ="dependency !=null">
+              or dependency &lt; #{dependency,jdbcType = DOUBLE}
+              </if>
+              )        
+             </if>
+              <if test ="trade !=null and formats != 'trade'">
+              and 
+             formats = #{formats,jdbcType=VARCHAR}
+              and dependency &lt; #{dependency,jdbcType = DOUBLE}
+                     
+             </if>
+          <if test ="trade == null">
+            <if test="formats != null and formats !=''">
+		      and formats = #{formats,jdbcType=VARCHAR}
+		    </if>
+              <if test="dependency !=null">
+              and dependency &lt; #{dependency,jdbcType = DOUBLE}
+             </if>
+          </if>
+          </where>
+  </select>
+  <select id="selectAllBySearch" resultMap="ResultMapAll" parameterType="com.bayside.app.opinion.war.opinionMonitor.bo.SubJectArticleBo" >
+          select p.articleid,p.emotion,p.id mid,p.subjectid,p.simnum,
+	    p.userid,
+		p.keyword_rule,
+		p.attention,
+		p.warning,
+		p.readsign,
+	 	s.ID,
+		s.tittle,
+		s.pubdate,
+		s.data_source,
+		s.author,
+		s.formats,
+		s.updatetime,
+		s.content content,
+		s.url
+		 from (
+  SELECT a.articleid,emotion,id,subjectid,simnum,
+	    userid,
+		keyword_rule,
+		attention,
+		warning,
+		readsign,
+		attentiontime,pubdate
+		FROM bs_subject_m_article a
+		  WHERE 1=1 
+         and noquery = '0'
+          <if test="subjectid == null or subjectid ==''" >
+           and `userid`= #{userid,jdbcType=VARCHAR}
+          </if>
+          <if test="subjectid != null and subjectid !=''" >
+           and subjectid = #{subjectid,jdbcType=VARCHAR}
+          </if>
+           <if test="warning != null" >
+           and warning = #{warning,jdbcType=BIT}
+          </if>
+          <if test="weidu != null and weidu!=''" >
+           and weidu = #{weidu,jdbcType=VARCHAR}
+          </if>
+          <if test="emotion != null and emotion!=''" >
+           and emotion = #{emotion,jdbcType=VARCHAR}
+          </if>
+           <if test="startTime != null and startTime !=''">
+			 and DATE(pubdate) &gt;= #{startTime,jdbcType=TIMESTAMP}
+		   </if>
+		  <if test="edtime != null and edtime !=''">
+			and DATE(pubdate) &lt;= #{edtime,jdbcType=TIMESTAMP}
+		  </if>
+          <if test ="trade !=null and formats == 'trade'">
+              and (
+             formats = #{formats,jdbcType=VARCHAR}
+               <if test ="dependency !=null">
+                 or dependency &lt; #{dependency,jdbcType = DOUBLE}
+              </if>
+              
+              )        
+          </if>
+          <if test ="trade !=null and formats != 'trade'">
+              and 
+             formats = #{formats,jdbcType=VARCHAR}
+              and dependency &lt; #{dependency,jdbcType = DOUBLE}
+                     
+           </if>
+          <if test ="trade == null">
+            <if test="formats != null and formats !=''">
+		      and formats = #{formats,jdbcType=VARCHAR}
+		    </if>
+              <if test="dependency !=null">
+              and dependency &lt; #{dependency,jdbcType = DOUBLE}
+             </if>
+          </if>
+          <if test="medialist !=null">
+            and formats not in ('trade')
+          </if>
+          <if test="dataSource != null and dataSource!=''" >
+           and INSTR(data_source,#{dataSource})>0
+          </if>
+          AND NOT EXISTS
+          (
+		SELECT 1 FROM bs_subject_m_article b WHERE b.articleid = a.articleid AND b.id &lt;a.id 
+         and noquery = '0'
+          <if test="subjectid == null or subjectid ==''" >
+           and `userid`= #{userid,jdbcType=VARCHAR}
+          </if>
+          <if test="subjectid != null and subjectid !=''" >
+           and subjectid = #{subjectid,jdbcType=VARCHAR}
+          </if>
+           <if test="warning != null" >
+           and warning = #{warning,jdbcType=BIT}
+          </if>
+          <if test="weidu != null and weidu!=''" >
+           and weidu = #{weidu,jdbcType=VARCHAR}
+          </if>
+          <if test="emotion != null and emotion!=''" >
+           and emotion = #{emotion,jdbcType=VARCHAR}
+          </if>
+           <if test="startTime != null and startTime !=''">
+			 and DATE(pubdate) &gt;= #{startTime,jdbcType=TIMESTAMP}
+		   </if>
+		  <if test="edtime != null and edtime !=''">
+			and DATE(pubdate) &lt;= #{edtime,jdbcType=TIMESTAMP}
+		  </if>
+        <if test ="trade !=null and formats == 'trade'">
+              and (
+             formats = #{formats,jdbcType=VARCHAR}
+             <if test ="dependency !=null">
+              or dependency &lt; #{dependency,jdbcType = DOUBLE}
+              </if>
+              
+              )        
+             </if>
+              <if test ="trade !=null and formats != 'trade'">
+              and 
+             formats = #{formats,jdbcType=VARCHAR}
+              and dependency &lt; #{dependency,jdbcType = DOUBLE}
+                     
+             </if>
+          <if test ="trade == null">
+            <if test="formats != null and formats !=''">
+		      and formats = #{formats,jdbcType=VARCHAR}
+		    </if>
+            <if test="dependency !=null">
+              and dependency &lt; #{dependency,jdbcType = DOUBLE}
+            </if>
+          </if>
+          <if test="medialist !=null">
+            and formats not in ('trade')
+          </if>
+          <if test="dataSource != null and dataSource!=''" >
+           and INSTR(data_source,#{dataSource})>0
+          </if>
+           <if test="uptime != null and uptime!=''">
+            order by dependency desc
+          </if>
+            <if test="pubtime != null and pubtime!=''">
+           order by pubdate desc limit 10000
+          </if>
+ )
+	  <if test="uptime != null and uptime!=''">
+            order by dependency desc
+          </if>
+            <if test="pubtime != null and pubtime!=''">
+           order by pubdate desc limit 10000
+          </if>
+	
+	)
+ as p inner JOIN bs_subject_article as s on p.articleid =s.id  where 1=1
+          <if test="tittle != null and tittle!='' and content != null and content!='' " >
+           and (INSTR(s.tittle,#{tittle})>0 or INSTR(s.content,#{content})>0)
+          </if>
+          <if test="searchtitle != null and searchtitle!=''">
+            and INSTR(s.tittle,#{searchtitle})>0 
+          </if>
+             <if test="author != null and author!=''" >
+           and INSTR(s.author,#{author})>0
+          </if>
+        </select>
+        
+        <select id="repeatselectAllBySearch" resultMap="ResultMapAll" parameterType="com.bayside.app.opinion.war.opinionMonitor.bo.SubJectArticleBo" >
+          select p.articleid,p.emotion,p.id mid,p.subjectid,p.simnum,
+	    p.userid,
+		p.keyword_rule,
+		p.attention,
+		p.warning,
+		p.readsign,
+	 	s.ID,
+		s.tittle,
+		s.pubdate,
+		s.data_source,
+		s.author,
+		s.formats,
+		s.updatetime,
+		s.content content,
+		s.url
+		 from (
+  SELECT a.articleid,emotion,id,subjectid,simnum,
+	    userid,
+		keyword_rule,
+		attention,
+		warning,
+		readsign,
+		attentiontime,pubdate
+		FROM bs_subject_m_article a
+		  WHERE 1=1 
+         
+          <if test="subjectid == null or subjectid ==''" >
+           and `userid`= #{userid,jdbcType=VARCHAR}
+          </if>
+          <if test="subjectid != null and subjectid !=''" >
+           and subjectid = #{subjectid,jdbcType=VARCHAR}
+          </if>
+           <if test="warning != null" >
+           and warning = #{warning,jdbcType=BIT}
+          </if>
+          <if test="weidu != null and weidu!=''" >
+           and weidu = #{weidu,jdbcType=VARCHAR}
+          </if>
+          <if test="emotion != null and emotion!=''" >
+           and emotion = #{emotion,jdbcType=VARCHAR}
+          </if>
+           <if test="startTime != null and startTime !=''">
+			 and DATE(pubdate) &gt;= #{startTime,jdbcType=TIMESTAMP}
+		   </if>
+		  <if test="edtime != null and edtime !=''">
+			and DATE(pubdate) &lt;= #{edtime,jdbcType=TIMESTAMP}
+		  </if>
+          <if test ="trade !=null and formats == 'trade'">
+              and (
+             formats = #{formats,jdbcType=VARCHAR}
+               <if test ="dependency !=null">
+                 or dependency &lt; #{dependency,jdbcType = DOUBLE}
+              </if>
+              
+              )        
+          </if>
+          <if test ="trade !=null and formats != 'trade'">
+              and 
+             formats = #{formats,jdbcType=VARCHAR}
+              and dependency &lt; #{dependency,jdbcType = DOUBLE}
+                     
+           </if>
+          <if test ="trade == null">
+            <if test="formats != null and formats !=''">
+		      and formats = #{formats,jdbcType=VARCHAR}
+		    </if>
+              <if test="dependency !=null">
+              and dependency &lt; #{dependency,jdbcType = DOUBLE}
+             </if>
+          </if>
+          <if test="medialist !=null">
+            and formats not in ('trade')
+          </if>
+          <if test="dataSource != null and dataSource!=''" >
+           and INSTR(data_source,#{dataSource})>0
+          </if>
+     
+	  <if test="uptime != null and uptime!=''">
+            order by dependency desc
+          </if>
+            <if test="pubtime != null and pubtime!=''">
+           order by pubdate desc limit 10000
+          </if>
+	
+	)
+ as p inner JOIN bs_subject_article as s on p.articleid =s.id  where 1=1
+          <if test="tittle != null and tittle!='' and content != null and content!='' " >
+           and (INSTR(s.tittle,#{tittle})>0 or INSTR(s.content,#{content})>0)
+          </if>
+          <if test="searchtitle != null and searchtitle!=''">
+            and INSTR(s.tittle,#{searchtitle})>0 
+          </if>
+             <if test="author != null and author!=''" >
+           and INSTR(s.author,#{author})>0
+          </if>
+        </select>
+   <select id="selectCheckSearch" resultMap="ResultMapAll" parameterType="com.bayside.app.opinion.war.opinionMonitor.bo.SubJectArticleBo" >
+     select articleid,emotion,id,subjectid,simids,simnum,
+	    userid,
+		keyword_rule,
+		attention,
+		warning,
+		readsign,formats,updatetime
+		from bs_subject_m_article 
+		 <where>
+         `userid`= #{userid,jdbcType=VARCHAR}
+         and noquery = '0'
+          <if test="subjectid != null and subjectid !=''" >
+           and subjectid = #{subjectid,jdbcType=VARCHAR}
+          </if>
+           <if test="warning != null" >
+           and warning = #{warning,jdbcType=BIT}
+          </if>
+          <if test="weidu != null and weidu!=''" >
+           and weidu = #{weidu,jdbcType=VARCHAR}
+          </if>
+          <if test="emotion != null and emotion!=''" >
+           and emotion = #{emotion,jdbcType=VARCHAR}
+          </if>
+           <if test="startTime != null and startTime !=''">
+			 and DATE(pubdate) &gt;= #{startTime,jdbcType=TIMESTAMP}
+		   </if>
+		  <if test="edtime != null and edtime !=''">
+			and DATE(pubdate) &lt;= #{edtime,jdbcType=TIMESTAMP}
+		  </if>
+          <if test="formats != null and formats!=''" >
+           and formats = #{formats,jdbcType=VARCHAR}
+          </if>
+          <if test="medialist !=null">
+            and formats in 
+           <foreach collection="medialist" index="index" item="formats" open="(" separator="," close=")">  
+             #{formats} 
+           </foreach>
+          </if>
+          <if test="dataSource != null and dataSource!=''" >
+           and INSTR(data_source,#{dataSource})>0
+          </if>
+          </where>
+          group by articleid
+           <if test="uptime != null and uptime!=''">
+            order by dependency desc
+          </if>
+            <if test="pubtime != null and pubtime!=''">
+           order by pubdate desc
+          </if>
+           <if test="simnumorder != null and simnumorder!=''">
+            order by simnum desc
+          </if>
+     
+   </select>
+  <select id="newselectAllByUserId" resultMap="ResultMapAll" parameterType="com.bayside.app.opinion.war.opinionMonitor.bo.SubJectArticleBo" >
+ 
+    select p.articleid,p.emotion,p.id mid,p.subjectid,
+	    p.userid,
+		p.keyword_rule,
+		p.attention,
+		p.warning,
+		p.readsign,
+	 	s.ID,
+		s.tittle,
+		s.pubdate,
+		s.data_source,
+		s.author,
+		s.formats,
+		s.updatetime,
+		left(s.content,350) content,
+		s.url
+     from bs_subject_m_article as p inner JOIN bs_subject_article as s on p.articleid =s.id 
+       where
+          p.`userid`= #{userid,jdbcType=VARCHAR} and p.pubdate &lt; NOW() 
+          <if test="subjectid != null and subjectid !=''" >
+           and p.subjectid = #{subjectid,jdbcType=VARCHAR}
+          </if>
+           <if test="warning != null" >
+           and p.warning = #{warning,jdbcType=BIT}
+          </if>
+          <if test="readsign != null" >
+           and p.readsign = #{readsign,jdbcType=BIT}
+          </if>
+          <if test="emotion != null and emotion!=''" >
+           and p.emotion = #{emotion,jdbcType=VARCHAR}
+          </if>
+          <if test="uptime != null and uptime!=''">
+          order by p.dependency desc
+          </if>
+            <if test="pubtime != null and pubtime!=''">
+             order by p.pubdate desc
+          </if>    
+          limit 10000    
+  </select>
+  <select id="selectAllByArticleId" resultMap="ResultMapAll" parameterType="java.lang.String" >
+    SELECT a.`ID`, a.tittle, a.pubdate, a.data_source, a.author, a.content_type, a.formats, a.readcount, 
+    a.commtcount, a.repeatcount, a.aggreecount, a.score, a.similarnum, a.relate_word, a.opinion_word, 
+    a.negative_word, a.positive_word, a.warning_word, a.newsindex, a.search_num, a.updatetime, a.content, 
+    a.url, m.id mid,m.subjectid, m.articleid, m.userid, m.keyword_rule, m.reportinfo, m.attention, m.warning, m.readsign, m.emotion,
+    briefing,m.dependency FROM bs_subject_m_article AS m, 
+    (select * from bs_subject_article as ar 
+       <where>
+       ar.ID in 
+       <foreach collection="list" index="index" item="id" open="(" separator="," close=")">  
+       #{id} 
+       </foreach>
+       </where>
+    ) AS a
+    WHERE m.`articleid` = a.`ID` 
+         <if test="subjectid != null and subjectid !=''" >
+           and m.subjectid = #{subjectid,jdbcType=VARCHAR}
+         </if>
+            AND a.pubdate &lt; NOW()  
+         <if test="uptime != null and uptime!=''">
+          order by m.dependency desc
+          </if>
+            <if test="pubtime != null and pubtime!=''">
+          order by a.pubdate desc
+          </if>   
+  </select>
+  
+   <select id="selectAllById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bs_subject_article
+    where ID in
+    <foreach collection="list" index="index" item="id" open="(" separator="," close=")">  
+       #{id} 
+    </foreach>  
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bs_subject_article
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  
+  <insert id="insert" parameterType="com.bayside.app.opinion.war.opinionMonitor.model.SubjectArticle" >
+    insert into bs_subject_article (ID, tittle, pubdate, 
+      data_source, author, emotion, 
+      content_type, formats, readcount, 
+      commtcount, repeatcount, aggreecount, 
+      score, similarnum, relate_word, 
+      opinion_word, negative_word, positive_word, 
+      warning_word, newsindex, search_num, 
+      updatetime, content, url
+      )
+    values (#{id,jdbcType=VARCHAR}, #{tittle,jdbcType=VARCHAR}, #{pubdate,jdbcType=TIMESTAMP}, 
+      #{dataSource,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR}, #{emotion,jdbcType=VARCHAR}, 
+      #{contentType,jdbcType=VARCHAR}, #{formats,jdbcType=VARCHAR}, #{readcount,jdbcType=INTEGER}, 
+      #{commtcount,jdbcType=INTEGER}, #{repeatcount,jdbcType=INTEGER}, #{aggreecount,jdbcType=INTEGER}, 
+      #{score,jdbcType=INTEGER}, #{similarnum,jdbcType=INTEGER}, #{relateWord,jdbcType=INTEGER}, 
+      #{opinionWord,jdbcType=INTEGER}, #{negativeWord,jdbcType=INTEGER}, #{positiveWord,jdbcType=INTEGER}, 
+      #{warningWord,jdbcType=INTEGER}, #{newsindex,jdbcType=INTEGER}, #{searchNum,jdbcType=INTEGER}, 
+      #{updatetime,jdbcType=TIMESTAMP}, #{content,jdbcType=LONGVARCHAR}, #{url,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bayside.app.opinion.war.opinionMonitor.model.SubjectArticle" >
+    insert into bs_subject_article
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="tittle != null" >
+        tittle,
+      </if>
+      <if test="pubdate != null" >
+        pubdate,
+      </if>
+      <if test="dataSource != null" >
+        data_source,
+      </if>
+      <if test="author != null" >
+        author,
+      </if>
+      <if test="emotion != null" >
+        emotion,
+      </if>
+      <if test="contentType != null" >
+        content_type,
+      </if>
+      <if test="formats != null" >
+        formats,
+      </if>
+      <if test="readcount != null" >
+        readcount,
+      </if>
+      <if test="commtcount != null" >
+        commtcount,
+      </if>
+      <if test="repeatcount != null" >
+        repeatcount,
+      </if>
+      <if test="aggreecount != null" >
+        aggreecount,
+      </if>
+      <if test="score != null" >
+        score,
+      </if>
+      <if test="similarnum != null" >
+        similarnum,
+      </if>
+      <if test="relateWord != null" >
+        relate_word,
+      </if>
+      <if test="opinionWord != null" >
+        opinion_word,
+      </if>
+      <if test="negativeWord != null" >
+        negative_word,
+      </if>
+      <if test="positiveWord != null" >
+        positive_word,
+      </if>
+      <if test="warningWord != null" >
+        warning_word,
+      </if>
+      <if test="newsindex != null" >
+        newsindex,
+      </if>
+      <if test="searchNum != null" >
+        search_num,
+      </if>
+      <if test="updatetime != null" >
+        updatetime,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="url != null" >
+        url,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="tittle != null" >
+        #{tittle,jdbcType=VARCHAR},
+      </if>
+      <if test="pubdate != null" >
+        #{pubdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dataSource != null" >
+        #{dataSource,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null" >
+        #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="emotion != null" >
+        #{emotion,jdbcType=VARCHAR},
+      </if>
+      <if test="contentType != null" >
+        #{contentType,jdbcType=VARCHAR},
+      </if>
+      <if test="formats != null" >
+        #{formats,jdbcType=VARCHAR},
+      </if>
+      <if test="readcount != null" >
+        #{readcount,jdbcType=INTEGER},
+      </if>
+      <if test="commtcount != null" >
+        #{commtcount,jdbcType=INTEGER},
+      </if>
+      <if test="repeatcount != null" >
+        #{repeatcount,jdbcType=INTEGER},
+      </if>
+      <if test="aggreecount != null" >
+        #{aggreecount,jdbcType=INTEGER},
+      </if>
+      <if test="score != null" >
+        #{score,jdbcType=INTEGER},
+      </if>
+      <if test="similarnum != null" >
+        #{similarnum,jdbcType=INTEGER},
+      </if>
+      <if test="relateWord != null" >
+        #{relateWord,jdbcType=INTEGER},
+      </if>
+      <if test="opinionWord != null" >
+        #{opinionWord,jdbcType=INTEGER},
+      </if>
+      <if test="negativeWord != null" >
+        #{negativeWord,jdbcType=INTEGER},
+      </if>
+      <if test="positiveWord != null" >
+        #{positiveWord,jdbcType=INTEGER},
+      </if>
+      <if test="warningWord != null" >
+        #{warningWord,jdbcType=INTEGER},
+      </if>
+      <if test="newsindex != null" >
+        #{newsindex,jdbcType=INTEGER},
+      </if>
+      <if test="searchNum != null" >
+        #{searchNum,jdbcType=INTEGER},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bayside.app.opinion.war.opinionMonitor.model.SubjectArticle" >
+    update bs_subject_article
+    <set >
+      <if test="tittle != null" >
+        tittle = #{tittle,jdbcType=VARCHAR},
+      </if>
+      <if test="pubdate != null" >
+        pubdate = #{pubdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dataSource != null" >
+        data_source = #{dataSource,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null" >
+        author = #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="emotion != null" >
+        emotion = #{emotion,jdbcType=VARCHAR},
+      </if>
+      <if test="contentType != null" >
+        content_type = #{contentType,jdbcType=VARCHAR},
+      </if>
+      <if test="formats != null" >
+        formats = #{formats,jdbcType=VARCHAR},
+      </if>
+      <if test="readcount != null" >
+        readcount = #{readcount,jdbcType=INTEGER},
+      </if>
+      <if test="commtcount != null" >
+        commtcount = #{commtcount,jdbcType=INTEGER},
+      </if>
+      <if test="repeatcount != null" >
+        repeatcount = #{repeatcount,jdbcType=INTEGER},
+      </if>
+      <if test="aggreecount != null" >
+        aggreecount = #{aggreecount,jdbcType=INTEGER},
+      </if>
+      <if test="score != null" >
+        score = #{score,jdbcType=INTEGER},
+      </if>
+      <if test="similarnum != null" >
+        similarnum = #{similarnum,jdbcType=INTEGER},
+      </if>
+      <if test="relateWord != null" >
+        relate_word = #{relateWord,jdbcType=INTEGER},
+      </if>
+      <if test="opinionWord != null" >
+        opinion_word = #{opinionWord,jdbcType=INTEGER},
+      </if>
+      <if test="negativeWord != null" >
+        negative_word = #{negativeWord,jdbcType=INTEGER},
+      </if>
+      <if test="positiveWord != null" >
+        positive_word = #{positiveWord,jdbcType=INTEGER},
+      </if>
+      <if test="warningWord != null" >
+        warning_word = #{warningWord,jdbcType=INTEGER},
+      </if>
+      <if test="newsindex != null" >
+        newsindex = #{newsindex,jdbcType=INTEGER},
+      </if>
+      <if test="searchNum != null" >
+        search_num = #{searchNum,jdbcType=INTEGER},
+      </if>
+      <if test="updatetime != null" >
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="url != null" >
+        url = #{url,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bayside.app.opinion.war.opinionMonitor.model.SubjectArticle" >
+    update bs_subject_article
+    set tittle = #{tittle,jdbcType=VARCHAR},
+      pubdate = #{pubdate,jdbcType=TIMESTAMP},
+      data_source = #{dataSource,jdbcType=VARCHAR},
+      author = #{author,jdbcType=VARCHAR},
+      emotion = #{emotion,jdbcType=VARCHAR},
+      content_type = #{contentType,jdbcType=VARCHAR},
+      formats = #{formats,jdbcType=VARCHAR},
+      readcount = #{readcount,jdbcType=INTEGER},
+      commtcount = #{commtcount,jdbcType=INTEGER},
+      repeatcount = #{repeatcount,jdbcType=INTEGER},
+      aggreecount = #{aggreecount,jdbcType=INTEGER},
+      score = #{score,jdbcType=INTEGER},
+      similarnum = #{similarnum,jdbcType=INTEGER},
+      relate_word = #{relateWord,jdbcType=INTEGER},
+      opinion_word = #{opinionWord,jdbcType=INTEGER},
+      negative_word = #{negativeWord,jdbcType=INTEGER},
+      positive_word = #{positiveWord,jdbcType=INTEGER},
+      warning_word = #{warningWord,jdbcType=INTEGER},
+      newsindex = #{newsindex,jdbcType=INTEGER},
+      search_num = #{searchNum,jdbcType=INTEGER},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      content = #{content,jdbcType=LONGVARCHAR},
+      url = #{url,jdbcType=LONGVARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <!--获取所有专题 近30天的所有文章   -->
+  <select id="selectAllByDay" resultMap="ResultMapAll" parameterType="java.lang.String">
+    select SUM(F.id) id,F.updatetime,F.emotion from (select count(a.id) id,DATE_FORMAT(a.updatetime, '%Y-%m-%d' ) updatetime,a.emotion from bs_subject_article AS a,
+    (select * from bs_subject_m_article as fa 
+    <where>
+          fa.`userid`= #{userid,jdbcType=VARCHAR}
+          <if test="subjectid != null and subjectid !=''" >
+           and fa.subjectid = #{subjectid,jdbcType=VARCHAR}
+          </if>
+      </where>)
+    AS M
+  WHERE DATE_SUB(CURDATE(), INTERVAL 30 DAY) &lt;= date(a.updatetime) AND M.articleid = a.ID group by DATE_FORMAT(a.updatetime, '%Y-%m-%d')) as F group by F.updatetime
+  </select>
+   <!--根据数据来源 获取所有专题 近10天的所有文章   -->
+  <select id="selectAllByDataSource" resultMap="ResultMapAll" parameterType="com.bayside.app.opinion.war.opinionMonitor.bo.SubjectMArticleBo">
+  select count(a.articleid) id, a.data_source dataSource from bs_subject_m_article  AS a 
+  where userid=#{userid,jdbcType=VARCHAR} and pubdate&gt;= #{updatetime,jdbcType=TIMESTAMP}
+  <if test="mediaList!=null">
+       and formats not in
+       ('trade') 
+              
+  </if>
+   group by a.data_source order by id desc limit 10
+  </select>
+ <!-- 一周内的倾向性文章数量 -->
+  <select id="selectAllByWeek" resultMap="ResultMapAll" parameterType="java.lang.String">
+    select SUM(F.id) id,F.updatetime,F.emotion from (select count(a.id) id,DATE_FORMAT(a.updatetime, '%Y-%m-%d' ) updatetime,a.emotion from bs_subject_article AS a,
+    (select * from bs_subject_m_article as fa 
+    <where>
+          fa.`userid`= #{userid,jdbcType=VARCHAR}
+          <if test="subjectid != null and subjectid !=''" >
+           and fa.subjectid = #{subjectid,jdbcType=VARCHAR}
+          </if>
+          <if test="emotion != null and emotion !=''" >
+           and fa.emotion = #{emotion,jdbcType=VARCHAR}
+          </if>
+      </where>)
+    AS M
+  WHERE DATE_SUB(CURDATE(), INTERVAL 7 DAY) &lt;= date(a.updatetime) AND M.articleid = a.ID and 
+  a.formats in 
+   <foreach collection="list" index="index" item="mediatype" open="(" separator="," close=")">  
+       #{mediatype} 
+       </foreach>
+  group by DATE_FORMAT(a.updatetime, '%Y-%m-%d')) as F group by F.updatetime
+  </select>
+  <!--获取当天的倾向性文章数据 -->
+   <select id="selectAllByToday" resultMap="ResultMapAll" parameterType="java.lang.String">
+    select SUM(F.id) id,F.updatetime,F.emotion from (select count(a.id) id,DATE_FORMAT(a.updatetime, '%Y-%m-%d' ) updatetime,a.emotion from bs_subject_article AS a,
+    (select * from bs_subject_m_article as fa 
+    <where>
+          fa.`userid`= #{userid,jdbcType=VARCHAR}
+          <if test="subjectid != null and subjectid !=''" >
+           and fa.subjectid = #{subjectid,jdbcType=VARCHAR}
+          </if>
+          <if test="emotion != null and emotion !=''" >
+           and fa.emotion = #{emotion,jdbcType=VARCHAR}
+          </if>
+      </where>)
+    AS M
+  WHERE DATE_FORMAT(a.updatetime,'%Y-%m-%d') = date_format(now(),'%Y-%m-%d') AND M.articleid = a.ID and 
+  a.formats in 
+   <foreach collection="list" index="index" item="mediatype" open="(" separator="," close=")">  
+       #{mediatype} 
+    </foreach>
+  group by DATE_FORMAT(a.updatetime, '%Y-%m-%d')) as F group by F.updatetime
+  </select>
+  <!-- 获取自定义的文章数量 -->
+   <select id="selectAllByDefinedTime" resultMap="ResultMapAll" parameterType="java.lang.String">
+    select SUM(F.id) id,F.updatetime,F.emotion from (select count(a.id) id,DATE_FORMAT(a.updatetime, '%Y-%m-%d' ) updatetime,a.emotion from bs_subject_article AS a,
+    (select * from bs_subject_m_article as fa 
+    <where>
+          fa.`userid`= #{userid,jdbcType=VARCHAR}
+          <if test="subjectid != null and subjectid !=''" >
+           and fa.subjectid = #{subjectid,jdbcType=VARCHAR}
+          </if>
+          <if test="emotion != null and emotion !=''" >
+           and fa.emotion = #{emotion,jdbcType=VARCHAR}
+          </if>
+      </where>)
+    AS M
+  WHERE
+    M.articleid = a.ID 
+    and a.formats in 
+   <foreach collection="list" index="index" item="mediatype" open="(" separator="," close=")">  
+       #{mediatype} 
+    </foreach>
+      <if test="startTime != null and startTime !=''" >
+       and a.updatetime &gt;= #{startTime}
+       </if>
+       <if test="endTime != null and endTime !=''" >
+        and a.updatetime &lt;= #{endTime}
+       </if>
+ 
+  group by DATE_FORMAT(a.updatetime, '%Y-%m-%d')) as F group by F.updatetime
+  </select>
+  <!-- 倾向性为全部 -->
+  <!-- 一周内的倾向性文章数量 -->
+  <select id="getAllByWeek" resultMap="ResultMapAll" parameterType="java.lang.String">
+    select SUM(F.id) id,F.updatetime,F.emotion from (select count(a.id) id,DATE_FORMAT(a.updatetime, '%Y-%m-%d' ) updatetime,a.emotion from bs_subject_article AS a,
+    (select * from bs_subject_m_article as fa 
+    <where>
+          fa.`userid`= #{userid,jdbcType=VARCHAR}
+          <if test="subjectid != null and subjectid !=''" >
+           and fa.subjectid = #{subjectid,jdbcType=VARCHAR}
+          </if>
+      </where>)
+    AS M
+  WHERE DATE_SUB(CURDATE(), INTERVAL 7 DAY) &lt;= date(a.updatetime) AND M.articleid = a.ID and 
+  a.formats in 
+   <foreach collection="list" index="index" item="mediatype" open="(" separator="," close=")">  
+       #{mediatype} 
+       </foreach>
+  group by DATE_FORMAT(a.updatetime, '%Y-%m-%d')) as F group by F.updatetime
+  </select>
+  <!--获取当天的倾向性文章数据 -->
+   <select id="getAllByToday" resultMap="ResultMapAll" parameterType="java.lang.String">
+    select SUM(F.id) id,F.updatetime,F.emotion from (select count(a.id) id,DATE_FORMAT(a.updatetime, '%Y-%m-%d' ) updatetime,a.emotion from bs_subject_article AS a,
+    (select * from bs_subject_m_article as fa 
+    <where>
+          fa.`userid`= #{userid,jdbcType=VARCHAR}
+          <if test="subjectid != null and subjectid !=''" >
+           and fa.subjectid = #{subjectid,jdbcType=VARCHAR}
+          </if>
+      </where>)
+    AS M
+  WHERE DATE_FORMAT(a.updatetime,'%Y-%m-%d') = date_format(now(),'%Y-%m-%d') AND M.articleid = a.ID and 
+  a.formats in 
+   <foreach collection="list" index="index" item="mediatype" open="(" separator="," close=")">  
+       #{mediatype} 
+    </foreach>
+  group by DATE_FORMAT(a.updatetime, '%Y-%m-%d')) as F group by F.updatetime
+  </select>
+  <!-- 获取自定义的文章数量 -->
+   <select id="getAllByDefinedTime" resultMap="ResultMapAll" parameterType="java.lang.String">
+    select SUM(F.id) id,F.updatetime,F.emotion from (select count(a.id) id,DATE_FORMAT(a.updatetime, '%Y-%m-%d' ) updatetime,a.emotion from bs_subject_article AS a,
+    (select * from bs_subject_m_article as fa 
+    <where>
+          fa.`userid`= #{userid,jdbcType=VARCHAR}
+          <if test="subjectid != null and subjectid !=''" >
+           and fa.subjectid = #{subjectid,jdbcType=VARCHAR}
+          </if>
+      </where>)
+    AS M
+  WHERE
+    M.articleid = a.ID 
+    and a.formats in 
+   <foreach collection="list" index="index" item="mediatype" open="(" separator="," close=")">  
+       #{mediatype} 
+    </foreach>
+      <if test="startTime != null and startTime !=''" >
+       and a.updatetime &gt;= #{startTime}
+       </if>
+       <if test="endTime != null and endTime !=''" >
+        and a.updatetime &lt;= #{endTime}
+       </if>
+ 
+  group by DATE_FORMAT(a.updatetime, '%Y-%m-%d')) as F group by F.updatetime
+  </select>
+  <!-- 媒体类型为空 -->
+  <!-- 一周内的倾向性文章数量 -->
+  <select id="selectInfoByWeek" resultMap="ResultMapAll" parameterType="java.lang.String">
+    select SUM(F.id) id,F.updatetime,F.emotion from (select count(a.id) id,DATE_FORMAT(a.updatetime, '%Y-%m-%d' ) updatetime,a.emotion from bs_subject_article AS a,
+    (select * from bs_subject_m_article as fa 
+    <where>
+          fa.`userid`= #{userid,jdbcType=VARCHAR}
+          <if test="subjectid != null and subjectid !=''" >
+           and fa.subjectid = #{subjectid,jdbcType=VARCHAR}
+          </if>
+          <if test="emotion != null and emotion !=''" >
+           and fa.emotion = #{emotion,jdbcType=VARCHAR}
+          </if>
+      </where>)
+    AS M
+  WHERE DATE_SUB(CURDATE(), INTERVAL 7 DAY) &lt;= date(a.updatetime) AND M.articleid = a.ID 
+  group by DATE_FORMAT(a.updatetime, '%Y-%m-%d')) as F group by F.updatetime
+  </select>
+  <!--获取当天的倾向性文章数据 -->
+   <select id="selectInfoByToday" resultMap="ResultMapAll" parameterType="java.lang.String">
+    select SUM(F.id) id,F.updatetime,F.emotion from (select count(a.id) id,DATE_FORMAT(a.updatetime, '%Y-%m-%d' ) updatetime,a.emotion from bs_subject_article AS a,
+    (select * from bs_subject_m_article as fa 
+    <where>
+          fa.`userid`= #{userid,jdbcType=VARCHAR}
+          <if test="subjectid != null and subjectid !=''" >
+           and fa.subjectid = #{subjectid,jdbcType=VARCHAR}
+          </if>
+          <if test="emotion != null and emotion !=''" >
+           and fa.emotion = #{emotion,jdbcType=VARCHAR}
+          </if>
+      </where>)
+    AS M
+  WHERE DATE_FORMAT(a.updatetime,'%Y-%m-%d') = date_format(now(),'%Y-%m-%d') AND M.articleid = a.ID 
+  group by DATE_FORMAT(a.updatetime, '%Y-%m-%d')) as F group by F.updatetime
+  </select>
+  <!-- 获取自定义的文章数量 -->
+   <select id="selectDefinedTime" resultMap="ResultMapAll" parameterType="java.lang.String">
+    select SUM(F.id) id,F.updatetime,F.emotion from (select count(a.id) id,DATE_FORMAT(a.updatetime, '%Y-%m-%d' ) updatetime,a.emotion from bs_subject_article AS a,
+    (select * from bs_subject_m_article as fa 
+    <where>
+          fa.`userid`= #{userid,jdbcType=VARCHAR}
+          <if test="subjectid != null and subjectid !=''" >
+           and fa.subjectid = #{subjectid,jdbcType=VARCHAR}
+          </if>
+          <if test="emotion != null and emotion !=''" >
+           and fa.emotion = #{emotion,jdbcType=VARCHAR}
+          </if>
+      </where>)
+    AS M                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+  WHERE
+    M.articleid = a.ID 
+      <if test="startTime != null and startTime !=''" >
+       and a.updatetime &gt;= #{startTime}
+       </if>
+       <if test="endTime != null and endTime !=''" >
+        and a.updatetime &lt;= #{endTime}
+       </if>
+ 
+  group by DATE_FORMAT(a.updatetime, '%Y-%m-%d')) as F group by F.updatetime
+  </select>
+  <!-- 根据数据源查询 当天的数据量-->
+  <select id="selectByDataSourceByToday" resultMap="ResultMapAll" parameterType="java.lang.String">
+    select count(a.id) id,a.data_source from bs_subject_article AS a,
+    (select * from bs_subject_m_article as fa 
+    <where>
+          fa.`userid`= #{userid,jdbcType=VARCHAR}
+          <if test="subjectid != null and subjectid !=''" >
+           and fa.subjectid = #{subjectid,jdbcType=VARCHAR}
+          </if>
+      </where>)
+    AS M
+  WHERE DATE_FORMAT(a.updatetime,'%Y-%m-%d') = date_format(now(),'%Y-%m-%d') AND M.articleid = a.ID and 
+  a.formats in 
+   <foreach collection="list" index="index" item="mediatype" open="(" separator="," close=")">  
+       #{mediatype} 
+    </foreach>
+    and a.emotion in 
+     <foreach collection="list1" index="index" item="emotiontype" open="(" separator="," close=")">  
+       #{emotiontype} 
+    </foreach>
+  group by a.data_source
+  </select>
+  <select id="selectByWeekBySource" resultMap="ResultMapAll" parameterType="java.lang.String">
+    select count(a.id) id,a.data_source from bs_subject_article AS a,
+    (select * from bs_subject_m_article as fa 
+    <where>
+          fa.`userid`= #{userid,jdbcType=VARCHAR}
+          <if test="subjectid != null and subjectid !=''" >
+           and fa.subjectid = #{subjectid,jdbcType=VARCHAR}
+          </if>
+      </where>)
+    AS M
+  where DATE_SUB(CURDATE(), INTERVAL 7 DAY) &lt;= date(a.updatetime) AND M.articleid = a.ID and 
+  a.formats in 
+   <foreach collection="list" index="index" item="mediatype" open="(" separator="," close=")">  
+       #{mediatype} 
+    </foreach>
+      and a.emotion in 
+     <foreach collection="list1" index="index" item="emotiontype" open="(" separator="," close=")">  
+       #{emotiontype} 
+    </foreach>
+  group by a.data_source
+  </select>
+   <select id="selectByDefinedBySource" resultMap="ResultMapAll" parameterType="java.lang.String">
+    select count(a.id) id,a.data_source from bs_subject_article AS a,
+    (select * from bs_subject_m_article as fa 
+    <where>
+          fa.`userid`= #{userid,jdbcType=VARCHAR}
+          <if test="subjectid != null and subjectid !=''" >
+           and fa.subjectid = #{subjectid,jdbcType=VARCHAR}
+          </if>
+      </where>)
+    AS M
+  where M.articleid = a.ID and
+      a.formats in 
+     <foreach collection="list" index="index" item="mediatype" open="(" separator="," close=")">  
+       #{mediatype} 
+     </foreach>
+       and a.emotion in 
+     <foreach collection="list1" index="index" item="emotiontype" open="(" separator="," close=")">  
+       #{emotiontype} 
+    </foreach>
+     <if test="startTime != null and startTime !=''" >
+        and a.updatetime &gt;= #{startTime}
+     </if>
+       <if test="endTime != null and endTime !=''" >
+        and a.updatetime &lt;= #{endTime}
+       </if>
+  group by a.data_source
+  </select>
+  <!-- 数据来源 media 为空 -->
+  <!-- 根据数据源查询 当天的数据量-->
+  <select id="getByDataSourceByToday" resultMap="ResultMapAll" parameterType="java.lang.String">
+    select count(a.id) id,a.data_source from bs_subject_article AS a,
+    (select * from bs_subject_m_article as fa 
+    <where>
+          fa.`userid`= #{userid,jdbcType=VARCHAR}
+          <if test="subjectid != null and subjectid !=''" >
+           and fa.subjectid = #{subjectid,jdbcType=VARCHAR}
+          </if>
+      </where>)
+    AS M
+  WHERE DATE_FORMAT(a.updatetime,'%Y-%m-%d') = date_format(now(),'%Y-%m-%d') AND M.articleid = a.ID 
+  group by a.data_source
+  </select>
+  <select id="getByWeekBySource" resultMap="ResultMapAll" parameterType="java.lang.String">
+    select count(a.id) id,a.data_source from bs_subject_article AS a,
+    (select * from bs_subject_m_article as fa 
+    <where>
+          fa.`userid`= #{userid,jdbcType=VARCHAR}
+          <if test="subjectid != null and subjectid !=''" >
+           and fa.subjectid = #{subjectid,jdbcType=VARCHAR}
+          </if>
+          <if test="emotion != null and emotion !=''" >
+           and fa.emotion = #{emotion,jdbcType=VARCHAR}
+          </if>
+      </where>)
+    AS M
+  where DATE_SUB(CURDATE(), INTERVAL 7 DAY) &lt;= date(a.updatetime) AND M.articleid = a.ID 
+    and a.emotion in 
+     <foreach collection="list1" index="index" item="emotiontype" open="(" separator="," close=")">  
+       #{emotiontype} 
+    </foreach>
+  group by a.data_source
+  </select>
+   <select id="getByDefinedBySource" resultMap="ResultMapAll" parameterType="java.lang.String">
+   select count(a.id) id,a.data_source from bs_subject_article AS a,
+    (select * from bs_subject_m_article as fa 
+    <where>
+          fa.`userid`= #{userid,jdbcType=VARCHAR}
+          <if test="subjectid != null and subjectid !=''" >
+           and fa.subjectid = #{subjectid,jdbcType=VARCHAR}
+          </if>
+      </where>)
+    AS M
+  where M.articleid = a.ID 
+    and a.emotion in 
+     <foreach collection="list1" index="index" item="emotiontype" open="(" separator="," close=")">  
+       #{emotiontype} 
+    </foreach>
+     <if test="startTime != null and startTime !=''" >
+        and a.updatetime &gt;= #{startTime}
+     </if>
+       <if test="endTime != null and endTime !=''" >
+        and a.updatetime &lt;= #{endTime}
+       </if>
+  group by a.data_source
+  </select>
+
+   <!--时间为空倾向性文章数量 -->
+  <select id="selectqingxiang" resultMap="ResultMapAll" parameterType="java.lang.String">
+    select SUM(F.id) id,F.updatetime,F.emotion from (select count(a.id) id,DATE_FORMAT(a.updatetime, '%Y-%m-%d' ) updatetime,a.emotion from bs_subject_article AS a,
+    (select * from bs_subject_m_article as fa 
+    <where>
+          fa.`userid`= #{userid,jdbcType=VARCHAR}
+          <if test="subjectid != null and subjectid !=''" >
+           and fa.subjectid = #{subjectid,jdbcType=VARCHAR}
+          </if>
+          <if test="emotion != null and emotion !=''" >
+           and fa.emotion = #{emotion,jdbcType=VARCHAR}
+          </if>
+      </where>)
+    AS M
+  WHERE M.articleid = a.ID and
+  a.formats in 
+     <foreach collection="list" index="index" item="mediatype" open="(" separator="," close=")">  
+       #{mediatype} 
+     </foreach>
+  group by DATE_FORMAT(a.updatetime, '%Y-%m-%d')) as F group by F.updatetime
+  </select>
+  <select id="getqingxiang" resultMap="ResultMapAll" parameterType="java.lang.String">
+     select SUM(F.id) id,F.updatetime,F.emotion from (select count(a.id) id,DATE_FORMAT(a.updatetime, '%Y-%m-%d' ) updatetime,a.emotion from bs_subject_article AS a,
+    (select * from bs_subject_m_article as fa 
+    <where>
+          fa.`userid`= #{userid,jdbcType=VARCHAR}
+          <if test="subjectid != null and subjectid !=''" >
+           and fa.subjectid = #{subjectid,jdbcType=VARCHAR}
+          </if>
+          <if test="emotion != null and emotion !=''" >
+           and fa.emotion = #{emotion,jdbcType=VARCHAR}
+          </if>
+      </where>)    AS M
+  WHERE M.articleid = a.ID 
+  group by DATE_FORMAT(a.updatetime, '%Y-%m-%d')) as F group by F.updatetime
+  </select>
+  <!--时间为空 数据源  -->
+   <select id="getDateSourceNoTime" resultMap="ResultMapAll" parameterType="java.lang.String">
+    select count(a.id) id,a.data_source from bs_subject_article AS a,
+    (select * from bs_subject_m_article as fa 
+    <where>
+          fa.`userid`= #{userid,jdbcType=VARCHAR}
+          <if test="subjectid != null and subjectid !=''" >
+           and fa.subjectid = #{subjectid,jdbcType=VARCHAR}
+          </if>
+      </where>)
+    AS M
+  where M.articleid = a.ID 
+    and  a.formats in 
+     <foreach collection="list" index="index" item="mediatype" open="(" separator="," close=")">  
+       #{mediatype} 
+     </foreach>
+       and a.emotion in 
+     <foreach collection="list1" index="index" item="emotiontype" open="(" separator="," close=")">  
+       #{emotiontype} 
+    </foreach>
+  group by a.data_source
+  </select>
+  <!-- 一周内的倾向性文章数量 -->
+  <select id="selectEmotionAllByWeek" resultMap="ResultMapAll" parameterType="java.lang.String">
+    select SUM(F.id) id,F.updatetime.F.emotion from (select count(a.id) id,DATE_FORMAT(a.updatetime, '%Y-%m-%d' ) updatetime from bs_subject_article AS a,
+    (select * from bs_subject_m_article as fa 
+    <where>
+          fa.`userid`= #{userid,jdbcType=VARCHAR}
+          <if test="subjectid != null and subjectid !=''" >
+           and fa.subjectid = #{subjectid,jdbcType=VARCHAR}
+          </if>
+      </where>)
+    AS M
+  WHERE DATE_SUB(CURDATE(), INTERVAL 7 DAY) &lt;= date(a.updatetime) AND M.articleid = a.ID and 
+  a.formats in 
+   <foreach collection="list" index="index" item="mediatype" open="(" separator="," close=")">  
+       #{mediatype} 
+       </foreach>
+  group by DATE_FORMAT(a.updatetime, '%Y-%m-%d')) as F group by F.updatetime
+  </select>
+  <!--获取当天的倾向性文章数据 qingxiangxing :全部 -->
+   <select id="selectEmotionAllByToday" resultMap="ResultMapAll" parameterType="java.lang.String">
+    select SUM(F.id) id,F.updatetime.F.emotion from (select count(a.id) id,DATE_FORMAT(a.updatetime, '%Y-%m-%d' ) updatetime from bs_subject_article AS a,
+    (select * from bs_subject_m_article as fa 
+    <where>
+          fa.`userid`= #{userid,jdbcType=VARCHAR}
+          <if test="subjectid != null and subjectid !=''" >
+           and fa.subjectid = #{subjectid,jdbcType=VARCHAR}
+          </if>
+      </where>)
+    AS M
+  WHERE DATE_FORMAT(a.updatetime,'%Y-%m-%d') = date_format(now(),'%Y-%m-%d') AND M.articleid = a.ID and 
+  a.formats in 
+   <foreach collection="list" index="index" item="mediatype" open="(" separator="," close=")">  
+       #{mediatype} 
+    </foreach>
+  group by DATE_FORMAT(a.updatetime, '%Y-%m-%d')) as F group by F.updatetime
+  </select>
+  <!-- 获取自定义的文章数量 -->
+   <select id="selectEmotionAllByDefinedTime" resultMap="ResultMapAll" parameterType="java.lang.String">
+    select SUM(F.id) id,F.updatetime.F.emotion from (select count(a.id) id,DATE_FORMAT(a.updatetime, '%Y-%m-%d' ) updatetime from bs_subject_article AS a,
+    (select * from bs_subject_m_article as fa 
+    <where>
+          fa.`userid`= #{userid,jdbcType=VARCHAR}
+          <if test="subjectid != null and subjectid !=''" >
+           and fa.subjectid = #{subjectid,jdbcType=VARCHAR}
+          </if>
+      </where>)
+    AS M
+  WHERE
+    M.articleid = a.ID 
+    and a.formats in 
+   <foreach collection="list" index="index" item="mediatype" open="(" separator="," close=")">  
+       #{mediatype} 
+    </foreach>
+      <if test="startTime != null and startTime !=''" >
+       and a.updatetime &gt;= #{startTime}
+       </if>
+       <if test="endTime != null and endTime !=''" >
+        and a.updatetime &lt;= #{endTime}
+       </if>
+ 
+  group by DATE_FORMAT(a.updatetime, '%Y-%m-%d')) as F group by F.updatetime
+  </select>
+  <select id="getEmotionAll" resultMap="ResultMapAll" parameterType="java.lang.String">
+    select SUM(F.id) id,F.updatetime.F.emotion from (select count(a.id) id,DATE_FORMAT(a.updatetime, '%Y-%m-%d' ) updatetime from bs_subject_article AS a,
+    (select * from bs_subject_m_article as fa 
+    <where>
+          fa.`userid`= #{userid,jdbcType=VARCHAR}
+          <if test="subjectid != null and subjectid !=''" >
+           and fa.subjectid = #{subjectid,jdbcType=VARCHAR}
+          </if>
+      </where>)
+    AS M where
+    M.articleid = a.ID and 
+  a.formats in 
+   <foreach collection="list" index="index" item="mediatype" open="(" separator="," close=")">  
+       #{mediatype} 
+       </foreach>
+  group by DATE_FORMAT(a.updatetime, '%Y-%m-%d')) as F group by F.updatetime
+  </select>
+  <!--获取最新文章  -->
+  <select id="selectlastsubjectarticle" resultMap="ResultMapAll" parameterType="java.lang.String">
+ 
+	select 
+	s.id,s.tittle,s.pubdate,s.data_source,s.url,p.ID mid,p.attention,p.subjectid,p.emotion,p.articleid
+		 from (
+
+  SELECT a.articleid,emotion,id,subjectid,simnum,
+	    userid,
+		keyword_rule,
+		warning,
+		readsign,
+		attention,pubdate
+		FROM bs_subject_m_article a
+		  WHERE 
+		 `userid` = #{userid,jdbcType=VARCHAR} and noquery ='0' and emotion='-2'
+		 <if test="emotion !=null and emotion !='' ">
+               and `emotion`=#{emotion,jdbcType=VARCHAR}
+         </if>
+         <if test="list!=null">
+             and formats not in ('trade')
+         </if>
+          AND  NOT EXISTS
+          (
+		SELECT 1 FROM bs_subject_m_article b WHERE b.articleid = a.articleid AND b.id &lt;a.id and 
+		
+		`userid` = #{userid,jdbcType=VARCHAR} and noquery ='0' 
+				 and emotion='-2'
+               <if test="list!=null">
+                and formats not in ('trade')
+                </if>
+ )
+	  ORDER BY pubdate DESC limit 6
+	
+	)
+ as p inner JOIN bs_subject_article as s on p.articleid =s.id
+	
+  </select>
+  
+  <!-- 查询最新6条专题文章信息 -->
+  <select id="selectnewSixsubjectarticle" resultMap="ResultMapAll" parameterType="java.lang.String">
+
+  
+ <!--  select a.id,a.tittle,a.pubdate,a.data_source,a.url,M.ID mid,M.attention,M.subjectid,M.emotion,M.articleid,M.simids from
+
+	(SELECT ID,
+				articleid,
+				attention,
+				subjectid,
+				emotion,simids,pubdate from (
+	SELECT
+				ID ,
+				articleid,
+				attention,
+				subjectid,
+				emotion,simids,pubdate
+			FROM
+				bs_subject_m_article
+			WHERE
+				`userid` = #{userid,jdbcType=VARCHAR} and noquery ='0' 
+               <if test="list!=null">
+                and formats not in ('trade')
+                </if>
+			ORDER BY
+				pubdate DESC
+			LIMIT 50
+	) temp GROUP BY articleid ORDER BY pubdate DESC LIMIT 6 
+	) as M inner join bs_subject_article as a  on m.articleid = a.id
+	
+	 -->
+	select 
+	s.id,s.tittle,s.pubdate,s.data_source,s.url,p.ID mid,p.attention,p.subjectid,p.emotion,p.articleid
+		 from (
+
+  SELECT a.articleid,emotion,id,subjectid,simnum,
+	    userid,
+		keyword_rule,
+		warning,
+		readsign,
+		attention,pubdate
+		FROM bs_subject_m_article a
+		  WHERE 
+		 `userid` = #{userid,jdbcType=VARCHAR} and noquery ='0' 
+		 <if test="emotion !=null and emotion !='' ">
+               and `emotion`=#{emotion,jdbcType=VARCHAR}
+         </if>
+         <if test="list!=null">
+             and formats not in ('trade')
+         </if>
+          AND  NOT EXISTS
+          (
+		SELECT 1 FROM bs_subject_m_article b WHERE b.articleid = a.articleid AND b.id &lt;a.id and 
+		
+		`userid` = #{userid,jdbcType=VARCHAR} and noquery ='0' 
+               <if test="list!=null">
+                and formats not in ('trade')
+                </if>
+                <if test="emotion !=null and emotion !='' ">
+               and `emotion`=#{emotion,jdbcType=VARCHAR}
+         </if>
+ )
+	  ORDER BY pubdate DESC limit 6
+	
+	)
+ as p inner JOIN bs_subject_article as s on p.articleid =s.id
+	
+	
+	
+  </select>
+  <!--  首页自定义查询最新6条专题文章信息 -->
+  <select id="definedSubjectList" resultMap="ResultMapAll" parameterType="com.bayside.app.opinion.war.opinionMonitor.bo.SubJectArticleBo">
+   select a.id,a.tittle,a.pubdate,a.data_source,a.url,M.ID mid,M.attention,M.subjectid,M.emotion,M.articleid,M.simids from
+   (
+     select ID,attention,subjectid,emotion,articleid,simids from
+     bs_subject_m_article s
+      where userid= #{userid,jdbcType=VARCHAR} and noquery='0'
+    <if test="subjectlist !=null">
+        and subjectid in 
+     <foreach collection="subjectlist" index="index" item="subid" open="(" separator="," close=")">
+            #{subid}
+      </foreach>
+    </if>
+     <if test="medialist !=null">
+         and formats in 
+      <foreach collection="medialist" index="index" item="media" open="(" separator="," close=")">
+            #{media}
+      </foreach>
+     </if>
+     <if test="emotionlist !=null">
+        and emotion in 
+        <foreach collection="emotionlist" index="index" item="emotion" open="(" separator="," close=")">
+            #{emotion}
+      </foreach>
+     </if>
+       <if test="startTime != null and startTime !=''" >
+       and pubdate &gt;= #{startTime}
+       </if>
+       <if test="endTime != null and endTime !=''" >
+        and pubdate &lt;= #{endTime}
+       </if>
+       <if test="warning != null" >
+          and `warning`= #{warning}
+         </if>
+           AND  NOT EXISTS
+          (
+		SELECT 1 FROM bs_subject_m_article b WHERE b.articleid = s.articleid AND b.id &lt;s.id and 
+		
+		`userid` = #{userid,jdbcType=VARCHAR} and noquery ='0' 
+		<if test="subjectlist !=null">
+        and b.subjectid in 
+     <foreach collection="subjectlist" index="index" item="subid" open="(" separator="," close=")">
+            #{subid}
+      </foreach>
+    </if>
+     <if test="medialist !=null">
+         and b.formats in 
+      <foreach collection="medialist" index="index" item="media" open="(" separator="," close=")">
+            #{media}
+      </foreach>
+     </if>
+     <if test="emotionlist !=null">
+        and b.emotion in 
+        <foreach collection="emotionlist" index="index" item="emotion" open="(" separator="," close=")">
+            #{emotion}
+      </foreach>
+     </if>
+       <if test="startTime != null and startTime !=''" >
+       and b.pubdate &gt;= #{startTime}
+       </if>
+       <if test="endTime != null and endTime !=''" >
+        and b.pubdate &lt;= #{endTime}
+       </if>
+       <if test="warning != null" >
+          and b.`warning`= #{warning}
+         </if>
+ )
+         
+  order by s.pubdate desc limit 6
+     
+   ) AS M inner join bs_subject_article as a  on M.articleid = a.id
+  </select>
+  <!-- 最新6条预警信息 -->
+  <select id="selectnewWarningarticle" resultMap="ResultMapAll" parameterType="com.bayside.app.opinion.war.opinionMonitor.bo.SubJectArticleBo">
+<!--    select a.id,a.tittle,a.pubdate,a.data_source,a.url,M.ID mid,M.attention,M.subjectid,M.emotion,M.articleid,M.simids from
+
+	(SELECT ID,
+				articleid,
+				attention,
+				subjectid,
+				emotion,simids,pubdate from (
+	SELECT
+				ID ,
+				articleid,
+				attention,
+				subjectid,
+				emotion,simids,pubdate
+			FROM
+				bs_subject_m_article
+			WHERE
+				`userid` = #{userid,jdbcType=VARCHAR} and noquery ='0' 
+				 <if test="warning != null and warning !=''" >
+	              and `warning`= #{warning}
+	           </if>
+	           <if test="medialist !=null">
+	            and formats not in ('trade') 
+	            </if> 
+			ORDER BY
+				pubdate DESC
+			LIMIT 50
+	) temp GROUP BY articleid ORDER BY pubdate DESC LIMIT 6 
+	) as M inner join bs_subject_article as a  on m.articleid = a.id -->
+	
+	
+	select 
+	s.id,s.tittle,s.pubdate,s.data_source,s.url,p.ID mid,p.attention,p.subjectid,p.emotion,p.articleid
+		 from (
+
+  SELECT a.articleid,emotion,id,subjectid,simnum,
+	    userid,
+		keyword_rule,
+		warning,
+		readsign,
+		attention,pubdate
+		FROM bs_subject_m_article a
+		  WHERE 
+		 `userid` = #{userid,jdbcType=VARCHAR} and noquery ='0' 
+		 <if test="warning != null and warning !=''" >
+	              and `warning`= #{warning}
+	      </if>
+         <if test="medialist!=null">
+             and formats not in ('trade')
+         </if>
+          AND  NOT EXISTS
+          (
+		SELECT 1 FROM bs_subject_m_article b WHERE b.articleid = a.articleid AND b.id &lt;a.id and 
+		
+		`userid` = #{userid,jdbcType=VARCHAR} and noquery ='0' 
+		 <if test="warning != null and warning !=''" >
+	              and `warning`= #{warning}
+	           </if>
+               <if test="medialist!=null">
+                and formats not in ('trade')
+                </if>
+ )
+	  ORDER BY pubdate DESC limit 6
+	
+	)
+ as p inner JOIN bs_subject_article as s on p.articleid =s.id
+	
+  
+  </select>
+  
+  <!-- 首页自定义查询 -->
+  
+  <!--最新文章 微信 微博 贴吧 APP  -->
+  <select id="selectnewTypearticle" resultMap="ResultMapAll" parameterType="java.lang.String">
+    select a.*,M.ID mid,M.attention,M.subjectid from bs_subject_article AS a,
+    (select * from bs_subject_m_article as fa 
+    <where>
+           fa.formats = #{formats,jdbcType=VARCHAR}
+          <if test="userid != null and userid !=''" >
+           and fa.`userid`= #{userid,jdbcType=VARCHAR}
+          </if>
+          order by fa.updatetime desc limit 4
+     </where>)
+    AS M
+  WHERE M.articleid = a.ID 
+  </select>
+  <!--查询所有专题的最新信息  -->
+  <select id="selectAllSubjectarticle" resultMap="ResultMapAll" parameterType="com.bayside.app.opinion.war.opinionMonitor.bo.SubJectArticleBo">
+<!--   SELECT
+	a.id,
+	a.tittle,
+	a.pubdate,
+	a.data_source,
+	a.url,
+	M.mid,
+	M.attention,
+	M.subjectid,
+	M.emotion,
+	M.articleid,
+	M.simids
+FROM
+	(
+		SELECT
+			ID mid,
+			articleid,
+			attention,
+			subjectid,
+			emotion,simids
+		FROM
+			bs_subject_m_article
+		WHERE
+			`userid` = #{userid,jdbcType=VARCHAR} and noquery ='0'
+			 <if test="medialist !=null">
+                 and formats not in ('trade')
+            </if> 
+		GROUP BY
+			articleid
+		ORDER BY
+			pubdate DESC
+		LIMIT 6
+	) M
+INNER JOIN bs_subject_article AS a ON M.articleid = a.id -->
+
+ select a.id,a.tittle,a.pubdate,a.data_source,a.url,M.ID mid,M.attention,M.subjectid,M.emotion,M.articleid,M.simids from
+
+	(SELECT ID,
+				articleid,
+				attention,
+				subjectid,
+				emotion,simids,pubdate from (
+	SELECT
+				ID ,
+				articleid,
+				attention,
+				subjectid,
+				emotion,simids,pubdate
+			FROM
+				bs_subject_m_article
+			WHERE
+				`userid` = #{userid,jdbcType=VARCHAR} and noquery ='0' 
+	           <if test="medialist !=null">
+	            and formats not in ('trade') 
+	            </if> 
+			ORDER BY
+				pubdate DESC
+			LIMIT 50
+	) temp GROUP BY articleid ORDER BY pubdate DESC LIMIT 6 
+	) as M inner join bs_subject_article as a  on m.articleid = a.id
+
+
+  </select>
+  <select id="selectmypaperByTime" resultMap="ResultMapAll" parameterType="java.lang.String">
+      select count(s.id) id from bs_subject_article as s 
+      where s.id in 
+      (select p.articleid from bs_personmanage_m_article as p where p.persionid=#{personid,jdbcType=VARCHAR} and p.userid=#{userid,jdbcType=VARCHAR}) and s.formats=#{formats,jdbcType=VARCHAR} and emotion =#{emotion,jdbcType=VARCHAR} 
+      and s.updatetime &gt;= #{time,jdbcType=TIMESTAMP}
+  </select>
+  <!-- 删除信息 -->
+  <delete id="deletearticlebyId"  parameterType="java.lang.String">
+    delete from bs_subject_article 
+    WHERE id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <select id="solrfilterCom" resultMap="ResultMapAll" parameterType="com.bayside.app.opinion.war.opinionMonitor.bo.SubJectArticleBo" >
+     SELECT a.`ID`, a.tittle, a.pubdate, a.data_source, a.author, a.formats,a.updatetime, a.content,a.url,m.id mid,m.subjectid, m.articleid, m.userid, m.keyword_rule, m.attention, m.warning, m.emotion
+   FROM bs_subject_article AS a,
+    (select * from bs_subject_m_article as bs
+    	<where>
+    		 bs.`userid`= #{userid,jdbcType=VARCHAR} and noquery='0'
+    		 <if test="subjectid != null and subjectid !=''" >
+       		 and bs.subjectid = #{subjectid,jdbcType=VARCHAR}
+    	     </if>
+    	     <if test="warning !=null">
+    	        and bs.warning = #{warning,jdbcType=BIT}
+    	      </if>
+    	      order by bs.updatetime desc
+    	</where>
+    ) AS m
+    <where>
+      m.`articleid` = a.`ID` and
+      a.`ID` in
+       <foreach collection="articlesid" index="index" item="artid" open="(" separator="," close=")">
+            #{artid}
+           </foreach>
+    <if test="startTime != null and startTime !=''">
+     and a.pubdate &gt;= #{startTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="endTime != null and endTime !=''">
+     and a.pubdate &lt;= #{endTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="emotion != null and emotion !=''">
+     and m.emotion = #{emotion,jdbcType=VARCHAR} 
+    </if>
+    <if test="contentType != null and contentType!=''">
+     and content_type = #{contentType,jdbcType=VARCHAR}
+    </if>
+    <if test="formats != null and formats !=''">
+     and formats = #{formats,jdbcType=VARCHAR}
+    </if>
+    order by a.updatetime desc
+    </where> 
+  </select>
+  <!--统计分析 全部-->
+  <select id="tongjiemotion" resultMap="ResultMapAll" parameterType="com.bayside.app.opinion.war.opinionMonitor.bo.SubJectArticleBo">
+   select count(a.id) id,DATE_FORMAT(a.updatetime,'%Y-%m-%d') updatetime from bs_subject_article AS a,
+    (select * from bs_subject_m_article as fa 
+    <where>
+          fa.`userid`= #{userid,jdbcType=VARCHAR}
+          <if test="subjectid != null and subjectid !=''" >
+           and fa.subjectid = #{subjectid,jdbcType=VARCHAR}
+          </if>
+      </where>)
+    AS M
+  where M.articleid = a.ID 
+    and a.formats in 
+     <foreach collection="medialist" index="index" item="fm" open="(" separator="," close=")">  
+       #{fm} 
+    </foreach>
+     <if test="startTime != null and startTime !=''" >
+        and a.updatetime &gt;= #{startTime}
+     </if>
+       <if test="endTime != null and endTime !=''" >
+        and a.updatetime &lt;= #{endTime}
+       </if>
+  group by a.updatetime
+  </select>
+  <!--统计分析 负面-->
+  <select id="tongjifumian" resultMap="ResultMapAll" parameterType="com.bayside.app.opinion.war.opinionMonitor.bo.SubJectArticleBo">
+   select count(a.id) id,DATE_FORMAT(a.updatetime,'%Y-%m-%d') updatetime from bs_subject_article AS a,
+    (select * from bs_subject_m_article as fa 
+    <where>
+          fa.`userid`= #{userid,jdbcType=VARCHAR}
+          <if test="subjectid != null and subjectid !=''" >
+           and fa.subjectid = #{subjectid,jdbcType=VARCHAR}
+          </if>
+      </where>)
+    AS M
+  where M.articleid = a.ID 
+    and a.formats in 
+     <foreach collection="medialist" index="index" item="fm" open="(" separator="," close=")">  
+       #{fm} 
+    </foreach>
+     <if test="startTime != null and startTime !=''" >
+        and DATE_FORMAT(a.updatetime,'%Y-%m-%d') &gt;= #{startTime}
+     </if>
+       <if test="endTime != null and endTime !=''" >
+        and DATE_FORMAT(a.updatetime,'%Y-%m-%d') &lt;= #{endTime}
+       </if>
+       <if test="emotion != null and emotion !=''" >
+        and a.emotion = #{emotion,jdbcType=VARCHAR}
+     </if>
+  group by a.updatetime
+  </select>
+  <!--统计分析统计来源  -->
+  <select id="tongjisource" resultMap="ResultMapAll" parameterType="java.lang.String">
+  select count(id) id,data_source from bs_subject_m_article 
+    <where>
+          `userid`= #{userid,jdbcType=VARCHAR}
+          <if test="subjectid != null and subjectid !=''" >
+           and subjectid = #{subjectid,jdbcType=VARCHAR}
+          </if>
+         <if test="trade == 0">
+               and formats not in ('trade')
+            </if>
+            <if test="formatslist !=null">
+               and formats in 
+               <foreach collection="formatslist" index="index" item="fm" open="(" separator="," close=")">  
+              #{fm} 
+            </foreach>
+            </if>
+         
+     <if test="startTime != null and startTime !=''" >
+        and pubdate &gt;= #{startTime}
+     </if>
+       <if test="endTime != null and endTime !=''" >
+        and pubdate &lt;= #{endTime}
+       </if>
+      </where>
+    group by data_source order by id desc limit 10
+  </select>
+  <select id="selectArticleInfoById" resultMap="ResultMapAll" parameterType="java.lang.String" >
+    SELECT a.`ID`, a.tittle, a.pubdate, a.data_source, a.author, a.content_type, a.formats, a.readcount, 
+    a.commtcount, a.repeatcount, a.aggreecount, a.relate_word, a.updatetime, a.content, 
+    a.url,m.id mid,m.subjectid, m.articleid, m.userid, m.keyword_rule, m.reportinfo, m.attention, m.warning, m.readsign, m.emotion
+   FROM bs_subject_article AS a,
+    (select * from bs_subject_m_article as fa 
+      <where>
+          fa.`userid`= #{userid,jdbcType=VARCHAR}
+          and fa.`articleid` = #{articleid,jdbcType=VARCHAR}
+      </where>
+    ) AS m 
+    WHERE
+     m.`articleid` = a.`ID` 
+  </select>
+</mapper>
